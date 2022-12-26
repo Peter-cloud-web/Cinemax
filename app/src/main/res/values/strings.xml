@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CinemaxV3</string>
+    <string name="app_name">Cinemax</string>
     <string name="popular">Popular</string>
     <string name="most_popular_movies">Most popular movies</string>
     <string name="error_fetch_movies">Please check your internet connection</string>
@@ -7,4 +7,10 @@
     <string name="highest_rated_movies">Highest rated movies of all time</string>
     <string name="upcoming">Upcoming</string>
     <string name="stay_updated">Stay updated with the latest movies</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="PopularNews">popular_news</string>
+    <string name="SavedNews">saved_news</string>
+    <string name="FavouriteMovies">favourite_movies</string>
+    <string name="SearchMovies">search_movies</string>
 </resources>

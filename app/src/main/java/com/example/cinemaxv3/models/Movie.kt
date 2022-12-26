@@ -1,4 +1,4 @@
-package com.example.cinemaxv3
+package com.example.cinemaxv3.models
 
 import com.google.gson.annotations.SerializedName
 
