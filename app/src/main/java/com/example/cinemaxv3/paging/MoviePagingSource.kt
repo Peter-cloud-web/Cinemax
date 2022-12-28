@@ -23,8 +23,6 @@ class MoviePagingSource(private val service: MovieApi) : PagingSource<Int, Movie
                 data = responseData,
                 prevKey = if(currentPage == 1)null else -1,
                 nextKey = currentPage.plus(1)
-
-
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
