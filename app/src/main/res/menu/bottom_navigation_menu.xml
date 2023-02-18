@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/movieFragment"
+        android:title="Movies"
         android:icon="@drawable/ic_baseline_movie_24" />
 
-    <item android:id="@+id/savedNewsFragment"
+    <item android:id="@+id/favouriteMovieFragment"
+        android:title="Bookmarks"
         android:icon="@drawable/ic_baseline_favorite_24" />
 
-    <item android:id="@+id/searchNewsFragment"
+    <item android:id="@+id/searchMoviesFragment"
+        android:title="SearchMovies"
         android:icon="@drawable/ic_baseline_search_24" />
 
 </menu>

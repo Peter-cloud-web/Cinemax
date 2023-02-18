@@ -4,28 +4,31 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
 import com.example.cinemaxv3.models.Movie
 
-class PopularMovieAdapter :
-    PagingDataAdapter<Movie, PopularMovieAdapter.MyViewHolder>(MovieModelComparator) {
+class TopRatedMoviesAdapter :
+    PagingDataAdapter<Movie, TopRatedMoviesAdapter.TopRatedViewHolder>(MovieModelComparator) {
     private var onMovieClickListener: ((Movie) -> Unit)? = null
 
-    inner class MyViewHolder(val binding: ItemMoviesBinding) : ViewHolder(binding.root)
+    inner class TopRatedViewHolder(val binding: ItemMoviesBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(
-            ItemMoviesBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+    companion object {
+        private val MovieModelComparator = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TopRatedViewHolder, position: Int) {
         val movieModel: Movie? = getItem(position)
         val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
 
@@ -53,19 +56,14 @@ class PopularMovieAdapter :
         }
     }
 
+
     fun setOnItemClickListener(listener: (Movie) -> Unit) {
         onMovieClickListener = listener
     }
 
-    companion object {
-        private val MovieModelComparator = object : DiffUtil.ItemCallback<Movie>() {
-            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-                return oldItem == newItem
-            }
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopRatedViewHolder {
+        return TopRatedViewHolder(
+            ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 }

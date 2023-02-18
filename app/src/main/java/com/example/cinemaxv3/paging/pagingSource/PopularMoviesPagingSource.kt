@@ -1,12 +1,13 @@
-package com.example.cinemaxv3.paging
+package com.example.cinemaxv3.paging.pagingSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.service.MovieApi
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class MoviePagingSource(private val service: MovieApi) : PagingSource<Int, Movie>() {
+class PopularMoviesPagingSource @Inject constructor(private val service: MovieApi) : PagingSource<Int, Movie>() {
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int{
       return 1
     }
@@ -16,8 +17,8 @@ class MoviePagingSource(private val service: MovieApi) : PagingSource<Int, Movie
             val currentPage = params.key ?: 1
             val  response = service.getPopularMovies(MovieApi.api_key,currentPage)
             val responseData = mutableListOf<Movie>()
-            val data = response.body()?.movies?: emptyList()
-            responseData.addAll(data)
+            val data = response.movies.isEmpty()
+            responseData + data
 
             LoadResult.Page(
                 data = responseData,

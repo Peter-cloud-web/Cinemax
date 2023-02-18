@@ -9,22 +9,24 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.activity.MainActivity">
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/movieNavHostFragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/movie_navigation_graph" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/movieNavHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.321"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.021"
+        app:navGraph="@navigation/movie_navigation_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:background="@color/teal_200"
+        android:background="@color/colorDark"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         app:menu="@menu/bottom_navigation_menu"
