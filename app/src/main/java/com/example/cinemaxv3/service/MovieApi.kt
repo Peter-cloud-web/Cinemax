@@ -1,8 +1,9 @@
 package com.example.cinemaxv3.service
 
 import com.example.cinemaxv3.BuildConfig
-import com.example.cinemaxv3.models.MovieResponse
-import retrofit2.Response
+import com.example.cinemaxv3.models.responses.MovieResponse
+import com.example.cinemaxv3.models.responses.TopRatedMovieResponse
+import com.example.cinemaxv3.models.responses.UpComingMovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -22,12 +23,12 @@ interface MovieApi {
     suspend fun getTopRatedMovies(
         @Query("api_key") api_key: String = MovieApi.api_key,
         @Query("page") page: Int,
-    ): Response<MovieResponse>
+    ): TopRatedMovieResponse
 
     @GET("movie/upcoming?")
     suspend fun upComingMovies(
         @Query("api_key") api_key: String = MovieApi.api_key,
         @Query("page") page: Int,
-    ): Response<MovieResponse>
+    ): UpComingMovieResponse
 
 }

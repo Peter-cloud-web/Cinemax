@@ -9,27 +9,28 @@ import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.BannerImagesBinding
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
 import com.example.cinemaxv3.models.Movie
+import com.example.cinemaxv3.models.UpComingMovies
 
- class UpComingMoviesAdapter :PagingDataAdapter<Movie,UpComingMoviesAdapter.UpComingMovieViewHolder>(MovieModelComparator){
-  private var onMovieClickListener:((Movie)->Unit)? = null
+class UpComingMoviesAdapter :PagingDataAdapter<UpComingMovies,UpComingMoviesAdapter.UpComingMovieViewHolder>(MovieModelComparator){
+  private var onMovieClickListener:((UpComingMovies)->Unit)? = null
 
   inner class UpComingMovieViewHolder(val binding:ItemMoviesBinding):
           RecyclerView.ViewHolder(binding.root)
 
   companion object {
-   private val MovieModelComparator = object : DiffUtil.ItemCallback<Movie>() {
-    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+   private val MovieModelComparator = object : DiffUtil.ItemCallback<UpComingMovies>() {
+    override fun areItemsTheSame(oldItem: UpComingMovies, newItem: UpComingMovies): Boolean {
      return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+    override fun areContentsTheSame(oldItem: UpComingMovies, newItem: UpComingMovies): Boolean {
      return oldItem == newItem
     }
    }
   }
 
   override fun onBindViewHolder(holder: UpComingMovieViewHolder, position: Int) {
-   val movieModel: Movie? = getItem(position)
+   val movieModel: UpComingMovies? = getItem(position)
    val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
 
    with(holder) {
@@ -56,7 +57,7 @@ import com.example.cinemaxv3.models.Movie
    }
   }
 
-  fun setOnItemClickListener(listener: (Movie) -> Unit) {
+  fun setOnItemClickListener(listener: (UpComingMovies) -> Unit) {
    onMovieClickListener = listener
   }
 

@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.db.dao
+package com.example.cinemaxv3.db.dao.remoteKeysDaos
 
 import com.example.cinemaxv3.models.MovieRemoteKeys
 import androidx.room.*
@@ -9,7 +9,7 @@ interface RemoteKeysDao {
     suspend fun  insertAllKeys(remoteKey:List<MovieRemoteKeys>)
 
     @Query("Select * From remote_key Where movie_id = :id")
-    suspend fun getRemoteKeyByMovieId(id:Int):MovieRemoteKeys?
+    suspend fun getRemoteKeyByMovieID(id: Int): MovieRemoteKeys?
 
     @Query("Delete From remote_key")
     suspend fun clearRemoteKeys()

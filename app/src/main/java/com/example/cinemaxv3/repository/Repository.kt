@@ -20,8 +20,7 @@ import javax.inject.Inject
 
 
 class Repository @Inject constructor(
-    private val api: MovieApi,
-    private val movieDatabase: MovieDatabase
+    private val api: MovieApi
 ) {
     val popularMovieListData = Pager(PagingConfig(pageSize = 1)) {
         PopularMoviesPagingSource(api)
@@ -35,40 +34,4 @@ class Repository @Inject constructor(
         TopRatedMoviesPagingSource(api)
     }.flow
 
-    fun getMovies(
-        forceRefresh: Boolean,
-        onFetchSuccess: () -> Unit,
-        onFetchFailed: (Throwable) -> Unit
-    ): Flow<Resource<List<Movie>>> = networkBoundResource(
-        query = {
-            movieDatabase.getMovieDao().getPopularMovies()
-        },
-        fetch = {
-            delay(2000)
-            api.getPopularMovies(BuildConfig.MOVIE_API_KEY, 1).movies
-        },
-        saveFetchResult = { fromServerToDb ->
-            val movies = fromServerToDb.map { it }
-            movieDatabase.withTransaction {
-                movieDatabase.getMovieDao().insertPopularMovies(movies)
-            }
-        },
-        shouldFetch = { cachedMovies ->
-            if (forceRefresh) {
-                true
-            } else {
-                false
-            }
-        },
-        onFetchSuccess = onFetchSuccess,
-        onFetchFailed = { t ->
-            if (t !is HttpException && t !is IOException) {
-                throw t
-            }
-            onFetchFailed
-        }
-    )
-    suspend fun insertMovie(movie: List<Movie>) {
-        movieDatabase.getMovieDao().insertPopularMovies(movie)
-    }
 }

@@ -2,33 +2,38 @@ package com.example.cinemaxv3.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingSource
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.cinemaxv3.db.dao.MovieDao
 import com.example.cinemaxv3.models.Movie
+import com.example.cinemaxv3.models.TopRatedMovies
+import com.example.cinemaxv3.models.UpComingMovies
+import com.example.cinemaxv3.paging.pager.PopularMoviesPager
+import com.example.cinemaxv3.paging.pager.TopRatedMoviesPager
+import com.example.cinemaxv3.paging.pager.UpComingMoviesPager
 import com.example.cinemaxv3.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
 @HiltViewModel
-class MovieViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class MovieViewModel @Inject constructor(
+    private val repository: Repository,
+    private val popularMoviesPager: PopularMoviesPager,
+    private val topRatedMoviesPager: TopRatedMoviesPager,
+    private val upComingMoviesPager: UpComingMoviesPager
+) : ViewModel() {
 
-//    private val refreshTriggerChannel = Channel<PagingSource.LoadParams.Refresh>()
-//    private val refreshTrigger = refreshTriggerChannel
-
-    val popularMovies = repository.popularMovieListData.cachedIn(viewModelScope)
     val topRatedMovies = repository.topRatedMovieListData.cachedIn(viewModelScope)
     val upComingMovies = repository.upComingMovieListData.cachedIn(viewModelScope)
 
-
-//    val getMovies = refreshTrigger.
-
-    fun saveMovies(movie:List<Movie>) = viewModelScope.launch {
-        repository.insertMovie(movie)
-    }
+    @OptIn(ExperimentalPagingApi::class)
+    fun getPopularMovies(): Flow<PagingData<Movie>> = popularMoviesPager.pager
+    @JvmName("getTopRatedMovies1")
+    fun getTopRatedMovies(): Flow<PagingData<TopRatedMovies>> = topRatedMoviesPager.pager
+    @JvmName("getUpComingMovies1")
+    fun getUpComingMovies():Flow<PagingData<UpComingMovies>> = upComingMoviesPager.pager
 
 }
 

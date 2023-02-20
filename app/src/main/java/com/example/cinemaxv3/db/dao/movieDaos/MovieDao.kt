@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.db.dao
+package com.example.cinemaxv3.db.dao.movieDaos
 
 import androidx.paging.PagingSource
 import androidx.room.*

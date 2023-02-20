@@ -1,10 +1,13 @@
 package com.example.cinemaxv3.paging.mediators
 
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.cinemaxv3.db.MovieDatabase
-import com.example.cinemaxv3.models.Movie
-import com.example.cinemaxv3.models.MovieRemoteKeys
+import com.example.cinemaxv3.models.UpComingMovies
+import com.example.cinemaxv3.models.UpComingRemoteKeys
 import com.example.cinemaxv3.service.MovieApi
 import retrofit2.HttpException
 import java.io.IOException
@@ -12,23 +15,19 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class PopularMoviesRemoteMediator @Inject constructor(
+class UpComingMoviesMediator @Inject constructor(
     private val api: MovieApi,
     private val db: MovieDatabase
-) : RemoteMediator<Int, Movie>() {
-
+)  : RemoteMediator<Int, UpComingMovies>() {
     override suspend fun initialize(): InitializeAction {
-        val cachedTimeout = TimeUnit.MILLISECONDS.convert(1,TimeUnit.HOURS)
-        return if (System.currentTimeMillis() - (db.getRemoteKeysDao().getCreationTime()?:0)<cachedTimeout){
+        val cachedTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
+        return if (System.currentTimeMillis() - (db.getUpComingRemoteKeysDao().getUpComingCreationTime()?:0)<cachedTimeout){
             InitializeAction.SKIP_INITIAL_REFRESH
         }else{
             InitializeAction.LAUNCH_INITIAL_REFRESH
         }
     }
-
-
-
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, UpComingMovies>): MediatorResult {
         val page: Int = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
@@ -48,28 +47,28 @@ class PopularMoviesRemoteMediator @Inject constructor(
             }
         }
         try {
-            val apiResponse = api.getPopularMovies(page = page)
-            val movies = apiResponse.movies
-            val endOfPaginationReached = movies.isEmpty()
+            val apiResponse = api.upComingMovies(page = page)
+            val upComingMovies = apiResponse.movies
+            val endOfPaginationReached = upComingMovies.isEmpty()
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    db.getRemoteKeysDao().clearRemoteKeys()
-                    db.getMovieDao().clearAllMovies()
+                    db.getUpComingRemoteKeysDao().clearUpComingRemoteKeys()
+                    db.getUpComingMoviesDao().getUpComingMovies()
                 }
                 val prevKey = if (page > 1) page - 1 else null
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val remoteKeys = movies.map {
-                    MovieRemoteKeys(
+                val remoteKeys = upComingMovies.map {
+                    UpComingRemoteKeys(
                         movieID = it.id,
                         prevKey = prevKey,
                         currentPage = page,
                         nextKey = nextKey
                     )
                 }
-                db.getRemoteKeysDao().insertAllKeys(remoteKeys as List<MovieRemoteKeys>)
-                db.getMovieDao()
-                    .insertPopularMovies(movies.onEachIndexed { _, movie -> movie.page = page })
+                db.getUpComingRemoteKeysDao().insertAllUpComingKeys(remoteKeys as List<UpComingRemoteKeys>)
+                db.getUpComingMoviesDao()
+                    .insertUpComingMovies(upComingMovies.onEachIndexed { _, movie -> movie.page = page })
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (error: IOException) {
@@ -79,27 +78,27 @@ class PopularMoviesRemoteMediator @Inject constructor(
         }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Movie>): MovieRemoteKeys? {
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, UpComingMovies>): UpComingRemoteKeys? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
-                db.getRemoteKeysDao().getRemoteKeyByMovieID(id)
+                db.getUpComingRemoteKeysDao().getUpComingRemoteKeyByMovieID(id)
             }
         }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Movie>): MovieRemoteKeys? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, UpComingMovies>): UpComingRemoteKeys? {
         return state.pages.firstOrNull {
             it.data.isNotEmpty()
         }?.data?.firstOrNull()?.let { movie ->
-            db.getRemoteKeysDao().getRemoteKeyByMovieID(movie.id)
+            db.getUpComingRemoteKeysDao().getUpComingRemoteKeyByMovieID(movie.id)
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Movie>): MovieRemoteKeys? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, UpComingMovies>): UpComingRemoteKeys? {
         return state.pages.lastOrNull() {
             it.data.isNotEmpty()
         }?.data?.lastOrNull()?.let { movie ->
-            db.getRemoteKeysDao().getRemoteKeyByMovieID(movie.id)
+            db.getUpComingRemoteKeysDao().getUpComingRemoteKeyByMovieID(movie.id)
         }
     }
 }

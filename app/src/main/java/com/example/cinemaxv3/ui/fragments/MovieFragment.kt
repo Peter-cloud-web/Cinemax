@@ -47,19 +47,19 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
     private fun fetchMovies() {
         lifecycleScope.launch {
-            movieViewModel.popularMovies.collectLatest {
+            movieViewModel.getPopularMovies().collect() {
                 popularMovieAdapter.submitData(it)
             }
         }
 
         lifecycleScope.launch {
-            movieViewModel.topRatedMovies.collectLatest {
+            movieViewModel.getTopRatedMovies().collectLatest {
                 topRatedMoviesAdapter.submitData(it)
             }
         }
 
         lifecycleScope.launch {
-            movieViewModel.upComingMovies.collectLatest {
+            movieViewModel.getUpComingMovies().collect{
                 upcomingMovieAdapter.submitData(it)
             }
         }
