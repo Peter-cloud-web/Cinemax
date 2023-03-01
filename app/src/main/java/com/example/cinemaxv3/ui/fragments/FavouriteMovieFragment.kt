@@ -13,6 +13,4 @@ class FavouriteMovieFragment : Fragment(R.layout.fragment_favourite_movie) {
           super.onViewCreated(view, savedInstanceState)
      }
 
-
-
 }

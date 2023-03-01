@@ -1,14 +1,17 @@
 package com.example.cinemaxv3.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentMovieBinding
+import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.ui.adapter.PopularMovieAdapter
 import com.example.cinemaxv3.ui.adapter.TopRatedMoviesAdapter
 import com.example.cinemaxv3.ui.adapter.UpComingMoviesAdapter
@@ -48,6 +51,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     private fun fetchMovies() {
         lifecycleScope.launch {
             movieViewModel.getPopularMovies().collect() {
+                Log.d("Popular Movies", it.toString())
                 popularMovieAdapter.submitData(it)
             }
         }
@@ -64,6 +68,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
             }
         }
     }
+
+
 
     private fun setUpViews(binding: FragmentMovieBinding) {
         binding.popularMoviesRecyclerview.layoutManager =
@@ -89,6 +95,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
             bundle.putString("title", it.title)
             bundle.putString("description", it.overview)
             bundle.putDouble("rating", it.vote_average)
+            bundle.putInt("id",it.id)
             findNavController().navigate(R.id.action_movieFragment_to_movieDetailsFragment, bundle)
         }
 
@@ -99,6 +106,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
             bundle.putString("title", it.title)
             bundle.putString("description", it.overview)
             bundle.putDouble("rating", it.vote_average)
+            bundle.putInt("id",it.id)
             findNavController().navigate(R.id.action_movieFragment_to_movieDetailsFragment, bundle)
         }
 
@@ -109,6 +117,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
             bundle.putString("title", it.title)
             bundle.putString("description", it.overview)
             bundle.putDouble("rating", it.vote_average)
+            bundle.putInt("id",it.id)
             findNavController().navigate(R.id.action_movieFragment_to_movieDetailsFragment, bundle)
         }
     }

@@ -1,19 +1,23 @@
 package com.example.cinemaxv3.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
 import com.example.cinemaxv3.models.Movie
+import com.example.cinemaxv3.util.DifferCallback
 
 class PopularMovieAdapter :
     PagingDataAdapter<Movie, PopularMovieAdapter.MyViewHolder>(MovieModelComparator) {
     private var onMovieClickListener: ((Movie) -> Unit)? = null
 
     inner class MyViewHolder(val binding: ItemMoviesBinding) : ViewHolder(binding.root)
+    val comparator = AsyncListDiffer(this, MovieModelComparator)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
@@ -38,6 +42,7 @@ class PopularMovieAdapter :
 
                 binding.tvTitle.text = this?.title ?: null
                 binding.Rating.text = this?.vote_average.toString()
+                Log.i("POPULAR", "List : ${comparator.currentList.size}")
 
                 itemView.setOnClickListener {
                     this?.let {
