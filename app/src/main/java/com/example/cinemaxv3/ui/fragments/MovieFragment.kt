@@ -27,13 +27,11 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     private lateinit var upcomingMovieAdapter: UpComingMoviesAdapter
     private lateinit var topRatedMoviesAdapter: TopRatedMoviesAdapter
 
-    private var fragmentMovieBinding: FragmentMovieBinding? = null
     private val movieViewModel: MovieViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentMovieBinding.bind(view)
-        fragmentMovieBinding = binding
 
         initMembers()
         setUpViews(binding)

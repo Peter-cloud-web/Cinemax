@@ -8,6 +8,7 @@ import com.example.cinemaxv3.db.MovieDatabase
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.paging.pagingSource.PopularMoviesPagingSource
 import com.example.cinemaxv3.paging.pagingSource.TopRatedMoviesPagingSource
+import com.example.cinemaxv3.paging.pagingSource.TopRatedTvShowsPagingSource
 import com.example.cinemaxv3.paging.pagingSource.UpComingMoviesPagingSource
 import com.example.cinemaxv3.service.MovieApi
 import com.example.cinemaxv3.util.Resource
@@ -32,6 +33,9 @@ class Repository @Inject constructor(
 
     val topRatedMovieListData = Pager(PagingConfig(pageSize = 1)) {
         TopRatedMoviesPagingSource(api)
+    }.flow
+    val topRatedTvShows = Pager(PagingConfig(pageSize = 1)){
+        TopRatedTvShowsPagingSource(api)
     }.flow
 
 

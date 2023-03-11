@@ -9,7 +9,7 @@ import java.io.Serializable
  data class Movie(
     @PrimaryKey(autoGenerate = true)
     @SerializedName("adult") val adult: Boolean,
-    @SerializedName("backdrop_path") val backdrop_path: String,
+    @SerializedName("backdrop_path") val backdrop_path: String?,
     @SerializedName("genre_ids") val genre_ids: List<Int>?,
     @SerializedName("original_language")  val original_language: String,
     @SerializedName(" original_title") val original_title: String?,
@@ -51,7 +51,7 @@ data class  TopRatedMovies(
 data class UpComingMovies(
    @PrimaryKey(autoGenerate = true)
    @SerializedName("adult") val adult: Boolean,
-   @SerializedName("backdrop_path") val backdrop_path: String,
+   @SerializedName("backdrop_path") val backdrop_path: String?,
    @SerializedName("genre_ids") val genre_ids: List<Int>?,
    @SerializedName("original_language")  val original_language: String,
    @SerializedName(" original_title") val original_title: String?,

@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.models.responses
+package com.example.cinemaxv3.models.responses.moviesResponse
 
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.models.UpComingMovies

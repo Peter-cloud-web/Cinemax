@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_trailersFragment"
+            app:destination="@id/trailersFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouriteMovieFragment"
@@ -46,4 +49,18 @@
         android:name="com.example.cinemaxv3.ui.fragments.ReviewsFragment"
         android:label="fragment_reviews"
         tools:layout="@layout/fragment_reviews" />
+    <fragment
+        android:id="@+id/tvShowsFragment"
+        android:name="com.example.cinemaxv3.ui.fragments.TvShowsFragment"
+        android:label="fragment_tv_shows"
+        tools:layout="@layout/fragment_tv_shows" >
+        <action
+            android:id="@+id/action_tvShowsFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trailersFragment"
+        android:name="com.example.cinemaxv3.ui.fragments.TrailersFragment"
+        android:label="fragment_trailers"
+        tools:layout="@layout/fragment_trailers" />
 </navigation>

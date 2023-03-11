@@ -1,11 +1,11 @@
-package com.example.cinemaxv3.models.responses
+package com.example.cinemaxv3.models.responses.moviesResponse
 
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.models.UpComingMovies
 import com.google.gson.annotations.SerializedName
 
-data class MovieResponse (
+data class TopRatedMovieResponse (
     @SerializedName("page") val page: Int,
-    @SerializedName("results") val movies: List<Movie>,
+    @SerializedName("results") val movies: List<TopRatedMovies>,
     @SerializedName("total_pages") val pages: Int)

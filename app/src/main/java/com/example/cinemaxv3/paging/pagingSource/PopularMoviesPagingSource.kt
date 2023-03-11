@@ -23,7 +23,7 @@ class PopularMoviesPagingSource @Inject constructor(private val service: MovieAp
             LoadResult.Page(
                 data = responseData,
                 prevKey = if(currentPage == 1)null else -1,
-                nextKey = currentPage.plus(1)
+                nextKey = if(currentPage == response.pages)null else currentPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

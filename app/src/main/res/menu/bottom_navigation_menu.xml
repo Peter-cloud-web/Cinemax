@@ -4,9 +4,13 @@
         android:title="Movies"
         android:icon="@drawable/ic_baseline_movie_24" />
 
+    <item android:id="@+id/tvShowsFragment"
+        android:title="TV shows"
+        android:icon="@drawable/ic_baseline_live_tv_24" />
+
     <item android:id="@+id/favouriteMovieFragment"
         android:title="Bookmarks"
-        android:icon="@drawable/ic_baseline_favorite_24" />
+        android:icon="@drawable/ic_baseline_collections_bookmark_24" />
 
     <item android:id="@+id/searchMoviesFragment"
         android:title="SearchMovies"

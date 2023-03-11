@@ -135,7 +135,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.5.1'
 
+    //Youtube player
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0'
 
+//Circular ImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
 kapt {
     correctErrorTypes = true

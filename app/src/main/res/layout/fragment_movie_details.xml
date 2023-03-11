@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDark"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.MovieDetailsFragment">
 
-
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        android:id="@+id/cardView"
-        app:cardElevation="0dp"
         app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" >
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/movie_image"
@@ -31,9 +30,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:layout_gravity="bottom"
             android:background="@drawable/gradient"
-            app:layout_constraintBottom_toBottomOf="@id/cardView"
-            android:layout_gravity="bottom"/>
+            app:layout_constraintBottom_toBottomOf="@id/cardView" />
 
         <ImageView
             android:id="@+id/backdropImage"
@@ -63,9 +62,20 @@
             android:layout_height="30dp"
             android:layout_gravity="top|right"
             android:layout_margin="20dp"
-            android:background="@drawable/ic_baseline_bookmark_24"
-            />
+            android:background="@drawable/ic_baseline_bookmark_24" />
 
+        <Button
+            android:id="@+id/btnTrailer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/button_gradient"
+            android:drawableEnd="@drawable/ic_baseline_play_circle_24"
+            android:drawablePadding="-20dp"
+            android:fontFamily="@font/allerta"
+            android:text="@string/watch_trailer"
+            android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -92,8 +102,8 @@
         android:layout_marginBottom="68dp"
         android:animateLayoutChanges="true"
         android:background="@drawable/button_gradient"
-        android:fontFamily="@font/alfa_slab_one"
-        android:text="Play Now"
+        android:fontFamily="@font/allerta"
+        android:text="Read Reviews"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.924"
@@ -107,7 +117,6 @@
         android:layout_marginBottom="68dp"
         android:src="@drawable/ic_baseline_download_for_offline_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.394"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -116,9 +125,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="84dp"
+        android:layout_marginLeft="20dp"
         android:src="@drawable/ic_baseline_share_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 

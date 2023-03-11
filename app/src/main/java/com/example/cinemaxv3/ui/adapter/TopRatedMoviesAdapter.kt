@@ -39,8 +39,6 @@ class TopRatedMoviesAdapter :
                 Glide.with(holder.itemView)
                     .load(IMAGE_BASE + (this?.poster_path ?: null))
                     .into(holder.binding.imageMovies)
-
-                binding.tvTitle.text = this?.title ?: null
                 binding.Rating.text = this?.vote_average.toString()
 
                 itemView.setOnClickListener {

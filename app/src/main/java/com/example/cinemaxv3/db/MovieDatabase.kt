@@ -21,7 +21,7 @@ import com.example.cinemaxv3.util.ListConverter
         MovieRemoteKeys::class,
         TopRatedRemoteKeys::class,
         UpComingRemoteKeys::class],
-    version = 5
+    version = 6
 )
 @TypeConverters(ListConverter::class)
 abstract class MovieDatabase : RoomDatabase() {
