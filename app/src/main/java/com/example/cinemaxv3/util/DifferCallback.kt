@@ -1,8 +1,10 @@
 package com.example.cinemaxv3.util
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.responses.Review
 import com.example.cinemaxv3.models.responses.ReviewsResponse
+import com.example.cinemaxv3.models.responses.similarMoviesResponse.SimilarMovies
 
 class DifferCallback {
     companion object {

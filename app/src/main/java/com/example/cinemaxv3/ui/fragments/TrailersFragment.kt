@@ -34,10 +34,16 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
         similarMoviesAdapter = SimilarMoviesAdapter()
 
         val binding = FragmentTrailersBinding.bind(view)
+        binding.progressbar1.setVisibility(View.VISIBLE)
+        binding.progressbar2.setVisibility(View.VISIBLE)
         videoView = binding.videoView
         getLifecycle().addObserver(videoView)
 
-        val id = arguments?.getInt("id")
+        val id = arguments?.getInt("movieId")
+        val title = arguments?.getString("title")
+        Log.d("Trailer", "${title}")
+        binding.movieName.text = title
+
 
         if (id != null) {
             loadMovieCasts(id)
@@ -48,7 +54,6 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
 
         if (id != null) {
             movieViewModel.getMovieTrailer(id).observe(viewLifecycleOwner, {
-
                 videoView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
 
                     override fun onReady(youTubePlayer: YouTubePlayer) {
@@ -58,6 +63,7 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
                         for (i in 0..it.results.size - 1) {
 
                             if (it.results[i].name == "Trailer") {
+
                                 youTubePlayer.loadVideo(videoId = it.results[i].key.toString(), 0f)
 
                             } else if (it.results[i].name == "Behind the Scenes") {
@@ -82,6 +88,7 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
         binding.recyclerviewMovieCasts.apply {
             layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
             adapter = castsAdapter
+            binding.progressbar1.setVisibility(View.GONE)
         }
     }
     fun loadSimilarMovies(id: Int){
@@ -91,9 +98,9 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
     }
 
     fun similarMoviesRecyclerView(binding: FragmentTrailersBinding){
-        binding.recyclerviewSimilar.apply {
-            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
-            adapter = similarMoviesAdapter
+        binding.recyclerviewSimilar.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+            binding.recyclerviewSimilar.adapter = similarMoviesAdapter
+            binding.progressbar2.setVisibility(View.GONE)
         }
     }
-    }
+

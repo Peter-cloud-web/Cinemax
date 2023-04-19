@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
-    android:layout_width="150dp"
-    android:layout_height="250dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:background="@color/colorDark"
     android:elevation="10dp"
@@ -24,29 +24,11 @@
             android:layout_marginBottom="10dp"
             android:background="@color/colorDark"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/tv_title_movies"
+            app:layout_constraintBottom_toTopOf="@+id/tv_shows_rating"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/tv_title_movies"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginStart="206dp"
-            android:layout_marginEnd="200dp"
-            android:fontFamily="@font/allerta"
-            android:text="TextViews"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_shows_rating"
-            app:layout_constraintHorizontal_bias="0.068"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_tv_shows" />
 
         <TextView
             android:id="@+id/tv_shows_rating"

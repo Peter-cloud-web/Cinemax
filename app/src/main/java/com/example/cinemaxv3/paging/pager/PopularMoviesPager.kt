@@ -19,6 +19,7 @@ class PopularMoviesPager @Inject constructor(
     pageSize = 20,
     prefetchDistance = 10,
     initialLoadSize = 20,
+        enablePlaceholders = false
     ),
     pagingSourceFactory = {
         db.getMovieDao().getPopularMovies()

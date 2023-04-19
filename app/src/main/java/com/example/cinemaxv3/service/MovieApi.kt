@@ -18,6 +18,7 @@ interface MovieApi {
     companion object {
         const val api_key = BuildConfig.MOVIE_API_KEY
     }
+
     @GET("movie/popular?")
     suspend fun getPopularMovies(
         @Query("api_key") api_key: String = MovieApi.api_key,
@@ -34,7 +35,6 @@ interface MovieApi {
     suspend fun upComingMovies(
         @Query("api_key") api_key: String = MovieApi.api_key,
         @Query("page") page: Int,
-
     ): UpComingMovieResponse
 
     @GET("movie/{movieId}/reviews")
@@ -50,6 +50,31 @@ interface MovieApi {
         @Query("api_key") api_key: String = MovieApi.api_key,
         @Query("page") page: Int,
     ): TvShowsResponses
+
+    @GET("tv/popular?")
+    suspend fun getPopularTvShows(
+        @Query("api_key") api_key: String = MovieApi.api_key,
+        @Query("page") page: Int,
+    ): TvShowsResponses
+
+    @GET("tv/on_the_air ?")
+    suspend fun getLatestTvShows(
+        @Query("api_key") api_key: String = MovieApi.api_key,
+        @Query("page") page: Int,
+    ): TvShowsResponses
+
+    @GET("tv/airing_today?")
+    suspend fun getTvShowsAiringToday(
+        @Query("api_key") api_key: String = MovieApi.api_key,
+        @Query("page") page: Int,
+    ): TvShowsResponses
+
+    @GET("tv/on_the_air?")
+    suspend fun getTvShowsOnTheAir(
+        @Query("api_key") api_key: String = MovieApi.api_key,
+        @Query("page") page: Int,
+    ): TvShowsResponses
+
 
     @GET("movie/{movie_id}/videos?")
     suspend fun getMovieTrailer(
@@ -71,4 +96,13 @@ interface MovieApi {
         @Query("api_key") api_key: String = MovieApi.api_key,
         @Query("language") language: String = "en-US",
     ): SimilarMoviesResponse
+
+    @GET("search/movie?")
+    suspend fun searchMovies(
+        @Query("api_key") api_key: String = MovieApi.api_key,
+        @Query("language") language: String = "en-US",
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("include_adult") includeAdult: Boolean = false
+    ): MovieResponse
 }

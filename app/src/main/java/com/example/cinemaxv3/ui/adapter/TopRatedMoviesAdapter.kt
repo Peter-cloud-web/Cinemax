@@ -3,6 +3,7 @@ package com.example.cinemaxv3.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,14 +12,14 @@ import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.TopRatedMovies
 
 class TopRatedMoviesAdapter :
-    PagingDataAdapter<TopRatedMovies, TopRatedMoviesAdapter.TopRatedViewHolder>(MovieModelComparator) {
+    PagingDataAdapter<TopRatedMovies, TopRatedMoviesAdapter.TopRatedViewHolder>(TopMovieModelComparator) {
     private var onMovieClickListener: ((TopRatedMovies) -> Unit)? = null
 
     inner class TopRatedViewHolder(val binding: ItemMoviesBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     companion object {
-        private val MovieModelComparator = object : DiffUtil.ItemCallback<TopRatedMovies>() {
+        private val TopMovieModelComparator = object : DiffUtil.ItemCallback<TopRatedMovies>() {
             override fun areItemsTheSame(oldItem: TopRatedMovies, newItem: TopRatedMovies): Boolean {
                 return oldItem.id == newItem.id
             }
@@ -30,12 +31,11 @@ class TopRatedMoviesAdapter :
     }
 
     override fun onBindViewHolder(holder: TopRatedViewHolder, position: Int) {
-        val movieModel: TopRatedMovies? = getItem(position)
+        val movies : TopRatedMovies? = getItem(position)
         val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
 
         with(holder) {
-            with(movieModel) {
-
+            with(movies) {
                 Glide.with(holder.itemView)
                     .load(IMAGE_BASE + (this?.poster_path ?: null))
                     .into(holder.binding.imageMovies)
@@ -55,11 +55,9 @@ class TopRatedMoviesAdapter :
         }
     }
 
-
     fun setOnItemClickListener(listener: (TopRatedMovies) -> Unit) {
         onMovieClickListener = listener
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopRatedViewHolder {
         return TopRatedViewHolder(
             ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)

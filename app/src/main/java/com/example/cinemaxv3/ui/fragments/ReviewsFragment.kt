@@ -20,7 +20,7 @@ class ReviewsFragment : Fragment(R.layout.fragment_reviews) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentReviewsBinding.bind(view)
-        val id = arguments?.getInt("id")
+        val id = arguments?.getInt("movieId")
 
         movieViewModel = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
         reviewAdapter = MovieReviewsAdapter()

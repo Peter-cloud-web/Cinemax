@@ -7,23 +7,22 @@ import com.example.cinemaxv3.service.MovieApi
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class TopRatedTvShowsPagingSource @Inject constructor(private val service: MovieApi) :
-    PagingSource<Int, TvShowsResults>() {
+class TvShowsAiringTodayPagingSource @Inject constructor (private val service:MovieApi): PagingSource<Int,TvShowsResults>(){
     override fun getRefreshKey(state: PagingState<Int, TvShowsResults>): Int? {
         return 1
     }
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TvShowsResults> {
-        return try {
-            val currentPage = params.key ?: 1
-            val response = service.getTopRatedTvShows(MovieApi.api_key, currentPage)
-            val data = response.results
+        return try{
+        val currentKey = params.key?:1
+        val response = service.getTvShowsAiringToday(MovieApi.api_key,currentKey)
+        val responseData  = mutableListOf<TvShowsResults>()
+        responseData + response
 
-            LoadResult.Page(
-                 data  = data,
-                prevKey = if(currentPage == 1)null else -1,
-                nextKey =  currentPage.plus(1)
-            )
+        LoadResult.Page(
+            data = responseData,
+            prevKey = if(currentKey == 1) null else -1,
+            nextKey = currentKey.plus(1)
+        )
         }catch (e:Exception){
             LoadResult.Error(e)
         }catch(e:HttpException){

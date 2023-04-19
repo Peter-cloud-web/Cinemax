@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/trailer"
-        android:title="Play Trailer"
-        android:icon="@drawable/ic_baseline_play_circle_24"
-        />
+        android:id="@+id/topRatedTvShows"
+        android:title="Top Rated TV shows"
+        android:icon="@drawable/ic_baseline_play_circle_24" />
     <item
-        android:id="@+id/beindTheScenes"
-        android:title="Play behind the scenes"
-        android:icon="@drawable/ic_baseline_play_circle_24"/>
+        android:id="@+id/popularTvShows"
+        android:title="Popular TV shows"
+        android:icon="@drawable/ic_baseline_play_circle_24" />
+    <item
+        android:id="@+id/latestTvShows"
+        android:title="Latest  TV shows"
+        android:icon="@drawable/ic_baseline_play_circle_24" />
 </menu>

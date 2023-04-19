@@ -3,14 +3,11 @@ package com.example.cinemaxv3.paging.pager
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.example.cinemaxv3.db.MovieDatabase
-import com.example.cinemaxv3.paging.mediators.PopularMoviesRemoteMediator
-import com.example.cinemaxv3.paging.mediators.TopRatedMoviesMediator
+import com.example.cinemaxv3.paging.pagingSource.PopularTvShowsPagingSource
 import com.example.cinemaxv3.service.MovieApi
 import javax.inject.Inject
 
-class TopRatedMoviesPager @Inject constructor(private val api:MovieApi,private val db:MovieDatabase){
-
+class PopularTvShowsPager @Inject constructor(private val api: MovieApi) {
     @OptIn(ExperimentalPagingApi::class)
     val pager = Pager(
         config = PagingConfig(
@@ -20,13 +17,7 @@ class TopRatedMoviesPager @Inject constructor(private val api:MovieApi,private v
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            db.getTopRatedMoviesDao().getTopRatedMovies()
+            PopularTvShowsPagingSource(service = api)
         },
-        remoteMediator = TopRatedMoviesMediator(
-            api,
-            db,
-        )
     ).flow
-
 }
-

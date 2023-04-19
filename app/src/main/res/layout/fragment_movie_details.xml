@@ -26,13 +26,18 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/avangers" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_gravity="bottom"
             android:background="@drawable/gradient"
             app:layout_constraintBottom_toBottomOf="@id/cardView" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/backdropImage"
@@ -76,6 +81,28 @@
             android:fontFamily="@font/allerta"
             android:text="@string/watch_trailer"
             android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/watchlist"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="150dp"
+            android:src="@drawable/ic_baseline_library_add_24" />
+
+        <TextView
+            android:id="@+id/TextView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="125dp"
+            android:layout_marginRight="150dp"
+            android:fontFamily="@font/allerta"
+            android:text="Watchlist"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            android:textStyle="bold"/>
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -124,8 +151,8 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="84dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginBottom="84dp"
         android:src="@drawable/ic_baseline_share_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.519"

@@ -1,47 +1,36 @@
 package com.example.cinemaxv3.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
+import com.example.cinemaxv3.databinding.ItemTvShowsBinding
 import com.example.cinemaxv3.models.Movie
-import com.example.cinemaxv3.util.DifferCallback
 
-class PopularMovieAdapter :
-    PagingDataAdapter<Movie, PopularMovieAdapter.MyViewHolder>(MovieModelComparator) {
+class PopularMovieAdapter : PagingDataAdapter<Movie, PopularMovieAdapter.PopularViewHolder>(PopularMovieModelComparator) {
     private var onMovieClickListener: ((Movie) -> Unit)? = null
 
-    inner class MyViewHolder(val binding: ItemMoviesBinding) : ViewHolder(binding.root)
-    val comparator = AsyncListDiffer(this, MovieModelComparator)
+    inner class PopularViewHolder(val binding: ItemMoviesBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(
-            ItemMoviesBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularViewHolder {
+        val binding =  ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PopularViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PopularViewHolder, position: Int) {
         val movieModel: Movie? = getItem(position)
         val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
 
         with(holder) {
             with(movieModel) {
-
                 Glide.with(holder.itemView)
                     .load(IMAGE_BASE + (this?.poster_path ?: null))
                     .into(holder.binding.imageMovies)
 
                 binding.Rating.text = this?.vote_average.toString()
-                Log.i("POPULAR", "List : ${comparator.currentList.size}")
 
                 itemView.setOnClickListener {
                     this?.let {
@@ -62,7 +51,7 @@ class PopularMovieAdapter :
     }
 
     companion object {
-        private val MovieModelComparator = object : DiffUtil.ItemCallback<Movie>() {
+        private val PopularMovieModelComparator = object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
                 return oldItem.id == newItem.id
             }

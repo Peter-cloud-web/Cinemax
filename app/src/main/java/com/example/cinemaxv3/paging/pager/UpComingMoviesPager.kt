@@ -21,6 +21,7 @@ class UpComingMoviesPager @Inject constructor(
             pageSize = 20,
             prefetchDistance = 10,
             initialLoadSize = 20,
+            enablePlaceholders = false
         ),
         pagingSourceFactory = {
             db.getUpComingMoviesDao().getUpComingMovies()
