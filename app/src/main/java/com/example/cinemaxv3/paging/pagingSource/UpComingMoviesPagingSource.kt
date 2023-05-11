@@ -17,8 +17,8 @@ class UpComingMoviesPagingSource @Inject constructor(private val service:MovieAp
             val currentPage = params.key?:1
             val response = service.upComingMovies(MovieApi.api_key,currentPage)
             val responseData = mutableListOf<UpComingMovies>()
-            val data = response.movies.isEmpty()
-            responseData + data
+            responseData.addAll(response.movies)
+
 
             LoadResult.Page(data = responseData,
             prevKey = if(currentPage == 1)null else -1,

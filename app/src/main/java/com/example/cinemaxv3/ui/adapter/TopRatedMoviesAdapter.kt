@@ -59,8 +59,8 @@ class TopRatedMoviesAdapter :
         onMovieClickListener = listener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopRatedViewHolder {
-        return TopRatedViewHolder(
-            ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+       val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemMoviesBinding.inflate(inflater,parent,false)
+        return TopRatedViewHolder(binding)
     }
 }

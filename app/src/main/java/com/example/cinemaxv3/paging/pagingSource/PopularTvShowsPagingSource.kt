@@ -16,10 +16,11 @@ class PopularTvShowsPagingSource @Inject constructor( private val service:MovieA
         return try{
             val currentPage  = params.key?:1
             val response = service.getPopularTvShows(MovieApi.api_key,currentPage)
-            val data  =  response.results
+            val responseData = mutableListOf<TvShowsResults>()
+            responseData.addAll(response.results)
 
             LoadResult.Page(
-                data = data,
+                data = responseData,
                 prevKey = if(currentPage == 1)null else -1,
                 nextKey = currentPage.plus(1)
             )

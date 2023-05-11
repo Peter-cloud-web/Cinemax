@@ -18,8 +18,8 @@ class TopRatedMoviesPagingSource @Inject constructor(private val  service: Movie
             val currentPage = params.key?:1
             val response = service.getTopRatedMovies(MovieApi.api_key,currentPage)
             val responseData = mutableListOf<TopRatedMovies>()
-            val data = response.movies.isEmpty()
-            responseData + data
+            responseData.addAll(response.movies)
+
 
             LoadResult.Page(data = responseData,
             prevKey = if(currentPage == 1)null else - 1,

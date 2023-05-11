@@ -17,10 +17,11 @@ class LatestTvShowsPagingSource @Inject constructor(private val service:MovieApi
         return try{
             val currentKey = params.key?:1
             val response = service.getLatestTvShows(MovieApi.api_key,currentKey)
-            val data = response.results
+            val responseData = mutableListOf<TvShowsResults>()
+            responseData.addAll(response.results)
 
             LoadResult.Page(
-                data = data,
+                data = responseData,
                 prevKey = if(currentKey == 1) null else -1,
                 nextKey = currentKey.plus(1)
             )

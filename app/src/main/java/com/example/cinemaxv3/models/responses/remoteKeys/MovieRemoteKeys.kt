@@ -37,3 +37,14 @@ data class UpComingRemoteKeys(
     @ColumnInfo(name = "created_at")
     val createdAt: Long = System.currentTimeMillis())
 
+@Entity(tableName = "toprated_tvshows_remote_keys")
+data class TopRatedTvShowsRemoteKeys(
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "movie_id")
+    val movieID: Int,
+    val prevKey: Int?,
+    val currentPage: Int,
+    val nextKey: Int?,
+    @ColumnInfo(name = "created_at")
+    val createdAt: Long = System.currentTimeMillis())
+

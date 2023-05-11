@@ -11,9 +11,9 @@ import com.example.cinemaxv3.db.dao.remoteKeysDaos.RemoteKeysDao
 import com.example.cinemaxv3.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
 import com.example.cinemaxv3.db.dao.remoteKeysDaos.UpComingRemoteKeyDao
 import com.example.cinemaxv3.service.MovieApi
-import com.example.cinemaxv3.util.ListConverter
 import com.example.cinemaxv3.util.Constants
 import com.example.cinemaxv3.util.Constants.BASE_URL
+import com.example.cinemaxv3.util.ListConverter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +28,7 @@ import javax.inject.Singleton
 object AppModule {
 
     @Provides
-    fun provideBaseUrl() = Constants.BASE_URL
+    fun provideBaseUrl() = BASE_URL
 
     @Provides
     @Singleton

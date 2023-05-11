@@ -10,18 +10,21 @@ import javax.inject.Inject
 class TopRatedTvShowsPagingSource @Inject constructor(private val service: MovieApi) :
     PagingSource<Int, TvShowsResults>() {
     override fun getRefreshKey(state: PagingState<Int, TvShowsResults>): Int? {
-        return 1
+     return state.anchorPosition?.let{anchorPosition ->
+         state.closestPageToPosition(anchorPosition)?.prevKey
+     }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TvShowsResults> {
         return try {
             val currentPage = params.key ?: 1
             val response = service.getTopRatedTvShows(MovieApi.api_key, currentPage)
-            val data = response.results
+            val responseData = mutableListOf<TvShowsResults>()
+            responseData.addAll(response.results)
 
             LoadResult.Page(
-                 data  = data,
-                prevKey = if(currentPage == 1)null else -1,
+                 data  = responseData,
+                prevKey = if(currentPage >= 1) currentPage - 1 else null,
                 nextKey =  currentPage.plus(1)
             )
         }catch (e:Exception){

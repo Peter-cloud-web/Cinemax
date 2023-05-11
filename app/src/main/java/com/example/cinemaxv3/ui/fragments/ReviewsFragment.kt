@@ -1,8 +1,11 @@
 package com.example.cinemaxv3.ui.fragments
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +24,18 @@ class ReviewsFragment : Fragment(R.layout.fragment_reviews) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentReviewsBinding.bind(view)
         val id = arguments?.getInt("movieId")
+
+        val actionbar =  (activity as AppCompatActivity).supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setBackgroundDrawable(context?.let {
+                ContextCompat.getColor(
+                    it,
+                    R.color.black
+                )
+            }?.let { ColorDrawable(it) })
+            title = "Reviews"
+        }
 
         movieViewModel = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
         reviewAdapter = MovieReviewsAdapter()

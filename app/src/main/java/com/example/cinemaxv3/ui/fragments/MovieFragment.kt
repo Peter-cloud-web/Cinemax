@@ -1,8 +1,11 @@
 package com.example.cinemaxv3.ui.fragments
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,60 +14,92 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentMovieBinding
+import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.ui.adapter.PopularMovieAdapter
 import com.example.cinemaxv3.ui.adapter.TopRatedMoviesAdapter
-import com.example.cinemaxv3.ui.adapter.TopRatedTvShowsAdapter
 import com.example.cinemaxv3.ui.adapter.UpComingMoviesAdapter
 import com.example.cinemaxv3.ui.viewmodels.MovieViewModel
+import com.example.cinemaxv3.util.ConnectivityObserver
+import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
+import com.example.cinemaxv3.util.NetworkConnectivityObserver
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MovieFragment : Fragment(R.layout.fragment_movie) {
 
-    val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
-
     private lateinit var popularMovieAdapter: PopularMovieAdapter
     private lateinit var upcomingMovieAdapter: UpComingMoviesAdapter
     private lateinit var topRatedMoviesAdapter: TopRatedMoviesAdapter
-    private lateinit var topRatedTvShowsAdapter: TopRatedTvShowsAdapter
+
+    private val networkConnectivityObserver: NetworkConnectivityObserver by lazy {
+        NetworkConnectivityObserver(requireContext())
+    }
+
     private val movieViewModel: MovieViewModel by viewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentMovieBinding.bind(view)
 
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            setBackgroundDrawable(context?.let {
+                ContextCompat.getColor(
+                    it, R.color.black
+                )
+            }?.let { ColorDrawable(it) })
+            title = "Cinemax cinematic"
+        }
+
         initMembers()
+        checkNetworkConnectivity(binding)
         setUpViews(binding)
         fetchMovies()
         recyclerViewOnClick()
-        displayPopularMovie(binding)
+
     }
 
     private fun initMembers() {
         popularMovieAdapter = PopularMovieAdapter()
         upcomingMovieAdapter = UpComingMoviesAdapter()
         topRatedMoviesAdapter = TopRatedMoviesAdapter()
-        topRatedTvShowsAdapter = TopRatedTvShowsAdapter()
 
     }
 
-    private fun fetchMovies() {
+    private fun checkNetworkConnectivity(binding: FragmentMovieBinding){
+        
         lifecycleScope.launch {
-            movieViewModel.getPopularMovies().collect() {
+            networkConnectivityObserver.observer().collect { status ->
+                when (status) {
+                    ConnectivityObserver.Status.Available -> displayPopularMovie(binding)
+                    else -> {binding.vote.text = "Offline"}
+                }
+            }
+        }
+    }
+
+    private fun fetchMovies() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            movieViewModel.getPopularMovies().collectLatest {
                 popularMovieAdapter.submitData(it)
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             movieViewModel.getTopRatedMovies().collectLatest {
                 topRatedMoviesAdapter.submitData(it)
             }
         }
 
-        lifecycleScope.launch {
-            movieViewModel.getUpComingMovies().collect {
+        viewLifecycleOwner.lifecycleScope.launch {
+            movieViewModel.getUpComingMovies().collectLatest {
                 upcomingMovieAdapter.submitData(it)
             }
         }
@@ -72,10 +107,10 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
 
     private fun setUpViews(binding: FragmentMovieBinding) {
-        binding.popularMoviesRecyclerview.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        binding.popularMoviesRecyclerview.adapter = popularMovieAdapter
-
+        binding.popularMoviesRecyclerview.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = popularMovieAdapter
+        }
         binding.topRatedMoviesRecyclerview.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.topRatedMoviesRecyclerview.adapter = topRatedMoviesAdapter
@@ -88,21 +123,15 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
 
     private fun recyclerViewOnClick() {
-        popularMovieAdapter.setOnItemClickListener {
-            val bundle = Bundle()
-            bundle.putString("image", "https://image.tmdb.org/t/p/w500" + it.poster_path)
-            bundle.putString("backdrop", "https://image.tmdb.org/t/p/w500" + it.backdrop_path)
-            bundle.putString("title", it.title)
-            bundle.putString("description", it.overview)
-            bundle.putDouble("rating", it.vote_average)
-            bundle.putInt("id", it.id)
+        popularMovieAdapter.setOnItemClickListener {movie ->
+            val bundle = createMovieBundle(movie)
             findNavController().navigate(R.id.action_movieFragment_to_movieDetailsFragment, bundle)
         }
 
         topRatedMoviesAdapter.setOnItemClickListener {
             val bundle = Bundle()
-            bundle.putString("image", "https://image.tmdb.org/t/p/w500" + it.poster_path)
-            bundle.putString("backdrop", "https://image.tmdb.org/t/p/w500" + it.backdrop_path)
+            bundle.putString("image", IMAGE_BASE_URL + it.poster_path)
+            bundle.putString("backdrop", IMAGE_BASE_URL + it.backdrop_path)
             bundle.putString("title", it.title)
             bundle.putString("description", it.overview)
             bundle.putDouble("rating", it.vote_average)
@@ -112,8 +141,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
         upcomingMovieAdapter.setOnItemClickListener {
             val bundle = Bundle()
-            bundle.putString("image", "https://image.tmdb.org/t/p/w500" + it.poster_path)
-            bundle.putString("backdrop", "https://image.tmdb.org/t/p/w500" + it.backdrop_path)
+            bundle.putString("image", IMAGE_BASE_URL + it.poster_path)
+            bundle.putString("backdrop", IMAGE_BASE_URL + it.backdrop_path)
             bundle.putString("title", it.title)
             bundle.putString("description", it.overview)
             bundle.putDouble("rating", it.vote_average)
@@ -122,31 +151,42 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
         }
     }
 
+    private fun createMovieBundle(movie: Movie): Bundle {
+        val bundle = Bundle()
+        bundle.putString("image", IMAGE_BASE_URL + movie.poster_path)
+        bundle.putString("backdrop", IMAGE_BASE_URL + movie.backdrop_path)
+        bundle.putString("title", movie.title)
+        bundle.putString("description", movie.overview)
+        bundle.putDouble("rating", movie.vote_average)
+        bundle.putInt("id", movie.id)
+        return bundle
+    }
+
     private fun displayPopularMovie(binding: FragmentMovieBinding) {
-        lifecycleScope.launch {
-            movieViewModel.getPopularlyRatedMovies().observe(viewLifecycleOwner) {
-                for (i in 0..it.movies.size - 1) {
-                    if (it.movies[i].vote_average!! >= 8) {
-                        binding.apply {
-                            Glide.with(binding.popMov)
-                                .load(IMAGE_BASE + it.movies[i].poster_path)
-                                .into(popMov)
-                            vote.text = it.movies[i].vote_average.toString()
+                lifecycleScope.launch {
+                    movieViewModel.getPopularlyRatedMovies().observe(viewLifecycleOwner) {
+                        for (i in 0 until it.results.size) {
+                            if (it.results[i].vote_average!! >= 8) {
+                                binding.apply {
+                                    Glide.with(binding.popMov).load(IMAGE_BASE_URL + it.results[i].poster_path)
+                                        .into(popMov)
+                                    vote.text = it.results[i].vote_average.toString()
+                                }
+                                popularMovieOnclick(it.results[i].id, it.results[i].title, binding)
+                            }
                         }
-                        popularMovieOnclick(it.movies[i].id,it.movies[i].title,binding)
                     }
                 }
             }
+    private fun popularMovieOnclick(id: Int, name: String?, binding: FragmentMovieBinding) {
+        binding.btnTrailer.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("movieId", id)
+            bundle.putString("title", name)
+            findNavController().navigate(R.id.action_movieFragment_to_trailersFragment, bundle)
         }
     }
 
-    private fun popularMovieOnclick( id: Int,name:String?,binding: FragmentMovieBinding) {
-      binding.btnTrailer.setOnClickListener {
-         val bundle = Bundle()
-         bundle.putInt("movieId",id)
-          bundle.putString("title",name)
-          findNavController().navigate(R.id.action_movieFragment_to_trailersFragment,bundle)
-      }
-    }
 }
+
 

@@ -26,9 +26,16 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/avangers" />
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="30dp"
+            android:layout_gravity="top"
+            android:background="@drawable/gradient2"
+            app:layout_constraintBottom_toBottomOf="@id/cardView" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
             android:layout_gravity="bottom"
             android:background="@drawable/gradient"
             app:layout_constraintBottom_toBottomOf="@id/cardView" />
@@ -148,7 +155,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/shareMovie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"

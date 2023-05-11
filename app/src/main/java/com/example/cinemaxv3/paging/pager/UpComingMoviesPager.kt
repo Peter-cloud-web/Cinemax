@@ -7,6 +7,7 @@ import com.example.cinemaxv3.db.MovieDatabase
 import com.example.cinemaxv3.paging.mediators.PopularMoviesRemoteMediator
 import com.example.cinemaxv3.paging.mediators.TopRatedMoviesMediator
 import com.example.cinemaxv3.paging.mediators.UpComingMoviesMediator
+import com.example.cinemaxv3.paging.pagingSource.UpComingMoviesPagingSource
 import com.example.cinemaxv3.service.MovieApi
 import javax.inject.Inject
 

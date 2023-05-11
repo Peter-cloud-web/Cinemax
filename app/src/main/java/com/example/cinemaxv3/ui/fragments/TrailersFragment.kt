@@ -1,8 +1,11 @@
 package com.example.cinemaxv3.ui.fragments
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -24,7 +27,7 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
     private lateinit var videoView: YouTubePlayerView
     private lateinit var castsAdapter: MovieCastsAdapter
     private lateinit var similarMoviesAdapter:SimilarMoviesAdapter
-
+    private var playbackState = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,11 +36,31 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
         castsAdapter = MovieCastsAdapter()
         similarMoviesAdapter = SimilarMoviesAdapter()
 
+        val actionbar =  requireActivity().actionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setBackgroundDrawable(context?.let {
+                ContextCompat.getColor(
+                    it,
+                    R.color.black
+                )
+            }?.let { ColorDrawable(it) })
+            title = "Trailers"
+        }
+
         val binding = FragmentTrailersBinding.bind(view)
         binding.progressbar1.setVisibility(View.VISIBLE)
         binding.progressbar2.setVisibility(View.VISIBLE)
         videoView = binding.videoView
         getLifecycle().addObserver(videoView)
+
+        if(savedInstanceState != null){
+            playbackState = savedInstanceState.getInt("playbackState",0)
+        }
+
+        videoView  = binding.videoView
+
+
 
         val id = arguments?.getInt("movieId")
         val title = arguments?.getString("title")
@@ -102,5 +125,10 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
             binding.recyclerviewSimilar.adapter = similarMoviesAdapter
             binding.progressbar2.setVisibility(View.GONE)
         }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("Playback",playbackState)
+    }
     }
 

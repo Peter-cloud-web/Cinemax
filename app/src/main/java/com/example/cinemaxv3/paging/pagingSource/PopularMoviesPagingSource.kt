@@ -17,8 +17,7 @@ class PopularMoviesPagingSource @Inject constructor(private val service: MovieAp
             val currentPage = params.key ?: 1
             val  response = service.getPopularMovies(MovieApi.api_key,currentPage)
             val responseData = mutableListOf<Movie>()
-            val data = response.movies.isEmpty()
-            responseData + data
+            responseData.addAll(response.results)
 
             LoadResult.Page(
                 data = responseData,

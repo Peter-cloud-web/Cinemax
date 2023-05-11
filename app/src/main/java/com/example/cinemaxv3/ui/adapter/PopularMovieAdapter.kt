@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
-import com.example.cinemaxv3.databinding.ItemTvShowsBinding
 import com.example.cinemaxv3.models.Movie
 
 class PopularMovieAdapter : PagingDataAdapter<Movie, PopularMovieAdapter.PopularViewHolder>(PopularMovieModelComparator) {
@@ -36,9 +35,6 @@ class PopularMovieAdapter : PagingDataAdapter<Movie, PopularMovieAdapter.Popular
                     this?.let {
                         onMovieClickListener?.let { it1 ->
                             it1(it)
-                            Glide.with(holder.itemView)
-                                .load(IMAGE_BASE + (this?.backdrop_path ?: null))
-                                .into(holder.binding.imageMovies)
                         }
                     }
                 }

@@ -1,11 +1,14 @@
 package com.example.cinemaxv3.ui.fragments
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -37,6 +40,18 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
         val binding = FragmentTvShowsBinding.bind(view)
         setHasOptionsMenu(true)
 
+        val actionbar =  (activity as AppCompatActivity).supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setBackgroundDrawable(context?.let {
+                ContextCompat.getColor(
+                    it,
+                    R.color.black
+                )
+            }?.let { ColorDrawable(it) })
+            title = "TV Shows"
+        }
+
         movieViewModel = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
         topRatedTvShowsAdapter = TopRatedTvShowsAdapter()
         popularTvShowsAdapter = PopularTvShowsAdapter()
@@ -46,12 +61,12 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
         recyclerView = binding.topRatedTvShowsMoviesRecyclerview
         recyclerView.layoutManager = GridLayoutManager(activity, 3)
 
-        currentAdapter = topRatedMoviesAdapter
+        currentAdapter = topRatedTvShowsAdapter
         recyclerView.adapter = currentAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            movieViewModel.getTopRatedMovies().collectLatest {
-                topRatedMoviesAdapter.submitData(it)
+            movieViewModel.getTopRatedTvShows().collectLatest{
+                topRatedTvShowsAdapter.submitData(it)
             }
         }
 
@@ -66,11 +81,11 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
         when (item.itemId) {
             R.id.topRatedTvShows -> {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    movieViewModel.getTopRatedMovies().collectLatest {
-                            topRatedMoviesAdapter.submitData(it)
+                    movieViewModel.getTopRatedTvShows().collectLatest {
+                            topRatedTvShowsAdapter.submitData(it)
                     }
                 }
-                currentAdapter = topRatedMoviesAdapter
+                currentAdapter = topRatedTvShowsAdapter
                 recyclerView.adapter = currentAdapter
                 return true
             }
@@ -93,6 +108,11 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                 }
                 currentAdapter = latestTvShowsAdapter
                 recyclerView.adapter = currentAdapter
+                return true
+            }
+            android.R.id.home -> {
+                // Handle up button click
+                requireActivity().onBackPressed()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

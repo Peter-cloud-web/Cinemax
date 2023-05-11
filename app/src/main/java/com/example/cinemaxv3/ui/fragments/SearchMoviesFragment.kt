@@ -1,22 +1,19 @@
 package com.example.cinemaxv3.ui.fragments
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentSearchMoviesBinding
 import com.example.cinemaxv3.ui.adapter.SearchMoviesAdapter
-import com.example.cinemaxv3.ui.adapter.SimilarMoviesAdapter
 import com.example.cinemaxv3.ui.viewmodels.MovieViewModel
 import com.example.cinemaxv3.util.Constants
 import kotlinx.coroutines.Job
@@ -35,6 +32,18 @@ class SearchMoviesFragment : Fragment(R.layout.fragment_search_movies) {
         searchMoviesAdapter = SearchMoviesAdapter()
         movieViewModel = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
 
+        val actionbar =  (activity as AppCompatActivity).supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setBackgroundDrawable(context?.let {
+                ContextCompat.getColor(
+                    it,
+                    R.color.black
+                )
+            }?.let { ColorDrawable(it) })
+            title = "Search"
+        }
+
         var job: Job? = null
         binding.searchView.addTextChangedListener {
             job?.cancel()
@@ -48,7 +57,7 @@ class SearchMoviesFragment : Fragment(R.layout.fragment_search_movies) {
             }
         }
             movieViewModel.searchMoviesResponse.observe(viewLifecycleOwner, Observer { response ->
-                searchMoviesAdapter.searchMovies.submitList(response.movies)
+                searchMoviesAdapter.searchMovies.submitList(response.results)
             })
 
         binding.searchRecyclerView.apply {

@@ -6,11 +6,13 @@ import androidx.paging.*
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.models.UpComingMovies
+import com.example.cinemaxv3.models.favourites.FavouriteMovies
 import com.example.cinemaxv3.models.responses.moviesResponse.MovieResponse
-import com.example.cinemaxv3.models.responses.similarMoviesResponse.SimilarMoviesResponse
 import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
 import com.example.cinemaxv3.paging.pager.*
+import com.example.cinemaxv3.repository.Repository
 import com.example.cinemaxv3.service.MovieApi
+import dagger.hilt.android.internal.Contexts
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieViewModel @Inject constructor(
     val api: MovieApi,
+    val repository: Repository,
     val popularMoviesPager: PopularMoviesPager,
     val topRatedMoviesPager: TopRatedMoviesPager,
     val upComingMoviesPager: UpComingMoviesPager,
@@ -28,15 +31,16 @@ class MovieViewModel @Inject constructor(
     val popularTvShowsPager: PopularTvShowsPager,
     val latestTvShowsPager: LatestTvShowsPager,
 ) : ViewModel() {
+
     @OptIn(ExperimentalPagingApi::class)
     fun getPopularMovies(): Flow<PagingData<Movie>> =
         popularMoviesPager.pager.cachedIn(viewModelScope)
 
-    @JvmName("getTopRatedMovies1")
+    @JvmName("getTopRatedMovies")
     fun getTopRatedMovies(): Flow<PagingData<TopRatedMovies>> =
         topRatedMoviesPager.pager.cachedIn(viewModelScope)
 
-    @JvmName("getUpComingMovies1")
+    @JvmName("getUpComingMovies")
     fun getUpComingMovies(): Flow<PagingData<UpComingMovies>> =
         upComingMoviesPager.pager.cachedIn(viewModelScope)
 
@@ -73,8 +77,8 @@ class MovieViewModel @Inject constructor(
         emit(similarMovies)
     }
 
-    fun getPopularlyRatedMovies() = liveData(Dispatchers.IO){
-        val topratedMovie = api.getPopularMovies(MovieApi.api_key,1)
+    fun getPopularlyRatedMovies() = liveData(Dispatchers.IO) {
+        val topratedMovie = api.getPopularMovies(MovieApi.api_key, 1)
         emit(topratedMovie)
     }
 
@@ -82,15 +86,22 @@ class MovieViewModel @Inject constructor(
     val searchMoviesResponse: LiveData<MovieResponse>
         get() = _searchMoviesResponse
 
-    fun searchMovies(query:String) {
+    fun searchMovies(query: String) {
         viewModelScope.launch {
-            val response= api.searchMovies(query =query,page=1)
-            if (response.movies != null) {
+            val response = api.searchMovies(query = query, page = 1)
+            if (response.results != null) {
                 _searchMoviesResponse.value = response
             } else {
                 Log.e("MovieViewModel", "Error: ${response}")
             }
         }
     }
+
+    fun saveFavouriteMovie(movie: FavouriteMovies) = viewModelScope.launch {
+        repository.insertFavouriteMovies(movie)
     }
+
+    fun fetchFavouriteMovie() = repository.getFavouriteMovies()
+
+}
 

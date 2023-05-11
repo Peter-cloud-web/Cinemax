@@ -2,7 +2,6 @@ package com.example.cinemaxv3.db.dao.movieDaos
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.util.ListConverter
 

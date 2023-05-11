@@ -1,26 +1,27 @@
 package com.example.cinemaxv3.paging.mediators
 
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.cinemaxv3.db.MovieDatabase
-import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.MovieRemoteKeys
+import com.example.cinemaxv3.models.TopRatedTvShowsRemoteKeys
+import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
 import com.example.cinemaxv3.service.MovieApi
 import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class PopularMoviesRemoteMediator @Inject constructor(
-    private val api: MovieApi,
-    private val db: MovieDatabase
-) : RemoteMediator<Int, Movie>() {
+class TopRatedTvShowsMediator(private val api: MovieApi, private val db: MovieDatabase) :
+    RemoteMediator<Int, TvShowsResults>() {
 
     override suspend fun initialize(): InitializeAction {
-        val cachedTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
-        return if (System.currentTimeMillis() - (db.getRemoteKeysDao().getCreationTime()
-                ?: 0) < cachedTimeout
+        val cacheTimeOut = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
+        return if (System.currentTimeMillis() - (db.getTopRatedTvShowsRemoteKeysDao()
+                .getTopRatedTvShowsRemoteKeysCreaionTime() ?: 0) < cacheTimeOut
         ) {
             InitializeAction.SKIP_INITIAL_REFRESH
         } else {
@@ -28,8 +29,10 @@ class PopularMoviesRemoteMediator @Inject constructor(
         }
     }
 
-
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<Int, TvShowsResults>
+    ): MediatorResult {
         val page: Int = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
@@ -50,29 +53,32 @@ class PopularMoviesRemoteMediator @Inject constructor(
                     ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
             }
         }
+
         try {
-            val apiResponse = api.getPopularMovies(page = page)
-            val movies = apiResponse.results
-            val endOfPaginationReached = movies.isEmpty()
+            val apiResponse = api.getTopRatedTvShows(page = page)
+            val topRatedTvShows = apiResponse.results
+            val endOfPaginationReached = topRatedTvShows.isEmpty()
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    db.getRemoteKeysDao().clearRemoteKeys()
-                    db.getMovieDao().clearAllMovies()
+                    db.getTopRatedTvShowsDao().clearAllMovies()
+                    db.getTopRatedTvShowsRemoteKeysDao().clearTopRatedTvShowsRemoteKeys()
                 }
                 val prevKey = if (page > 1) page - 1 else null
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val remoteKeys = movies.map {
-                    MovieRemoteKeys(
+                val remoteKeys = topRatedTvShows.map {
+                    TopRatedTvShowsRemoteKeys(
                         movieID = it.id,
                         prevKey = prevKey,
                         currentPage = page,
                         nextKey = nextKey
                     )
                 }
-                db.getRemoteKeysDao().insertAllKeys(remoteKeys as List<MovieRemoteKeys>)
-                db.getMovieDao()
-                    .insertPopularMovies(movies.onEachIndexed { _, movie -> movie.page = page })
+                db.getTopRatedTvShowsRemoteKeysDao().insertTopRatedTvShowsRemoteKeys(remoteKeys)
+                db.getTopRatedTvShowsDao()
+                    .insertsTopRatedTvShows(topRatedTvShows.onEachIndexed { _, movie->
+                        movie.page = page
+                    })
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (error: IOException) {
@@ -82,27 +88,27 @@ class PopularMoviesRemoteMediator @Inject constructor(
         }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Movie>): MovieRemoteKeys? {
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, TvShowsResults>): TopRatedTvShowsRemoteKeys? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
-                db.getRemoteKeysDao().getRemoteKeyByMovieID(id)
+                db.getTopRatedTvShowsRemoteKeysDao().getTopRatedTvShowsRemoteKeysById(id)
             }
         }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Movie>): MovieRemoteKeys? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, TvShowsResults>): TopRatedTvShowsRemoteKeys? {
         return state.pages.firstOrNull {
             it.data.isNotEmpty()
-        }?.data?.firstOrNull()?.let { movie ->
-            db.getRemoteKeysDao().getRemoteKeyByMovieID(movie.id)
+        }?.data?.firstOrNull()?.let { tvShows ->
+            db.getTopRatedTvShowsRemoteKeysDao().getTopRatedTvShowsRemoteKeysById(tvShows.id)
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Movie>): MovieRemoteKeys? {
-        return state.pages.lastOrNull() {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, TvShowsResults>): TopRatedTvShowsRemoteKeys? {
+        return state.pages.lastOrNull {
             it.data.isNotEmpty()
-        }?.data?.lastOrNull()?.let { movie ->
-            db.getRemoteKeysDao().getRemoteKeyByMovieID(movie.id)
+        }?.data?.lastOrNull()?.let { tvShows ->
+            db.getTopRatedTvShowsRemoteKeysDao().getTopRatedTvShowsRemoteKeysById(tvShows.id)
         }
     }
 }
