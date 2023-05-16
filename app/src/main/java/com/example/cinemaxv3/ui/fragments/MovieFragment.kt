@@ -74,7 +74,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     }
 
     private fun checkNetworkConnectivity(binding: FragmentMovieBinding){
-        
+
         lifecycleScope.launch {
             networkConnectivityObserver.observer().collect { status ->
                 when (status) {
@@ -163,21 +163,21 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     }
 
     private fun displayPopularMovie(binding: FragmentMovieBinding) {
-                lifecycleScope.launch {
-                    movieViewModel.getPopularlyRatedMovies().observe(viewLifecycleOwner) {
-                        for (i in 0 until it.results.size) {
-                            if (it.results[i].vote_average!! >= 8) {
-                                binding.apply {
-                                    Glide.with(binding.popMov).load(IMAGE_BASE_URL + it.results[i].poster_path)
-                                        .into(popMov)
-                                    vote.text = it.results[i].vote_average.toString()
-                                }
-                                popularMovieOnclick(it.results[i].id, it.results[i].title, binding)
-                            }
+        lifecycleScope.launch {
+            movieViewModel.getPopularlyRatedMovies().observe(viewLifecycleOwner) {
+                for (i in 0 until it.results.size) {
+                    if (it.results[i].vote_average!! >= 8) {
+                        binding.apply {
+                            Glide.with(binding.popMov).load(IMAGE_BASE_URL + it.results[i].poster_path)
+                                .into(popMov)
+                            vote.text = it.results[i].vote_average.toString()
                         }
+                        popularMovieOnclick(it.results[i].id, it.results[i].title, binding)
                     }
                 }
             }
+        }
+    }
     private fun popularMovieOnclick(id: Int, name: String?, binding: FragmentMovieBinding) {
         binding.btnTrailer.setOnClickListener {
             val bundle = Bundle()

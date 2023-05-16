@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavArgsLazy
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -159,7 +160,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
         binding.shareMovie.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
-              type = "text/plain"
+                type = "text/plain"
                 putExtra(Intent.EXTRA_SUBJECT,getString(R.string.app_name))
                 val shareMessage = "Have you seen : " +
                         "${title}?\n" +
@@ -171,6 +172,4 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         }
     }
 }
-
-
 

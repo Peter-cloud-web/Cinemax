@@ -52,7 +52,7 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
         binding.progressbar1.setVisibility(View.VISIBLE)
         binding.progressbar2.setVisibility(View.VISIBLE)
         videoView = binding.videoView
-        getLifecycle().addObserver(videoView)
+//        getLifecycle().addObserver(videoView)
 
         if(savedInstanceState != null){
             playbackState = savedInstanceState.getInt("playbackState",0)
