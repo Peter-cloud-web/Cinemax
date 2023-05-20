@@ -28,14 +28,26 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_trailersFragment"
             app:destination="@id/trailersFragment" />
-        <argument android:name="movie"
-            app:argType="com.example.cinemaxv3.models.Movie" />
+
         <argument
-            android:name="topRatedMovies"
-            app:argType="com.example.cinemaxv3.models.TopRatedMovies" />
+            android:name="image"
+            app:argType="string" />
         <argument
-            android:name="upcomingMovies"
-            app:argType="com.example.cinemaxv3.models.UpComingMovies" />
+            android:name="backdrop"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="rating"
+            app:argType="float" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        />
     </fragment>
     <fragment
         android:id="@+id/favouriteMovieFragment"

@@ -65,14 +65,22 @@ class SearchMoviesFragment : Fragment(R.layout.fragment_search_movies) {
             adapter = searchMoviesAdapter
         }
         searchMoviesAdapter.setOnItemClickListener {
-            val bundle =    Bundle()
-            bundle.putString("image", "https://image.tmdb.org/t/p/w500" + it.poster_path)
-            bundle.putString("backdrop", "https://image.tmdb.org/t/p/w500" + it.backdrop_path)
-            bundle.putString("title", it.title)
-            bundle.putString("description", it.overview)
-            bundle.putDouble("rating", it.vote_average)
-            bundle.putInt("id", it.id)
-            findNavController().navigate(R.id.action_searchMoviesFragment_to_movieDetailsFragment,bundle)
+            val id = it.id
+            val image = Constants.IMAGE_BASE_URL + it.poster_path
+            val backdrop = Constants.IMAGE_BASE_URL + it.backdrop_path
+            val title = it.title.toString()
+            val description = it.overview.toString()
+            val rating = it.vote_average.toFloat()
+
+            val action = SearchMoviesFragmentDirections.actionSearchMoviesFragmentToMovieDetailsFragment(
+                image,
+                backdrop,
+                title,
+                description,
+                rating,
+                id
+            )
+            findNavController().navigate(action)
         }
     }
 }

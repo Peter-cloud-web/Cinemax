@@ -27,7 +27,7 @@ import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
         TopRatedRemoteKeys::class,
         UpComingRemoteKeys::class,
          TopRatedTvShowsRemoteKeys::class],
-    version = 12
+    version = 13
 )
 abstract class MovieDatabase : RoomDatabase() {
 

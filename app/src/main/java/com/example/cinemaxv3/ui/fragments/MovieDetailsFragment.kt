@@ -3,34 +3,33 @@ package com.example.cinemaxv3.ui.fragments
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgsLazy
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentMovieDetailsBinding
+import com.example.cinemaxv3.di.AppModule
 import com.example.cinemaxv3.models.favourites.FavouriteMovies
-import com.example.cinemaxv3.ui.adapter.PopularMovieAdapter
 import com.example.cinemaxv3.ui.viewmodels.MovieViewModel
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.internal.Contexts.getApplication
 
 
 class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
     private lateinit var movieViewModel: MovieViewModel
+    private val args:MovieDetailsFragmentArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentMovieDetailsBinding.bind(view)
 
         movieViewModel = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
+
+
 
         val actionbar =  (activity as AppCompatActivity).supportActionBar
         actionbar?.apply {
@@ -44,18 +43,16 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
             title = "MovieDetailsFragment"
         }
 
-
-
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         binding.progress.setVisibility(View.GONE)
 
 
-        val image = arguments?.getString("image")
-        val backdrop = arguments?.getString("backdrop")
-        val title = arguments?.getString("title")
-        val description = arguments?.getString("description")
-        val rating = arguments?.getDouble("rating")
-        val movieId = arguments?.getInt("id")
+        val image = args.image
+        val backdrop = args.backdrop
+        val title = args.title
+        val description = args.description
+        val rating = args.rating
+        val movieId = args.id
 
         if (backdrop != null) {
             if (image != null) {
@@ -126,13 +123,14 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         }
     }
 
-    fun saveBookMarks(binding: FragmentMovieDetailsBinding,
-                      image: String,
-                      backdrop: String,
-                      title: String,
-                      description: String,
-                      rating: Double,
-                      id:Int) {
+    fun saveBookMarks(
+        binding: FragmentMovieDetailsBinding,
+        image: String,
+        backdrop: String,
+        title: String,
+        description: String,
+        rating: Float,
+        id:Int) {
         binding.apply {
             watchlist.setOnClickListener {
                 val title = title
@@ -146,7 +144,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
                     title = title,
                     overview = description,
                     vote_average = rating,
-                    poster_path= image,
+                    poster_path = image,
                     backdrop_path = backdrop,
                     id = id
                 )

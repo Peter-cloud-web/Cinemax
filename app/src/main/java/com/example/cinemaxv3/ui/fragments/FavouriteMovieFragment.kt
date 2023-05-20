@@ -37,7 +37,6 @@ class FavouriteMovieFragment : Fragment(R.layout.fragment_favourite_movie) {
           binding.favRecyclerView.layoutManager = LinearLayoutManager(activity)
           binding.favRecyclerView.adapter = favouriteMoviesAdapter
 
-
      }
 
      }
