@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -70,6 +71,17 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
             }
         }
 
+        topRatedTvShowsAdapter.setOnClickListener {
+            val movieId = it.id
+            val backdrop = it.backdrop_path
+            val description = it.overview
+            val title = it.name
+            val image = it.poster_path
+            val rating = it.vote_average
+            val action = TvShowsFragmentDirections.actionTvShowsFragmentToMovieDetailsFragment(image,backdrop,title,description,rating.toFloat(),movieId)
+            findNavController().navigate(action)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -87,6 +99,7 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                 }
                 currentAdapter = topRatedTvShowsAdapter
                 recyclerView.adapter = currentAdapter
+
                 return true
             }
             R.id.popularTvShows -> {

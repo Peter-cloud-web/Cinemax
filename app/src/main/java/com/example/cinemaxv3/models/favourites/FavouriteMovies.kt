@@ -19,7 +19,7 @@ data class FavouriteMovies(
 
 
     @PrimaryKey(autoGenerate = true)
-@SerializedName("id") val id: Int,
+    @SerializedName("id") val id: Int,
 
     @SerializedName("title") val title: String?,
     @SerializedName("vote_average") val vote_average: Float,

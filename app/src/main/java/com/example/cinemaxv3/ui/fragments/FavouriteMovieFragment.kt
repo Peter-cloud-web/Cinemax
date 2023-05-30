@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentFavouriteMovieBinding
@@ -19,24 +20,56 @@ import kotlinx.coroutines.launch
 
 class FavouriteMovieFragment : Fragment(R.layout.fragment_favourite_movie) {
 
-     private lateinit var movieViewModel: MovieViewModel
-     private lateinit var favouriteMoviesAdapter: FavouriteMoviesAdapter
-     override fun onViewCreated(view:View,savedInstanceState:Bundle?){
-          super.onViewCreated(view, savedInstanceState)
+    private lateinit var movieViewModel: MovieViewModel
+    private lateinit var favouriteMoviesAdapter: FavouriteMoviesAdapter
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-          val binding  = FragmentFavouriteMovieBinding.bind(view)
+        val binding = FragmentFavouriteMovieBinding.bind(view)
 
-          favouriteMoviesAdapter = FavouriteMoviesAdapter()
-          movieViewModel = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
+        favouriteMoviesAdapter = FavouriteMoviesAdapter()
+        movieViewModel = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
 
-          viewLifecycleOwner.lifecycleScope.launch(){
-               movieViewModel.fetchFavouriteMovie().collect{
-               favouriteMoviesAdapter.favouriteMovies.submitList(it)
-               }
-          }
-          binding.favRecyclerView.layoutManager = LinearLayoutManager(activity)
-          binding.favRecyclerView.adapter = favouriteMoviesAdapter
+        populateRecyclerView(binding)
+        handleClickListener()
 
-     }
 
-     }
+    }
+
+    private fun handleClickListener() {
+
+        favouriteMoviesAdapter.setOnItemClickListener {
+            val movieId = it.id
+            val backdrop = it.backdrop_path
+            val description = it.overview
+            val title = it.title
+            val image = it.poster_path
+            val rating = it.vote_average
+            val action =
+                FavouriteMovieFragmentDirections.actionFavouriteMovieFragmentToMovieDetailsFragment(
+                    image!!,
+                    backdrop!!,
+                    title!!,
+                    description!!,
+                    rating!!,
+                    movieId!!
+                )
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun populateRecyclerView(binding: FragmentFavouriteMovieBinding) {
+        viewLifecycleOwner.lifecycleScope.launch() {
+            movieViewModel.fetchFavouriteMovie().collect {
+                favouriteMoviesAdapter.favouriteMovies.submitList(it)
+            }
+        }
+        binding.apply {
+            favRecyclerView.apply {
+                layoutManager = LinearLayoutManager(activity)
+                adapter = favouriteMoviesAdapter
+            }
+        }
+    }
+
+}

@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.cinemaxv3.R
@@ -27,14 +28,17 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
     private lateinit var videoView: YouTubePlayerView
     private lateinit var castsAdapter: MovieCastsAdapter
     private lateinit var similarMoviesAdapter:SimilarMoviesAdapter
+    private val args : TrailersFragmentArgs by navArgs()
     private var playbackState = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentTrailersBinding.bind(view)
 
         movieViewModel = ViewModelProvider(requireActivity()).get(MovieViewModel::class.java)
         castsAdapter = MovieCastsAdapter()
         similarMoviesAdapter = SimilarMoviesAdapter()
+        videoView = binding.videoView
 
         val actionbar =  requireActivity().actionBar
         actionbar?.apply {
@@ -48,58 +52,52 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
             title = "Trailers"
         }
 
-        val binding = FragmentTrailersBinding.bind(view)
-        binding.progressbar1.setVisibility(View.VISIBLE)
-        binding.progressbar2.setVisibility(View.VISIBLE)
-        videoView = binding.videoView
-//        getLifecycle().addObserver(videoView)
 
-        if(savedInstanceState != null){
-            playbackState = savedInstanceState.getInt("playbackState",0)
+
+        binding.apply {
+            progressbar1.setVisibility(View.VISIBLE)
+            progressbar2.setVisibility(View.VISIBLE)
         }
 
-        videoView  = binding.videoView
-
-
-
-        val id = arguments?.getInt("movieId")
-        val title = arguments?.getString("title")
-        Log.d("Trailer", "${title}")
-        binding.movieName.text = title
-
-
-        if (id != null) {
-            loadMovieCasts(id)
-            loadSimilarMovies(id)
-        }
+        collectArgumentsAndPerformOperations(binding)
         movieCastsRecyclerView(binding)
         similarMoviesRecyclerView(binding)
+        }
 
-        if (id != null) {
-            movieViewModel.getMovieTrailer(id).observe(viewLifecycleOwner, {
-                videoView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+    private fun collectArgumentsAndPerformOperations(binding: FragmentTrailersBinding){
+        val id = args.movieId
+        val title = args.title
+        binding.movieName.text = title
 
-                    override fun onReady(youTubePlayer: YouTubePlayer) {
+        loadMovieCasts(id)
+        loadSimilarMovies(id)
+        playTrailers(id)
+    }
 
-                        super.onReady(youTubePlayer)
+    private fun playTrailers(id:Int){
+        movieViewModel.getMovieTrailer(id).observe(viewLifecycleOwner, {
+            videoView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
 
-                        for (i in 0..it.results.size - 1) {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
 
-                            if (it.results[i].name == "Trailer") {
+                    super.onReady(youTubePlayer)
 
-                                youTubePlayer.loadVideo(videoId = it.results[i].key.toString(), 0f)
+                    for (i in 0..it.results.size - 1) {
 
-                            } else if (it.results[i].name == "Behind the Scenes") {
+                        if (it.results[i].name == "Trailer") {
 
-                                youTubePlayer.loadVideo(videoId = it.results[i].key.toString(), 0f)
-                            }
+                            youTubePlayer.loadVideo(videoId = it.results[i].key.toString(), 0f)
+
+                        } else if (it.results[i].name == "Behind the Scenes") {
+
                             youTubePlayer.loadVideo(videoId = it.results[i].key.toString(), 0f)
                         }
+                        youTubePlayer.loadVideo(videoId = it.results[i].key.toString(), 0f)
                     }
-                })
+                }
             })
-        }
-        }
+        })
+    }
 
     fun loadMovieCasts(id:Int){
             movieViewModel.getCastMembers(id).observe(viewLifecycleOwner){
@@ -125,10 +123,5 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
             binding.recyclerviewSimilar.adapter = similarMoviesAdapter
             binding.progressbar2.setVisibility(View.GONE)
         }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt("Playback",playbackState)
-    }
     }
 

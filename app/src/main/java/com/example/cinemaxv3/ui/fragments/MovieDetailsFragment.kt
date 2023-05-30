@@ -46,57 +46,44 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         binding.progress.setVisibility(View.GONE)
 
+        collectArgumentsAndPerformOperation(binding,view)
 
-        val image = args.image
-        val backdrop = args.backdrop
-        val title = args.title
-        val description = args.description
-        val rating = args.rating
-        val movieId = args.id
+    }
 
-        if (backdrop != null) {
-            if (image != null) {
-                if (title != null) {
-                    if (description != null) {
-                        if (rating != null) {
-                            if (movieId != null) {
-                                saveBookMarks(binding,image,backdrop,title,description,rating,movieId)
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    private fun collectArgumentsAndPerformOperation(binding: FragmentMovieDetailsBinding,view: View){
+        binding.apply{
+            args.apply{
+                val image = image
+                val backdrop = backdrop
+                val title = title
+                val description = description
+                val rating = args.rating
+                val movieId = id
 
+                movieImage.load(image)
+                movieTitle.text = title
+                movieDescription.text = description
+                backdropImage.load(backdrop)
 
-        binding.movieImage.load(image)
-        binding.movieTitle.text = title
-        binding.movieDescription.text = description
-        binding.backdropImage.load(backdrop)
+                saveBookMarks(binding,image,backdrop,title,description,rating,movieId)
 
-        if (movieId != null) {
-            reviewClickListener(binding, movieId)
-            if (title != null) {
+                reviewClickListener(binding, movieId)
+
                 trailerClickListener(binding, movieId, title, view)
+
                 shareClickListener(binding,movieId,title)
             }
         }
-
-
-
     }
 
     fun reviewClickListener(binding: FragmentMovieDetailsBinding, movieId: Int) {
         binding.apply {
-            playButton.setOnClickListener {
+            binding.playButton.setOnClickListener {
                 progress.setVisibility(View.VISIBLE)
-                val bundle = Bundle().apply {
-                    putInt("movieId", movieId)
-                }
-                findNavController().navigate(
-                    R.id.action_movieDetailsFragment_to_reviewsFragment,
-                    bundle
-                )
+
+                val id = movieId
+                val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewsFragment(id)
+                findNavController().navigate(action)
             }
         }
     }
@@ -110,16 +97,13 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
         binding.apply {
             btnTrailer.setOnClickListener {
                 progress.setVisibility(View.VISIBLE)
-                val bundle = Bundle().apply {
-                    putInt("movieId", movieId)
-                    putString("title", title)
-                }
-                findNavController().navigate(
-                    R.id.action_movieDetailsFragment_to_trailersFragment,
-                    bundle
-                )
-            }
 
+                val movieId = movieId
+                val title = title
+
+                val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToTrailersFragment(movieId,title)
+                findNavController().navigate(action)
+            }
         }
     }
 

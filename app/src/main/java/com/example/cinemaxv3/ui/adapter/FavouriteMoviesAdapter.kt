@@ -12,6 +12,9 @@ import com.example.cinemaxv3.models.favourites.FavouriteMovies
 
 class FavouriteMoviesAdapter : RecyclerView.Adapter<FavouriteMoviesAdapter.FavouriteMoviesViewHolder>() {
 
+
+    private var onFavouriteMovieOnClickListener:((FavouriteMovies) -> Unit)? = null
+
     inner class FavouriteMoviesViewHolder(val binding:ItemSearchBinding) : RecyclerView.ViewHolder(binding.root)
 
     val favouriteMovies = AsyncListDiffer(this, FavouriteMoviesComparator)
@@ -39,9 +42,21 @@ class FavouriteMoviesAdapter : RecyclerView.Adapter<FavouriteMoviesAdapter.Favou
                 binding.movieTitile.text = this.title.toString()
                 binding.aboutMovie.text = this.overview.toString()
 
+                itemView.setOnClickListener{
+                    this?.let {
+                        onFavouriteMovieOnClickListener?.let{ it1 ->
+                            it1(it)
+                        }
+                    }
+                }
+
             }
         }
 
+    }
+
+    fun setOnItemClickListener(listener:(FavouriteMovies) -> Unit){
+        onFavouriteMovieOnClickListener = listener
     }
 
     override fun getItemCount(): Int {

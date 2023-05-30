@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_favouriteMovieFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/searchMoviesFragment"
@@ -66,12 +69,34 @@
         <action
             android:id="@+id/action_searchMoviesFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <argument
+            android:name="image"
+            app:argType="string" />
+        <argument
+            android:name="backdrop"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="rating"
+            app:argType="float" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/reviewsFragment"
         android:name="com.example.cinemaxv3.ui.fragments.ReviewsFragment"
         android:label="fragment_reviews"
-        tools:layout="@layout/fragment_reviews" />
+        tools:layout="@layout/fragment_reviews" >
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/tvShowsFragment"
         android:name="com.example.cinemaxv3.ui.fragments.TvShowsFragment"
@@ -86,5 +111,11 @@
         android:id="@+id/trailersFragment"
         android:name="com.example.cinemaxv3.ui.fragments.TrailersFragment"
         android:label="fragment_trailers"
-        tools:layout="@layout/fragment_trailers" />
+        tools:layout="@layout/fragment_trailers" >
+        <argument android:name="movieId"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 </navigation>
