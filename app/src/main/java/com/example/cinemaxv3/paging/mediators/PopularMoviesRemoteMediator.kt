@@ -2,6 +2,7 @@ package com.example.cinemaxv3.paging.mediators
 
 import androidx.paging.*
 import androidx.room.withTransaction
+import com.example.cinemaxv3.data.remote.mappers.Mappers.toMovie
 import com.example.cinemaxv3.db.MovieDatabase
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.MovieRemoteKeys
@@ -52,7 +53,9 @@ class PopularMoviesRemoteMediator @Inject constructor(
         }
         try {
             val apiResponse = api.getPopularMovies(page = page)
-            val movies = apiResponse.results
+            val movies = apiResponse.results.map {
+                it.toMovie()
+            }
             val endOfPaginationReached = movies.isEmpty()
 
             db.withTransaction {
@@ -71,8 +74,7 @@ class PopularMoviesRemoteMediator @Inject constructor(
                     )
                 }
                 db.getRemoteKeysDao().insertAllKeys(remoteKeys as List<MovieRemoteKeys>)
-                db.getMovieDao()
-                    .insertPopularMovies(movies.onEachIndexed { _, movie -> movie.page = page })
+                db.getMovieDao().insertPopularMovies(movies.onEachIndexed { _, movie -> movie.page = page })
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (error: IOException) {

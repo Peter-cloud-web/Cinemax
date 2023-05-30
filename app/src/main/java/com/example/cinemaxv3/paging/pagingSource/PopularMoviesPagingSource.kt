@@ -2,6 +2,7 @@ package com.example.cinemaxv3.paging.pagingSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.cinemaxv3.data.remote.mappers.Mappers.toMovie
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.service.MovieApi
 import retrofit2.HttpException
@@ -16,13 +17,16 @@ class PopularMoviesPagingSource @Inject constructor(private val service: MovieAp
         return try {
             val currentPage = params.key ?: 1
             val  response = service.getPopularMovies(MovieApi.api_key,currentPage)
-            val responseData = mutableListOf<Movie>()
-            responseData.addAll(response.results)
+                .results.map {
+                    it.toMovie()
+                }
+
+
 
             LoadResult.Page(
-                data = responseData,
+                data = response,
                 prevKey = if(currentPage == 1)null else -1,
-                nextKey = if(currentPage == response.pages)null else currentPage + 1
+                nextKey = currentPage.plus(1)
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

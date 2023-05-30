@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cinemaxv3.R
+import com.example.cinemaxv3.data.remote.mappers.Mappers.toMovie
 import com.example.cinemaxv3.databinding.FragmentSearchMoviesBinding
 import com.example.cinemaxv3.ui.adapter.SearchMoviesAdapter
 import com.example.cinemaxv3.ui.viewmodels.MovieViewModel
@@ -57,7 +58,10 @@ class SearchMoviesFragment : Fragment(R.layout.fragment_search_movies) {
             }
         }
             movieViewModel.searchMoviesResponse.observe(viewLifecycleOwner, Observer { response ->
-                searchMoviesAdapter.searchMovies.submitList(response.results)
+
+                searchMoviesAdapter.searchMovies.submitList(response.results.map {
+                    it.toMovie()
+                })
             })
 
         binding.searchRecyclerView.apply {

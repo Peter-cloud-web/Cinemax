@@ -5,13 +5,14 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.example.cinemaxv3.data.remote.mappers.Mappers.toTopRatedMovie
 import com.example.cinemaxv3.db.MovieDatabase
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.MovieRemoteKeys
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.models.TopRatedRemoteKeys
 import com.example.cinemaxv3.models.TopRatedTvShowsRemoteKeys
-import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
+import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
 import com.example.cinemaxv3.service.MovieApi
 import retrofit2.HttpException
 import java.io.IOException
@@ -62,7 +63,9 @@ class TopRatedMoviesMediator(
 
         try {
             val apiResponse = api.getTopRatedMovies(page = page)
-            val topRatedMovies = apiResponse.movies
+            val topRatedMovies = apiResponse.movies.map {
+                it.toTopRatedMovie()
+            }
             val endOfPaginationReached = topRatedMovies.isEmpty()
 
             db.withTransaction {

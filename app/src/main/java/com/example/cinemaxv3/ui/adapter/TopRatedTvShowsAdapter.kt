@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemTvShowsBinding
 import com.example.cinemaxv3.models.TopRatedMovies
-import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
+import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
 
 class TopRatedTvShowsAdapter :
     PagingDataAdapter<TvShowsResults, TopRatedTvShowsAdapter.TopRatedTvShowsViewHolder>(

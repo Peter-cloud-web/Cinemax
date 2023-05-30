@@ -2,6 +2,7 @@ package com.example.cinemaxv3.paging.pagingSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.cinemaxv3.data.remote.mappers.Mappers.toTopRatedMovie
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.service.MovieApi
@@ -17,11 +18,11 @@ class TopRatedMoviesPagingSource @Inject constructor(private val  service: Movie
         return try {
             val currentPage = params.key?:1
             val response = service.getTopRatedMovies(MovieApi.api_key,currentPage)
-            val responseData = mutableListOf<TopRatedMovies>()
-            responseData.addAll(response.movies)
+                .movies.map {
+                    it.toTopRatedMovie()
+                }
 
-
-            LoadResult.Page(data = responseData,
+            LoadResult.Page(data = response,
             prevKey = if(currentPage == 1)null else - 1,
             nextKey = currentPage.plus(1))
 

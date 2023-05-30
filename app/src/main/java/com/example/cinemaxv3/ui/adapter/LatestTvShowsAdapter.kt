@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemTvShowsBinding
-import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
+import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
 import com.example.cinemaxv3.ui.adapter.PopularTvShowsAdapter
 
 class LatestTvShowsAdapter: PagingDataAdapter<TvShowsResults, LatestTvShowsAdapter.LatestTvShowsViewHolder>(

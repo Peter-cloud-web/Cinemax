@@ -8,7 +8,7 @@ import androidx.room.withTransaction
 import com.example.cinemaxv3.db.MovieDatabase
 import com.example.cinemaxv3.models.MovieRemoteKeys
 import com.example.cinemaxv3.models.TopRatedTvShowsRemoteKeys
-import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
+import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
 import com.example.cinemaxv3.service.MovieApi
 import retrofit2.HttpException
 import java.io.IOException

@@ -2,13 +2,13 @@ package com.example.cinemaxv3.service
 
 import com.example.cinemaxv3.BuildConfig
 import com.example.cinemaxv3.models.responses.*
-import com.example.cinemaxv3.models.responses.movieCasts.MovieCastsResponse
-import com.example.cinemaxv3.models.responses.moviesResponse.MovieResponse
-import com.example.cinemaxv3.models.responses.moviesResponse.TopRatedMovieResponse
-import com.example.cinemaxv3.models.responses.moviesResponse.UpComingMovieResponse
-import com.example.cinemaxv3.models.responses.similarMoviesResponse.SimilarMoviesResponse
-import com.example.cinemaxv3.models.responses.trailersResponse.MovieTrailerResponse
-import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResponses
+import com.example.cinemaxv3.domain.model.movieCasts.MovieCastsResponse
+import com.example.cinemaxv3.data.remote.dto.movieDto.MovieResponseDto
+import com.example.cinemaxv3.data.remote.dto.movieDto.TopRatedMovieResponseDto
+import com.example.cinemaxv3.data.remote.dto.movieDto.UpComingMovieResponseDto
+import com.example.cinemaxv3.domain.model.similarMoviesResponse.SimilarMoviesResponse
+import com.example.cinemaxv3.domain.model.trailersResponse.MovieTrailerResponse
+import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResponses
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -23,19 +23,19 @@ interface MovieApi {
     suspend fun getPopularMovies(
         @Query("api_key") api_key: String = MovieApi.api_key,
         @Query("page") page: Int,
-    ): MovieResponse
+    ): MovieResponseDto
 
     @GET("movie/top_rated?")
     suspend fun getTopRatedMovies(
         @Query("api_key") api_key: String = MovieApi.api_key,
         @Query("page") page: Int,
-    ): TopRatedMovieResponse
+    ): TopRatedMovieResponseDto
 
     @GET("movie/upcoming?")
     suspend fun upComingMovies(
         @Query("api_key") api_key: String = MovieApi.api_key,
         @Query("page") page: Int,
-    ): UpComingMovieResponse
+    ): UpComingMovieResponseDto
 
     @GET("movie/{movieId}/reviews")
     suspend fun getMovieReviews(
@@ -104,5 +104,5 @@ interface MovieApi {
         @Query("query") query: String,
         @Query("page") page: Int,
         @Query("include_adult") includeAdult: Boolean = false
-    ): MovieResponse
+    ): MovieResponseDto
 }

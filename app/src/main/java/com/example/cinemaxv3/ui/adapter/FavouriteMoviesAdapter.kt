@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemSearchBinding
 import com.example.cinemaxv3.models.Movie
-import com.example.cinemaxv3.models.favourites.FavouriteMovies
+import com.example.cinemaxv3.domain.model.favourites.FavouriteMovies
 
 class FavouriteMoviesAdapter : RecyclerView.Adapter<FavouriteMoviesAdapter.FavouriteMoviesViewHolder>() {
 

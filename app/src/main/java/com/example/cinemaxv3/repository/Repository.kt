@@ -2,7 +2,7 @@ package com.example.cinemaxv3.repository
 
 
 import com.example.cinemaxv3.db.MovieDatabase
-import com.example.cinemaxv3.models.favourites.FavouriteMovies
+import com.example.cinemaxv3.domain.model.favourites.FavouriteMovies
 import javax.inject.Inject
 
 

@@ -6,13 +6,12 @@ import androidx.paging.*
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.models.UpComingMovies
-import com.example.cinemaxv3.models.favourites.FavouriteMovies
-import com.example.cinemaxv3.models.responses.moviesResponse.MovieResponse
-import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
+import com.example.cinemaxv3.domain.model.favourites.FavouriteMovies
+import com.example.cinemaxv3.data.remote.dto.movieDto.MovieResponseDto
+import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
 import com.example.cinemaxv3.paging.pager.*
 import com.example.cinemaxv3.repository.Repository
 import com.example.cinemaxv3.service.MovieApi
-import dagger.hilt.android.internal.Contexts
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -82,8 +81,8 @@ class MovieViewModel @Inject constructor(
         emit(topratedMovie)
     }
 
-    private val _searchMoviesResponse = MutableLiveData<MovieResponse>()
-    val searchMoviesResponse: LiveData<MovieResponse>
+    private val _searchMoviesResponse = MutableLiveData<MovieResponseDto>()
+    val searchMoviesResponse: LiveData<MovieResponseDto>
         get() = _searchMoviesResponse
 
     fun searchMovies(query: String) {

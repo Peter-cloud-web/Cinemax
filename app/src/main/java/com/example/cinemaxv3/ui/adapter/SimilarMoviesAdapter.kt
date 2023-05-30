@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemSimilarMoviesBinding
-import com.example.cinemaxv3.models.responses.movieCasts.Cast
-import com.example.cinemaxv3.models.responses.similarMoviesResponse.SimilarMovies
+import com.example.cinemaxv3.domain.model.movieCasts.Cast
+import com.example.cinemaxv3.domain.model.similarMoviesResponse.SimilarMovies
 
 class SimilarMoviesAdapter: RecyclerView.Adapter<SimilarMoviesAdapter.SimilarMoviesViewHolder>(){
     inner class SimilarMoviesViewHolder(val binding:ItemSimilarMoviesBinding):RecyclerView.ViewHolder(binding.root)

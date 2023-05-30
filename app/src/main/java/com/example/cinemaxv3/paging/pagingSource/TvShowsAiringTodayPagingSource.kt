@@ -2,12 +2,12 @@ package com.example.cinemaxv3.paging.pagingSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
+import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
 import com.example.cinemaxv3.service.MovieApi
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class TvShowsAiringTodayPagingSource @Inject constructor (private val service:MovieApi): PagingSource<Int,TvShowsResults>(){
+class TvShowsAiringTodayPagingSource @Inject constructor (private val service:MovieApi): PagingSource<Int, TvShowsResults>(){
     override fun getRefreshKey(state: PagingState<Int, TvShowsResults>): Int? {
         return 1
     }

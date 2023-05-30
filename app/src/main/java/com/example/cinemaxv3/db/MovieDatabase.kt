@@ -12,8 +12,8 @@ import com.example.cinemaxv3.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
 import com.example.cinemaxv3.db.dao.remoteKeysDaos.TopRatedTvShowsRemoteKeysDao
 import com.example.cinemaxv3.db.dao.remoteKeysDaos.UpComingRemoteKeyDao
 import com.example.cinemaxv3.models.*
-import com.example.cinemaxv3.models.favourites.FavouriteMovies
-import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
+import com.example.cinemaxv3.domain.model.favourites.FavouriteMovies
+import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
 
 @Database(
     entities = [
@@ -27,7 +27,7 @@ import com.example.cinemaxv3.models.responses.tvShowsResponse.TvShowsResults
         TopRatedRemoteKeys::class,
         UpComingRemoteKeys::class,
          TopRatedTvShowsRemoteKeys::class],
-    version = 13
+    version = 14
 )
 abstract class MovieDatabase : RoomDatabase() {
 

@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentFavouriteMovieBinding
-import com.example.cinemaxv3.models.favourites.FavouriteMovies
+import com.example.cinemaxv3.domain.model.favourites.FavouriteMovies
 import com.example.cinemaxv3.ui.adapter.FavouriteMoviesAdapter
 import com.example.cinemaxv3.ui.viewmodels.MovieViewModel
 import kotlinx.coroutines.launch

@@ -5,6 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.example.cinemaxv3.data.remote.mappers.Mappers.toUpComingMovies
 import com.example.cinemaxv3.db.MovieDatabase
 import com.example.cinemaxv3.models.UpComingMovies
 import com.example.cinemaxv3.models.UpComingRemoteKeys
@@ -48,7 +49,9 @@ class UpComingMoviesMediator @Inject constructor(
         }
         try {
             val apiResponse = api.upComingMovies(page = page)
-            val upComingMovies = apiResponse.movies
+            val upComingMovies = apiResponse.movies.map {
+                it.toUpComingMovies()
+            }
             val endOfPaginationReached = upComingMovies.isEmpty()
 
             db.withTransaction {
