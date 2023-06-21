@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/topRatedTvShows"
-        android:title="Top Rated TV shows"
-        android:icon="@drawable/ic_baseline_play_circle_24" />
+        android:title="Top Rated TV shows"/>
     <item
         android:id="@+id/popularTvShows"
-        android:title="Popular TV shows"
-        android:icon="@drawable/ic_baseline_play_circle_24" />
+        android:title="Popular TV shows"/>
     <item
-        android:id="@+id/latestTvShows"
-        android:title="Latest  TV shows"
-        android:icon="@drawable/ic_baseline_play_circle_24" />
+        android:id="@+id/tvShowsOnTheAir"
+        android:title="Tv Shows On The Air"/>
+
+    <item
+        android:id="@+id/tvShowsAiringToday"
+        android:title="Tv Show Airing Today"/>
 </menu>

@@ -3,6 +3,7 @@ package com.example.cinemaxv3.di
 import android.content.Context
 import androidx.room.Room
 import androidx.room.TypeConverters
+import com.example.cinemaxv3.data.repository.MovieRepositoryImpl
 import com.example.cinemaxv3.db.MovieDatabase
 import com.example.cinemaxv3.db.dao.movieDaos.MovieDao
 import com.example.cinemaxv3.db.dao.movieDaos.TopRatedMoviesDao
@@ -10,6 +11,7 @@ import com.example.cinemaxv3.db.dao.movieDaos.UpComingMoviesDao
 import com.example.cinemaxv3.db.dao.remoteKeysDaos.RemoteKeysDao
 import com.example.cinemaxv3.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
 import com.example.cinemaxv3.db.dao.remoteKeysDaos.UpComingRemoteKeyDao
+import com.example.cinemaxv3.domain.repository.MovieRepository
 import com.example.cinemaxv3.service.MovieApi
 import com.example.cinemaxv3.util.Constants
 import com.example.cinemaxv3.util.Constants.BASE_URL
@@ -67,7 +69,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesTopRatedRemoteKeysDao(database: MovieDatabase): TopRatedRemoteKeysDao{
+    fun providesTopRatedRemoteKeysDao(database: MovieDatabase): TopRatedRemoteKeysDao {
         return database.getTopRatedRemoteKeysDao()
     }
 
@@ -79,8 +81,14 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideUpComingRemoteKeysDao(database: MovieDatabase): UpComingRemoteKeyDao{
+    fun provideUpComingRemoteKeysDao(database: MovieDatabase): UpComingRemoteKeyDao {
         return database.getUpComingRemoteKeysDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieRepository(api: MovieApi, db: MovieDatabase): MovieRepository {
+        return MovieRepositoryImpl(api, db)
     }
 
 }

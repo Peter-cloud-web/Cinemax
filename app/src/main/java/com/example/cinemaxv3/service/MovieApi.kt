@@ -1,6 +1,7 @@
 package com.example.cinemaxv3.service
 
 import com.example.cinemaxv3.BuildConfig
+import com.example.cinemaxv3.common.Resource
 import com.example.cinemaxv3.models.responses.*
 import com.example.cinemaxv3.domain.model.movieCasts.MovieCastsResponse
 import com.example.cinemaxv3.data.remote.dto.movieDto.MovieResponseDto
@@ -9,6 +10,7 @@ import com.example.cinemaxv3.data.remote.dto.movieDto.UpComingMovieResponseDto
 import com.example.cinemaxv3.domain.model.similarMoviesResponse.SimilarMoviesResponse
 import com.example.cinemaxv3.domain.model.trailersResponse.MovieTrailerResponse
 import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResponses
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -57,12 +59,6 @@ interface MovieApi {
         @Query("page") page: Int,
     ): TvShowsResponses
 
-    @GET("tv/on_the_air ?")
-    suspend fun getLatestTvShows(
-        @Query("api_key") api_key: String = MovieApi.api_key,
-        @Query("page") page: Int,
-    ): TvShowsResponses
-
     @GET("tv/airing_today?")
     suspend fun getTvShowsAiringToday(
         @Query("api_key") api_key: String = MovieApi.api_key,
@@ -95,6 +91,7 @@ interface MovieApi {
         @Path("movie_id") movie_id: Int,
         @Query("api_key") api_key: String = MovieApi.api_key,
         @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
     ): SimilarMoviesResponse
 
     @GET("search/movie?")
