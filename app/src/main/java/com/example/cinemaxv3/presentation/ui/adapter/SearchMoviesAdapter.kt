@@ -5,11 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemSearchBinding
 import com.example.cinemaxv3.models.Movie
+import javax.inject.Inject
 
-class SearchMoviesAdapter : RecyclerView.Adapter<SearchMoviesAdapter.SearchMoviesViewHolder>() {
+class SearchMoviesAdapter @Inject constructor(private val  imageLoader: ImageLoader): RecyclerView.Adapter<SearchMoviesAdapter.SearchMoviesViewHolder>() {
 
     inner class SearchMoviesViewHolder(val binding:ItemSearchBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -27,9 +30,12 @@ class SearchMoviesAdapter : RecyclerView.Adapter<SearchMoviesAdapter.SearchMovie
         val movies = searchMovies.currentList[position]
         with(holder){
             with(movies){
-                Glide.with(holder.itemView)
-                    .load(movieAvatar + this.poster_path)
-                    .into(binding.imageMovies)
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(movieAvatar + (this?.poster_path ?: null))
+                    .target(binding.imageMovies)
+                    .build()
+                imageLoader.enqueue(request)
+
                 binding.ratingMovie.text = this.vote_average.toString()
                 binding.movieTitile.text = this.title.toString()
                 binding.aboutMovie.text = this.overview.toString()

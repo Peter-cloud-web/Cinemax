@@ -5,11 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemMoviecrewBinding
 import com.example.cinemaxv3.domain.model.movieCasts.Cast
+import javax.inject.Inject
 
-class MovieCastsAdapter : RecyclerView.Adapter<MovieCastsAdapter.MovieCastsViewHolder>() {
+class MovieCastsAdapter @Inject constructor(private val imageLoader: ImageLoader) : RecyclerView.Adapter<MovieCastsAdapter.MovieCastsViewHolder>() {
 
     inner class MovieCastsViewHolder(val binding: ItemMoviecrewBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -27,9 +30,12 @@ class MovieCastsAdapter : RecyclerView.Adapter<MovieCastsAdapter.MovieCastsViewH
         val casts = comparator.currentList[position]
         with(holder) {
             with(casts) {
-                Glide.with(holder.itemView)
-                    .load(CastAvatar + this.profile_path)
-                    .into(holder.binding.profileImage)
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(CastAvatar + (this?.profile_path ?: null))
+                    .target(binding.profileImage)
+                    .build()
+                imageLoader.enqueue(request)
+
                 binding.crewname.text = this.name.toString()
                 binding.role.text = this.character.toString()
             }

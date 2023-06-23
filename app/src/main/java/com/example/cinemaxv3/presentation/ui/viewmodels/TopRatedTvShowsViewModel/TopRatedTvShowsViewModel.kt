@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,19 +25,21 @@ class TopRatedTvShowsViewModel @Inject constructor(
     private val _topRatedTvShowsUiState = MutableStateFlow(TopRatedTvShowsUiState())
     val topRatedTvShowsUiState: StateFlow<TopRatedTvShowsUiState> = _topRatedTvShowsUiState
 
-    fun getTopRatedTvShows(): Flow<PagingData<TvShowsResults>> = getTopRatedTvShowsUseCase().cachedIn(viewModelScope)
-//        viewModelScope.launch {
-//            try {
-//                _topRatedTvShowsUiState.value = TopRatedTvShowsUiState(isLoading = true)
-//                val topRatedTvShows = getTopRatedTvShowsUseCase()
-//                _topRatedTvShowsUiState.value = _topRatedTvShowsUiState.value.copy(topRatedTvShowsFlow = topRatedTvShows)
-//
-//            } catch (e: Exception) {
-//                _topRatedTvShowsUiState.value = TopRatedTvShowsUiState(
-//                    isLoading = false,
-//                    error(message = e.message ?: "An unexpected error")
-//                )
-//            }
-//        }
+
+    init {
+        getTopRatedTvShows()
+    }
+    fun getTopRatedTvShows(){
+        try{
+            _topRatedTvShowsUiState.value  =  TopRatedTvShowsUiState(isLoading = true)
+            val response = getTopRatedTvShowsUseCase().cachedIn(viewModelScope)
+            _topRatedTvShowsUiState.value = TopRatedTvShowsUiState(topRatedTvShowsFlow = response )
+        }catch (e:Exception){
+            _topRatedTvShowsUiState.value = TopRatedTvShowsUiState(error = e.localizedMessage?:"An unexpected error occurred")
+        }catch (e:IOException){
+            _topRatedTvShowsUiState.value = TopRatedTvShowsUiState(error = e.localizedMessage?:"Underlying Network/Internet server error occurred")
+        }
+    }
+
 
     }

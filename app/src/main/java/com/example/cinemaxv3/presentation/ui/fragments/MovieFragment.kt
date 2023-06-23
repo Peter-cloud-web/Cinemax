@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.ImageLoader
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentMovieBinding
@@ -48,10 +49,11 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentMovieBinding.bind(view)
+        val imageLoader = ImageLoader(requireContext())
 
 
 
-        initMembers()
+        initMembers(imageLoader)
         checkNetworkConnectivity(binding)
         setUpViews(binding)
         fetchMovies(binding)
@@ -73,10 +75,10 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
     }
 
-    private fun initMembers() {
-        topRatedMoviesAdapter = TopRatedMoviesAdapter()
-        popularMovieAdapter = PopularMovieAdapter()
-        upComingMoviesAdapter = UpComingMoviesAdapter()
+    private fun initMembers(imageLoader:ImageLoader) {
+        topRatedMoviesAdapter = TopRatedMoviesAdapter(imageLoader = imageLoader)
+        popularMovieAdapter = PopularMovieAdapter(imageLoader = imageLoader)
+        upComingMoviesAdapter = UpComingMoviesAdapter(imageLoader = imageLoader)
 
 
     }

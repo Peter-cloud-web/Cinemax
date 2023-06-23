@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.ImageLoader
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentReviewsBinding
 import com.example.cinemaxv3.presentation.ui.adapter.MovieReviewsAdapter
@@ -28,6 +29,7 @@ class ReviewsFragment : Fragment(R.layout.fragment_reviews) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentReviewsBinding.bind(view)
         val id = arguments?.getInt("movieId")
+        val imageLoader = ImageLoader(requireContext())
 
         val actionbar =  (activity as AppCompatActivity).supportActionBar
         actionbar?.apply {
@@ -42,7 +44,7 @@ class ReviewsFragment : Fragment(R.layout.fragment_reviews) {
         }
 
         movieReviewsViewModel = ViewModelProvider(requireActivity()).get(MovieReviewsViewModel::class.java)
-        reviewAdapter = MovieReviewsAdapter()
+        reviewAdapter = MovieReviewsAdapter(imageLoader)
 
         try {
             if (id != null) {

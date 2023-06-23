@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.ImageLoader
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentFavouriteMovieBinding
 import com.example.cinemaxv3.presentation.ui.adapter.FavouriteMoviesAdapter
@@ -24,11 +25,12 @@ class FavouriteMovieFragment : Fragment(R.layout.fragment_favourite_movie) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentFavouriteMovieBinding.bind(view)
+        val imageLoader = ImageLoader(requireContext())
 
         favouriteMoviesViewModel =
             ViewModelProvider(requireActivity()).get(FavouriteMoviesViewModel::class.java)
 
-        favouriteMoviesAdapter = FavouriteMoviesAdapter()
+        favouriteMoviesAdapter = FavouriteMoviesAdapter(imageLoader)
         populateRecyclerView(binding)
         handleClickListener()
 

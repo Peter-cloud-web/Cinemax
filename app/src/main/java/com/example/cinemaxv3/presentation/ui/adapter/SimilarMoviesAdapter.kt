@@ -5,12 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemSimilarMoviesBinding
 import com.example.cinemaxv3.domain.model.movieCasts.Cast
 import com.example.cinemaxv3.domain.model.similarMoviesResponse.SimilarMovies
+import javax.inject.Inject
 
-class SimilarMoviesAdapter: RecyclerView.Adapter<SimilarMoviesAdapter.SimilarMoviesViewHolder>(){
+class SimilarMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader): RecyclerView.Adapter<SimilarMoviesAdapter.SimilarMoviesViewHolder>(){
     inner class SimilarMoviesViewHolder(val binding:ItemSimilarMoviesBinding):RecyclerView.ViewHolder(binding.root)
 
     val similarMoviesDifferList = AsyncListDiffer(this, SimilarMoviesComparator)
@@ -25,10 +28,11 @@ class SimilarMoviesAdapter: RecyclerView.Adapter<SimilarMoviesAdapter.SimilarMov
         val movies = similarMoviesDifferList.currentList[position]
         with(holder){
             with(movies){
-                Glide.with(holder.itemView)
-                    .load(similarMoviesAvatar + this.poster_path)
-                    .into(binding.imageSimilarMovies)
-                binding.similarMoviesRating.text = this.vote_average.toString()
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(similarMoviesAvatar + (this?.poster_path ?: null))
+                    .target(binding.imageSimilarMovies)
+                    .build()
+                imageLoader.enqueue(request)
             }
         }
 

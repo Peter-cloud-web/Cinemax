@@ -5,17 +5,21 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
 import com.example.cinemaxv3.models.Movie
+import javax.inject.Inject
 
-class PopularMovieAdapter : PagingDataAdapter<Movie, PopularMovieAdapter.PopularViewHolder>(PopularMovieModelComparator) {
+class PopularMovieAdapter @Inject constructor(private val imageLoader: ImageLoader) :
+    PagingDataAdapter<Movie, PopularMovieAdapter.PopularViewHolder>(PopularMovieModelComparator) {
     private var onMovieClickListener: ((Movie) -> Unit)? = null
 
-    inner class PopularViewHolder(val binding: ItemMoviesBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class PopularViewHolder(val binding: ItemMoviesBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularViewHolder {
-        val binding =  ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PopularViewHolder(binding)
     }
 
@@ -25,9 +29,11 @@ class PopularMovieAdapter : PagingDataAdapter<Movie, PopularMovieAdapter.Popular
 
         with(holder) {
             with(movieModel) {
-                Glide.with(holder.itemView)
-                    .load(IMAGE_BASE + (this?.poster_path ?: null))
-                    .into(holder.binding.imageMovies)
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(IMAGE_BASE + (this?.poster_path ?: null))
+                    .target(binding.imageMovies)
+                    .build()
+                imageLoader.enqueue(request)
 
                 binding.Rating.text = this?.vote_average.toString()
 

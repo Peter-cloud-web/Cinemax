@@ -5,12 +5,15 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemTvShowsBinding
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
+import javax.inject.Inject
 
-class TopRatedTvShowsAdapter :
+class TopRatedTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoader) :
     PagingDataAdapter<TvShowsResults, TopRatedTvShowsAdapter.TopRatedTvShowsViewHolder>(
         MovieModelComparator
     ) {
@@ -45,10 +48,11 @@ class TopRatedTvShowsAdapter :
 
         with(holder) {
             with(topRatedTvShows) {
-                Glide.with(holder.itemView)
-                    .load(IMAGE_BASE + (this?.poster_path))
-                    .into(binding.imageTvShows)
-                binding.tvShowsRating.text = this?.vote_average.toString()
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(IMAGE_BASE + (this?.poster_path ?: null))
+                    .target(binding.imageTvShows)
+                    .build()
+                imageLoader.enqueue(request)
 
                 itemView.setOnClickListener {
                     this?.let {

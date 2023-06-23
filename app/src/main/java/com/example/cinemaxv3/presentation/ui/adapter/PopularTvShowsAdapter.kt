@@ -7,11 +7,14 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemTvShowsBinding
 import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
+import javax.inject.Inject
 
-class PopularTvShowsAdapter : PagingDataAdapter<TvShowsResults, PopularTvShowsAdapter.PopularTvShowsViewHolder>(
+class PopularTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoader): PagingDataAdapter<TvShowsResults, PopularTvShowsAdapter.PopularTvShowsViewHolder>(
     MovieModelComparator){
     inner class PopularTvShowsViewHolder(val binding: ItemTvShowsBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -38,10 +41,11 @@ class PopularTvShowsAdapter : PagingDataAdapter<TvShowsResults, PopularTvShowsAd
 
         with(holder) {
             with(popularTvShows) {
-                Glide.with(holder.itemView)
-                    .load(IMAGE_BASE + (this?.poster_path))
-                    .into(binding.imageTvShows)
-                binding.tvShowsRating.text = this?.vote_average.toString()
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(IMAGE_BASE + (this?.poster_path ?: null))
+                    .target(binding.imageTvShows)
+                    .build()
+                imageLoader.enqueue(request)
             }
         }
     }

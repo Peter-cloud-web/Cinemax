@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemReviewsBinding
 import com.example.cinemaxv3.util.DifferCallback
+import javax.inject.Inject
 
-class MovieReviewsAdapter : RecyclerView.Adapter<MovieReviewsAdapter.ReviewsViewHolder>() {
+class MovieReviewsAdapter @Inject constructor(private val imageLoader: ImageLoader) : RecyclerView.Adapter<MovieReviewsAdapter.ReviewsViewHolder>() {
     inner class ReviewsViewHolder(val binding: ItemReviewsBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -28,9 +31,12 @@ class MovieReviewsAdapter : RecyclerView.Adapter<MovieReviewsAdapter.ReviewsView
         val review = comparator.currentList[position]
         with(holder) {
             with(review) {
-                Glide.with(holder.itemView)
-                    .load(AUTHOR_AVATAR + this.authorDetails.avatarPath)
-                    .into(holder.binding.authorAvatar)
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(AUTHOR_AVATAR + (this?.authorDetails?.avatarPath ?: null))
+                    .target(binding.authorAvatar)
+                    .build()
+                imageLoader.enqueue(request)
+
                 binding.review.text = this.content.toString()
                 binding.authorName.text = this.authorDetails.name.toString()
                 binding.authorUserName.text = this.authorDetails.userName.toString()

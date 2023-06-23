@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.ImageLoader
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentTrailersBinding
 import com.example.cinemaxv3.domain.model.movieCasts.Cast
@@ -41,6 +42,7 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentTrailersBinding.bind(view)
+        val imageLoader = ImageLoader(requireContext())
 
         movieTrailerViewModel =
             ViewModelProvider(requireActivity()).get(MovieTrailerViewModel::class.java)
@@ -49,8 +51,8 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
         similarMoviesViewModel =
             ViewModelProvider(requireActivity()).get(SimilarMoviesViewModel::class.java)
 
-        castsAdapter = MovieCastsAdapter()
-        similarMoviesAdapter = SimilarMoviesAdapter()
+        castsAdapter = MovieCastsAdapter(imageLoader)
+        similarMoviesAdapter = SimilarMoviesAdapter(imageLoader)
         videoView = binding.videoView
 
         val actionbar = requireActivity().actionBar

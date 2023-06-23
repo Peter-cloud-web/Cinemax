@@ -3,6 +3,8 @@ package com.example.cinemaxv3.di
 import android.content.Context
 import androidx.room.Room
 import androidx.room.TypeConverters
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.example.cinemaxv3.data.repository.MovieRepositoryImpl
 import com.example.cinemaxv3.db.MovieDatabase
 import com.example.cinemaxv3.db.dao.movieDaos.MovieDao
@@ -40,6 +42,13 @@ object AppModule {
             .baseUrl(BASE_URL)
             .build()
             .create(MovieApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCoilImageLoader(@ApplicationContext context: Context):ImageLoader{
+        return ImageLoader.Builder(context)
+            .build()
+    }
 
     @Provides
     @Singleton

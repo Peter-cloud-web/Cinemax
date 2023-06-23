@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentTvShowsBinding
 import com.example.cinemaxv3.presentation.ui.adapter.PopularTvShowsAdapter
@@ -22,7 +24,6 @@ import com.example.cinemaxv3.presentation.ui.viewmodels.TopRatedTvShowsViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.popularTvShowViewModel.PopularTvShowViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.tvShowsAiringTodayViewModel.TvShowsAiringTodayViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.tvShowsOnTheAirViewModel.TvShowsOnTheAirViewModel
-import com.example.cinemaxv3.util.Constants
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -42,6 +43,7 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentTvShowsBinding.bind(view)
+        val imageLoader = ImageLoader(requireContext())
         setHasOptionsMenu(true)
 
         val actionbar = (activity as AppCompatActivity).supportActionBar
@@ -69,17 +71,32 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
             ViewModelProvider(requireActivity()).get(TvShowsOnTheAirViewModel::class.java)
 
 
-        topRatedTvShowsAdapter = TopRatedTvShowsAdapter()
-        popularTvShowsAdapter = PopularTvShowsAdapter()
+        topRatedTvShowsAdapter = TopRatedTvShowsAdapter(imageLoader)
+        popularTvShowsAdapter = PopularTvShowsAdapter(imageLoader)
 
 
         viewLifecycleOwner.lifecycleScope.launch {
-            topRatedTvShowViewModel.getTopRatedTvShows().collect { tvResults ->
-                topRatedTvShowsAdapter.submitData(tvResults)
+            topRatedTvShowViewModel.topRatedTvShowsUiState.collect { uiState ->
+                when {
+                    uiState.isLoading -> {}
+                    uiState.topRatedTvShowsFlow != null -> {
+                        uiState.topRatedTvShowsFlow.collect {
+                            topRatedTvShowsAdapter.submitData(it)
+                        }
+                    }
+
+                    uiState.error != null -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "An unexpected error occurred",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                currentAdapter = topRatedTvShowsAdapter
+                recyclerView.adapter = currentAdapter
             }
         }
-        currentAdapter = topRatedTvShowsAdapter
-        recyclerView.adapter = currentAdapter
 
 
         topRatedTvShowsAdapter.setOnClickListener { tvShowResults ->
@@ -115,57 +132,106 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
 
             R.id.topRatedTvShows -> {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    topRatedTvShowViewModel.getTopRatedTvShows().collect { topRatedTvResults ->
-                        topRatedTvShowsAdapter.submitData(topRatedTvResults)
+                    topRatedTvShowViewModel.topRatedTvShowsUiState.collect { uiState ->
+                        when {
+                            uiState.isLoading -> {}
+                            uiState.topRatedTvShowsFlow != null -> {
+                                uiState.topRatedTvShowsFlow.collect {
+                                    topRatedTvShowsAdapter.submitData(it)
+                                }
+                            }
+
+                            uiState.error != null -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "An unexpected error occurred",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        currentAdapter = topRatedTvShowsAdapter
+                        recyclerView.adapter = currentAdapter
                     }
                 }
-                currentAdapter = topRatedTvShowsAdapter
-                recyclerView.adapter = currentAdapter
-
                 return true
-
             }
 
             R.id.popularTvShows -> {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    popularTvShowViewModel.getPopularTvShows().collect { popularTvShowsResults ->
-                        topRatedTvShowsAdapter.submitData(popularTvShowsResults)
+                    popularTvShowViewModel.popularTvShowsUiStates.collect { uiState ->
+                        when {
+                            uiState.isLoading -> {}
+                            uiState.popularTvShows != null -> {
+                                uiState.popularTvShows.collect {
+                                    topRatedTvShowsAdapter.submitData(it)
+                                }
+                            }
 
+                            uiState.error != null -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "An unexpected error occurred",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        currentAdapter = topRatedTvShowsAdapter
+                        recyclerView.adapter = currentAdapter
                     }
                 }
-                currentAdapter = topRatedTvShowsAdapter
-                recyclerView.adapter = currentAdapter
-
                 return true
 
             }
-
             R.id.tvShowsOnTheAir -> {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    tvShowsOnTheAirViewModel.getTvShowsOnTheAir()
-                        .collectLatest { tvShowsOnTheAirResults ->
-                            topRatedTvShowsAdapter.submitData(tvShowsOnTheAirResults)
+                    tvShowsOnTheAirViewModel.tvShowsOnTheAir.collect { uiState ->
+                        when {
+                            uiState.isLoading -> {}
+                            uiState.tvShowsOnTheAir != null -> {
+                                uiState.tvShowsOnTheAir.collect {
+                                    topRatedTvShowsAdapter.submitData(it)
+                                }
+                            }
+
+                            uiState.error != null -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "An unexpected error occurred",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
+                        currentAdapter = topRatedTvShowsAdapter
+                        recyclerView.adapter = currentAdapter
+                    }
                 }
-                currentAdapter = topRatedTvShowsAdapter
-                recyclerView.adapter = currentAdapter
-
                 return true
-
             }
 
             R.id.tvShowsAiringToday -> {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    tvShowsOnTheAirViewModel.getTvShowsOnTheAir()
-                        .collectLatest { tvShowsAiringTodayResults ->
-                            topRatedTvShowsAdapter.submitData(tvShowsAiringTodayResults)
-                        }
-                }
-                currentAdapter = topRatedTvShowsAdapter
-                recyclerView.adapter = currentAdapter
+                 viewLifecycleOwner.lifecycleScope.launch {
+                     tvShowsAiringTodayViewModel.tvShowsAiringTodayUiState.collect { uiState ->
+                         when {
+                             uiState.isLoading -> {}
+                             uiState.tvShowsAiringToday != null -> {
+                                 uiState.tvShowsAiringToday.collect {
+                                     topRatedTvShowsAdapter.submitData(it)
+                                 }
+                             }
 
+                             uiState.error != null -> {
+                                 Toast.makeText(
+                                     requireContext(),
+                                     "An unexpected error occurred",
+                                     Toast.LENGTH_SHORT
+                                 ).show()
+                             }
+                         }
+                         currentAdapter = topRatedTvShowsAdapter
+                         recyclerView.adapter = currentAdapter
+                     }
+                 }
                 return true
-
             }
 
             android.R.id.home -> {

@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
 import com.example.cinemaxv3.models.UpComingMovies
+import javax.inject.Inject
 
-class UpComingMoviesAdapter :
+class UpComingMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
     PagingDataAdapter<UpComingMovies, UpComingMoviesAdapter.UpComingMovieViewHolder>(
         MovieModelComparator
     ) {
@@ -43,18 +45,17 @@ class UpComingMoviesAdapter :
         with(holder) {
             with(movieModel) {
 
-                Glide.with(holder.itemView)
-                    .load(IMAGE_BASE + (this?.poster_path ?: null))
-                    .into(holder.binding.imageMovies)
-                binding.Rating.text = this?.vote_average.toString()
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(IMAGE_BASE + (this?.poster_path ?: null))
+                    .target(binding.imageMovies)
+                    .build()
+                imageLoader.enqueue(request)
 
+                binding.Rating.text = this?.vote_average.toString()
                 itemView.setOnClickListener {
                     this?.let {
                         onMovieClickListener?.let { it1 ->
                             it1(it)
-                            Glide.with(holder.itemView)
-                                .load(IMAGE_BASE + (this?.backdrop_path ?: null))
-                                .into(holder.binding.imageMovies)
                         }
                     }
                 }

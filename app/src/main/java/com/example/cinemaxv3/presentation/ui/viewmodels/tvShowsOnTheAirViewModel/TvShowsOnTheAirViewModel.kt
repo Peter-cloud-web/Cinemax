@@ -6,11 +6,32 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
 import com.example.cinemaxv3.domain.use_cases.TVshows_ontheair_usecase.TvShowsOnTheAirUseCase
+import com.example.cinemaxv3.presentation.ui.viewmodels.TopRatedTvShowsViewModel.TopRatedTvShowsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class TvShowsOnTheAirViewModel @Inject constructor(private val tvShowsOnTheAirUseCase: TvShowsOnTheAirUseCase): ViewModel(){
-    fun getTvShowsOnTheAir(): Flow<PagingData<TvShowsResults>> = tvShowsOnTheAirUseCase().cachedIn(viewModelScope)
+
+    private val _tvShowsOnTheAir = MutableStateFlow(TvShowsOnTheAirUiState())
+    val tvShowsOnTheAir = _tvShowsOnTheAir.asStateFlow()
+    init {
+        getTvShowsOnTheAir()
+    }
+    fun getTvShowsOnTheAir(){
+        try{
+            _tvShowsOnTheAir.value  =  TvShowsOnTheAirUiState(isLoading = true)
+            val response = tvShowsOnTheAirUseCase().cachedIn(viewModelScope)
+            _tvShowsOnTheAir.value = TvShowsOnTheAirUiState(tvShowsOnTheAir = response )
+        }catch (e:Exception){
+            _tvShowsOnTheAir.value = TvShowsOnTheAirUiState(error = e.localizedMessage?:"An unexpected error occurred")
+        }catch (e: IOException){
+            _tvShowsOnTheAir.value = TvShowsOnTheAirUiState(error = e.localizedMessage?:"Underlying Network/Internet server error occurred")
+        }
+    }
 }

@@ -3,16 +3,19 @@ package com.example.cinemaxv3.presentation.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
-import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.TopRatedMovies
+import javax.inject.Inject
 
-class TopRatedMoviesAdapter :
-    PagingDataAdapter<TopRatedMovies, TopRatedMoviesAdapter.TopRatedViewHolder>(TopMovieModelComparator) {
+class TopRatedMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
+    PagingDataAdapter<TopRatedMovies, TopRatedMoviesAdapter.TopRatedViewHolder>(
+        TopMovieModelComparator
+    ) {
     private var onMovieClickListener: ((TopRatedMovies) -> Unit)? = null
 
     inner class TopRatedViewHolder(val binding: ItemMoviesBinding) :
@@ -20,34 +23,39 @@ class TopRatedMoviesAdapter :
 
     companion object {
         private val TopMovieModelComparator = object : DiffUtil.ItemCallback<TopRatedMovies>() {
-            override fun areItemsTheSame(oldItem: TopRatedMovies, newItem: TopRatedMovies): Boolean {
+            override fun areItemsTheSame(
+                oldItem: TopRatedMovies,
+                newItem: TopRatedMovies
+            ): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: TopRatedMovies, newItem: TopRatedMovies): Boolean {
+            override fun areContentsTheSame(
+                oldItem: TopRatedMovies,
+                newItem: TopRatedMovies
+            ): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
     override fun onBindViewHolder(holder: TopRatedViewHolder, position: Int) {
-        val movies : TopRatedMovies? = getItem(position)
+        val movies: TopRatedMovies? = getItem(position)
         val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
 
         with(holder) {
             with(movies) {
-                Glide.with(holder.itemView)
-                    .load(IMAGE_BASE + (this?.poster_path ?: null))
-                    .into(holder.binding.imageMovies)
-                binding.Rating.text = this?.vote_average.toString()
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(IMAGE_BASE + (this?.poster_path ?: null))
+                    .target(binding.imageMovies)
+                    .build()
+                imageLoader.enqueue(request)
 
+                binding.Rating.text = this?.vote_average.toString()
                 itemView.setOnClickListener {
                     this?.let {
                         onMovieClickListener?.let { it1 ->
                             it1(it)
-                            Glide.with(holder.itemView)
-                                .load(IMAGE_BASE + (this?.backdrop_path ?: null))
-                                .into(holder.binding.imageMovies)
                         }
                     }
                 }
@@ -58,9 +66,10 @@ class TopRatedMoviesAdapter :
     fun setOnItemClickListener(listener: (TopRatedMovies) -> Unit) {
         onMovieClickListener = listener
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopRatedViewHolder {
-       val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemMoviesBinding.inflate(inflater,parent,false)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemMoviesBinding.inflate(inflater, parent, false)
         return TopRatedViewHolder(binding)
     }
 }

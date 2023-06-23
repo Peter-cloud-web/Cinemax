@@ -5,12 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemSearchBinding
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.domain.model.favourites.FavouriteMovies
+import javax.inject.Inject
 
-class FavouriteMoviesAdapter : RecyclerView.Adapter<FavouriteMoviesAdapter.FavouriteMoviesViewHolder>() {
+class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) : RecyclerView.Adapter<FavouriteMoviesAdapter.FavouriteMoviesViewHolder>() {
 
 
     private var onFavouriteMovieOnClickListener:((FavouriteMovies) -> Unit)? = null
@@ -35,9 +38,12 @@ class FavouriteMoviesAdapter : RecyclerView.Adapter<FavouriteMoviesAdapter.Favou
         val favourites = favouriteMovies.currentList[position]
         with(holder){
             with(favourites){
-                Glide.with(holder.itemView)
-                    .load(movieAvatar + this.poster_path)
-                    .into(binding.imageMovies)
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(movieAvatar + (this?.poster_path ?: null))
+                    .target(binding.imageMovies)
+                    .build()
+                imageLoader.enqueue(request)
+
                 binding.ratingMovie.text = this.vote_average.toString()
                 binding.movieTitile.text = this.title.toString()
                 binding.aboutMovie.text = this.overview.toString()

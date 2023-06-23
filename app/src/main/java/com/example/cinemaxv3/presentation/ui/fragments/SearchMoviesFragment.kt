@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.ImageLoader
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.data.remote.mappers.Mappers.toMovie
 import com.example.cinemaxv3.databinding.FragmentSearchMoviesBinding
@@ -30,8 +31,9 @@ class SearchMoviesFragment : Fragment(R.layout.fragment_search_movies) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentSearchMoviesBinding.bind(view)
+        val imageLoader = ImageLoader(requireContext())
 
-        searchMoviesAdapter = SearchMoviesAdapter()
+        searchMoviesAdapter = SearchMoviesAdapter(imageLoader)
         searchedMoviesViewModel =
             ViewModelProvider(requireActivity()).get(SearchedMoviesViewModel::class.java)
 

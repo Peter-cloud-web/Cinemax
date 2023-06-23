@@ -148,7 +148,11 @@ dependencies {
     //splashscreen API
     implementation "androidx.core:core-splashscreen:1.0.1"
 
+    //coil Image Loader
+    implementation "io.coil-kt:coil:2.4.0"
+
 }
-kapt {
+kapt{
     correctErrorTypes = true
+    'io.coil-kt:coil-compiler:1.4.0'
 }
