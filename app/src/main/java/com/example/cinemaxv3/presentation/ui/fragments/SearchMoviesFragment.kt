@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -18,15 +19,17 @@ import com.example.cinemaxv3.databinding.FragmentSearchMoviesBinding
 import com.example.cinemaxv3.presentation.ui.adapter.SearchMoviesAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.searchedMoviesViewModel.SearchedMoviesViewModel
 import com.example.cinemaxv3.util.Constants
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SearchMoviesFragment : Fragment(R.layout.fragment_search_movies) {
 
     private lateinit var searchMoviesAdapter: SearchMoviesAdapter
-    private lateinit var searchedMoviesViewModel: SearchedMoviesViewModel
+    private val searchedMoviesViewModel: SearchedMoviesViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,8 +37,6 @@ class SearchMoviesFragment : Fragment(R.layout.fragment_search_movies) {
         val imageLoader = ImageLoader(requireContext())
 
         searchMoviesAdapter = SearchMoviesAdapter(imageLoader)
-        searchedMoviesViewModel =
-            ViewModelProvider(requireActivity()).get(SearchedMoviesViewModel::class.java)
 
         val actionbar = (activity as AppCompatActivity).supportActionBar
         actionbar?.apply {

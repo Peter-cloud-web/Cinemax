@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,9 +29,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class TrailersFragment : Fragment(R.layout.fragment_trailers) {
-    private lateinit var movieTrailerViewModel: MovieTrailerViewModel
-    private lateinit var movieCastsViewModel: MovieCastsViewModel
-    private lateinit var similarMoviesViewModel: SimilarMoviesViewModel
+
+    private val movieTrailerViewModel: MovieTrailerViewModel by viewModels()
+    private val movieCastsViewModel: MovieCastsViewModel by viewModels()
+    private val similarMoviesViewModel: SimilarMoviesViewModel by viewModels()
 
     private lateinit var videoView: YouTubePlayerView
     private lateinit var castsAdapter: MovieCastsAdapter
@@ -43,13 +44,6 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentTrailersBinding.bind(view)
         val imageLoader = ImageLoader(requireContext())
-
-        movieTrailerViewModel =
-            ViewModelProvider(requireActivity()).get(MovieTrailerViewModel::class.java)
-        movieCastsViewModel =
-            ViewModelProvider(requireActivity()).get(MovieCastsViewModel::class.java)
-        similarMoviesViewModel =
-            ViewModelProvider(requireActivity()).get(SimilarMoviesViewModel::class.java)
 
         castsAdapter = MovieCastsAdapter(imageLoader)
         similarMoviesAdapter = SimilarMoviesAdapter(imageLoader)
@@ -160,7 +154,6 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
 
     fun loadSimilarMovies() {
         val similarMoviesResults = mutableListOf<SimilarMovies>()
-        Log.i("SIMILAR MOVIES 2: ","${similarMoviesResults}")
         lifecycleScope.launch {
             similarMoviesViewModel.similarMovies.collectLatest { uiState ->
                 when {
@@ -168,9 +161,7 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
                     uiState.similarMovies != null -> {
                         val similarMoviesResponse = uiState.similarMovies.results.asFlow()
                         similarMoviesResponse.collect {
-                            Log.i("SIMILAR MOVIES 1: ","${it}")
                             similarMoviesResults.addAll(listOf(it))
-                            Log.i("SIMILAR MOVIES 2: ","${listOf(it)}")
                         }
                         similarMoviesAdapter.similarMoviesDifferList.submitList(similarMoviesResults)
                     }

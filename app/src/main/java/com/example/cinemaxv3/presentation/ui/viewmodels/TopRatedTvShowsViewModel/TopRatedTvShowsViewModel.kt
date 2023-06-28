@@ -23,7 +23,7 @@ class TopRatedTvShowsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _topRatedTvShowsUiState = MutableStateFlow(TopRatedTvShowsUiState())
-    val topRatedTvShowsUiState: StateFlow<TopRatedTvShowsUiState> = _topRatedTvShowsUiState
+    val topRatedTvShowsUiState = _topRatedTvShowsUiState.asStateFlow()
 
 
     init {

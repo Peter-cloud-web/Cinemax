@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,27 +19,25 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentTvShowsBinding
-import com.example.cinemaxv3.presentation.ui.adapter.PopularTvShowsAdapter
 import com.example.cinemaxv3.presentation.ui.adapter.TopRatedTvShowsAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.TopRatedTvShowsViewModel.TopRatedTvShowsViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.popularTvShowViewModel.PopularTvShowViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.tvShowsAiringTodayViewModel.TvShowsAiringTodayViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.tvShowsOnTheAirViewModel.TvShowsOnTheAirViewModel
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
-import kotlinx.coroutines.flow.collectLatest
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
     private lateinit var topRatedTvShowsAdapter: TopRatedTvShowsAdapter
-    private lateinit var popularTvShowsAdapter: PopularTvShowsAdapter
-
-    private lateinit var topRatedTvShowViewModel: TopRatedTvShowsViewModel
-    private lateinit var popularTvShowViewModel: PopularTvShowViewModel
-    private lateinit var tvShowsAiringTodayViewModel: TvShowsAiringTodayViewModel
-    private lateinit var tvShowsOnTheAirViewModel: TvShowsOnTheAirViewModel
-
     private lateinit var currentAdapter: RecyclerView.Adapter<*>
     private lateinit var recyclerView: RecyclerView
+
+    private val topRatedTvShowsViewModel:TopRatedTvShowsViewModel by viewModels()
+    private val popularTvShowViewModel:PopularTvShowViewModel by viewModels()
+    private val tvShowsAiringTodayViewModel:TvShowsAiringTodayViewModel by viewModels()
+    private val tvShowsOnTheAirViewModel:TvShowsOnTheAirViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,25 +57,28 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
             title = "Tv Shows"
         }
 
-        recyclerView = binding.topRatedTvShowsMoviesRecyclerview
-        recyclerView.layoutManager = GridLayoutManager(activity, 3)
+        initializations(imageLoader)
+        loadViewsToRecyclerviews(binding)
+        loadDefaultTvShowsBeforeOptions()
+        tvShowsInDetail()
 
-        topRatedTvShowViewModel =
-            ViewModelProvider(requireActivity()).get(TopRatedTvShowsViewModel::class.java)
-        popularTvShowViewModel =
-            ViewModelProvider(requireActivity()).get(PopularTvShowViewModel::class.java)
-        tvShowsAiringTodayViewModel =
-            ViewModelProvider(requireActivity()).get(TvShowsAiringTodayViewModel::class.java)
-        tvShowsOnTheAirViewModel =
-            ViewModelProvider(requireActivity()).get(TvShowsOnTheAirViewModel::class.java)
+    }
 
 
-        topRatedTvShowsAdapter = TopRatedTvShowsAdapter(imageLoader)
-        popularTvShowsAdapter = PopularTvShowsAdapter(imageLoader)
+    private fun initializations(imageLoader: ImageLoader) {
+        topRatedTvShowsAdapter = TopRatedTvShowsAdapter(imageLoader = imageLoader)
+    }
 
+    private fun loadViewsToRecyclerviews(binding: FragmentTvShowsBinding) {
+        binding.topRatedTvShowsMoviesRecyclerview.apply {
+            layoutManager = GridLayoutManager(activity, 3)
+            adapter = topRatedTvShowsAdapter
+        }
+    }
 
+    private fun loadDefaultTvShowsBeforeOptions() {
         viewLifecycleOwner.lifecycleScope.launch {
-            topRatedTvShowViewModel.topRatedTvShowsUiState.collect { uiState ->
+            topRatedTvShowsViewModel.topRatedTvShowsUiState.collect { uiState ->
                 when {
                     uiState.isLoading -> {}
                     uiState.topRatedTvShowsFlow != null -> {
@@ -97,8 +99,9 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                 recyclerView.adapter = currentAdapter
             }
         }
+    }
 
-
+    private fun tvShowsInDetail(){
         topRatedTvShowsAdapter.setOnClickListener { tvShowResults ->
 
             tvShowResults.apply {
@@ -132,9 +135,16 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
 
             R.id.topRatedTvShows -> {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    topRatedTvShowViewModel.topRatedTvShowsUiState.collect { uiState ->
+                    topRatedTvShowsViewModel.topRatedTvShowsUiState.collect { uiState ->
                         when {
-                            uiState.isLoading -> {}
+                            uiState.isLoading -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "We are loading..",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
                             uiState.topRatedTvShowsFlow != null -> {
                                 uiState.topRatedTvShowsFlow.collect {
                                     topRatedTvShowsAdapter.submitData(it)
@@ -182,6 +192,7 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                 return true
 
             }
+
             R.id.tvShowsOnTheAir -> {
                 viewLifecycleOwner.lifecycleScope.launch {
                     tvShowsOnTheAirViewModel.tvShowsOnTheAir.collect { uiState ->
@@ -209,28 +220,28 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
             }
 
             R.id.tvShowsAiringToday -> {
-                 viewLifecycleOwner.lifecycleScope.launch {
-                     tvShowsAiringTodayViewModel.tvShowsAiringTodayUiState.collect { uiState ->
-                         when {
-                             uiState.isLoading -> {}
-                             uiState.tvShowsAiringToday != null -> {
-                                 uiState.tvShowsAiringToday.collect {
-                                     topRatedTvShowsAdapter.submitData(it)
-                                 }
-                             }
+                viewLifecycleOwner.lifecycleScope.launch {
+                    tvShowsAiringTodayViewModel.tvShowsAiringTodayUiState.collect { uiState ->
+                        when {
+                            uiState.isLoading -> {}
+                            uiState.tvShowsAiringToday != null -> {
+                                uiState.tvShowsAiringToday.collect {
+                                    topRatedTvShowsAdapter.submitData(it)
+                                }
+                            }
 
-                             uiState.error != null -> {
-                                 Toast.makeText(
-                                     requireContext(),
-                                     "An unexpected error occurred",
-                                     Toast.LENGTH_SHORT
-                                 ).show()
-                             }
-                         }
-                         currentAdapter = topRatedTvShowsAdapter
-                         recyclerView.adapter = currentAdapter
-                     }
-                 }
+                            uiState.error != null -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "An unexpected error occurred",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        currentAdapter = topRatedTvShowsAdapter
+                        recyclerView.adapter = currentAdapter
+                    }
+                }
                 return true
             }
 

@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -22,15 +23,10 @@ import com.google.android.material.snackbar.Snackbar
 class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
 
     private val args: MovieDetailsFragmentArgs by navArgs()
-
-    //    private val favouriteMoviesViewModel:FavouriteMoviesViewModel by viewModels()
-    private lateinit var favouriteMoviesViewModel: FavouriteMoviesViewModel
+    private val  favouriteMoviesViewModel: FavouriteMoviesViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentMovieDetailsBinding.bind(view)
-
-        favouriteMoviesViewModel =
-            ViewModelProvider(requireActivity()).get(FavouriteMoviesViewModel::class.java)
 
         val actionbar = (activity as AppCompatActivity).supportActionBar
         actionbar?.apply {

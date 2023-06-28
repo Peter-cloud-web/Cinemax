@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,13 +17,14 @@ import com.example.cinemaxv3.databinding.FragmentReviewsBinding
 import com.example.cinemaxv3.presentation.ui.adapter.MovieReviewsAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.MovieViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel.MovieReviewsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
-
+@AndroidEntryPoint
 class ReviewsFragment : Fragment(R.layout.fragment_reviews) {
-    private lateinit var movieReviewsViewModel: MovieReviewsViewModel
+    private val movieReviewsViewModel: MovieReviewsViewModel by viewModels()
     private lateinit var reviewAdapter: MovieReviewsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +45,6 @@ class ReviewsFragment : Fragment(R.layout.fragment_reviews) {
             title = "Reviews"
         }
 
-        movieReviewsViewModel = ViewModelProvider(requireActivity()).get(MovieReviewsViewModel::class.java)
         reviewAdapter = MovieReviewsAdapter(imageLoader)
 
         try {

@@ -4,16 +4,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.example.cinemaxv3.common.Resource
 import com.example.cinemaxv3.db.MovieDatabase
-import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResponses
 import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
 import com.example.cinemaxv3.domain.paging.mediators.TopRatedTvShowsMediator
 import com.example.cinemaxv3.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import java.io.IOException
 import javax.inject.Inject
 
 class TopRatedTvShowsUseCase @Inject constructor(
@@ -21,7 +16,8 @@ class TopRatedTvShowsUseCase @Inject constructor(
     private val movieDatabase: MovieDatabase
 ) {
     @OptIn(ExperimentalPagingApi::class)
-    operator fun invoke() = Pager(
+    operator fun invoke(): Flow<PagingData<TvShowsResults>> {
+        val pager = Pager(
             config = PagingConfig(
                 pageSize = 20,
                 prefetchDistance = 10,
@@ -36,5 +32,7 @@ class TopRatedTvShowsUseCase @Inject constructor(
                 repository, movieDatabase
             )
         ).flow
-
+        return pager
     }
+
+}
