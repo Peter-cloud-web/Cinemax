@@ -8,3 +8,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CinemaxV3"
 include ':app'
+include ':domain'
+include ':data'
+include ':core'

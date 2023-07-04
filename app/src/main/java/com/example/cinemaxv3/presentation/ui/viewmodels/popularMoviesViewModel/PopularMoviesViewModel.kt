@@ -1,12 +1,12 @@
 package com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel
 
+import Mappers.toMovie
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.cinemaxv3.data.remote.mappers.Mappers.toMovie
-import com.example.cinemaxv3.domain.repository.MovieRepository
-import com.example.cinemaxv3.domain.use_cases.popularMovies_usecase.PopularMoviesUseCase
 import com.example.cinemaxv3.models.Movie
+import com.example.domain.use_cases.popularMovies_usecase.PopularMoviesUseCase
+import com.example.framework.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

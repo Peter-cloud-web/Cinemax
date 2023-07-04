@@ -7,18 +7,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemSearchBinding
-import com.example.cinemaxv3.models.Movie
-import com.example.cinemaxv3.domain.model.favourites.FavouriteMovies
+import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
+import com.example.framework.model.favourites.FavouriteMovies
 import javax.inject.Inject
 
-class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) : RecyclerView.Adapter<FavouriteMoviesAdapter.FavouriteMoviesViewHolder>() {
+class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
+    RecyclerView.Adapter<FavouriteMoviesAdapter.FavouriteMoviesViewHolder>() {
 
 
-    private var onFavouriteMovieOnClickListener:((FavouriteMovies) -> Unit)? = null
+    private var onFavouriteMovieOnClickListener: ((FavouriteMovies) -> Unit)? =
+        null
 
-    inner class FavouriteMoviesViewHolder(val binding:ItemSearchBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class FavouriteMoviesViewHolder(val binding: ItemSearchBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     val favouriteMovies = AsyncListDiffer(this, FavouriteMoviesComparator)
 
@@ -26,7 +28,7 @@ class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageL
         parent: ViewGroup,
         viewType: Int
     ): FavouriteMoviesViewHolder {
-        val binding = ItemSearchBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavouriteMoviesViewHolder(binding)
     }
 
@@ -34,10 +36,10 @@ class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageL
         holder: FavouriteMoviesViewHolder,
         position: Int
     ) {
-        val movieAvatar =  "https://image.tmdb.org/t/p/w500"
+        val movieAvatar = IMAGE_BASE_URL
         val favourites = favouriteMovies.currentList[position]
-        with(holder){
-            with(favourites){
+        with(holder) {
+            with(favourites) {
                 val request = ImageRequest.Builder(holder.itemView.context)
                     .data(movieAvatar + (this?.poster_path ?: null))
                     .target(binding.imageMovies)
@@ -48,9 +50,9 @@ class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageL
                 binding.movieTitile.text = this.title.toString()
                 binding.aboutMovie.text = this.overview.toString()
 
-                itemView.setOnClickListener{
+                itemView.setOnClickListener {
                     this?.let {
-                        onFavouriteMovieOnClickListener?.let{ it1 ->
+                        onFavouriteMovieOnClickListener?.let { it1 ->
                             it1(it)
                         }
                     }
@@ -61,7 +63,7 @@ class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageL
 
     }
 
-    fun setOnItemClickListener(listener:(FavouriteMovies) -> Unit){
+    fun setOnItemClickListener(listener: (FavouriteMovies) -> Unit) {
         onFavouriteMovieOnClickListener = listener
     }
 
@@ -70,13 +72,21 @@ class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageL
     }
 
     companion object {
-        private val FavouriteMoviesComparator = object : DiffUtil.ItemCallback<FavouriteMovies>() {
-            override fun areItemsTheSame(oldItem: FavouriteMovies, newItem: FavouriteMovies): Boolean {
-                return oldItem.id == newItem.id
+        private val FavouriteMoviesComparator =
+            object : DiffUtil.ItemCallback<FavouriteMovies>() {
+                override fun areItemsTheSame(
+                    oldItem: FavouriteMovies,
+                    newItem: FavouriteMovies
+                ): Boolean {
+                    return oldItem.id == newItem.id
+                }
+
+                override fun areContentsTheSame(
+                    oldItem: FavouriteMovies,
+                    newItem: FavouriteMovies
+                ): Boolean {
+                    return oldItem == newItem
+                }
             }
-            override fun areContentsTheSame(oldItem: FavouriteMovies, newItem: FavouriteMovies): Boolean {
-                return oldItem == newItem
-            }
-        }
     }
 }

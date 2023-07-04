@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cinemaxv3.data.remote.dto.movieDto.MovieResponseDto
-import com.example.cinemaxv3.domain.use_cases.searchedMovies_usecase.SearchMoviesUseCase
-import com.example.cinemaxv3.service.MovieApi
+import com.example.framework.movieDto.MovieResponseDto
+import com.example.domain.use_cases.searchedMovies_usecase.SearchMoviesUseCase
+import com.example.service.MovieApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,8 +17,8 @@ class SearchedMoviesViewModel @Inject constructor(
     private val api: MovieApi
 ) : ViewModel() {
 
-    private val _searchMoviesResponse = MutableLiveData<MovieResponseDto?>()
-    val SearchResponse: LiveData<MovieResponseDto?> = _searchMoviesResponse
+    private val _searchMoviesResponse = MutableLiveData<com.example.framework.movieDto.MovieResponseDto?>()
+    val SearchResponse: LiveData<com.example.framework.movieDto.MovieResponseDto?> = _searchMoviesResponse
 //        get() = _searchMoviesResponse
 
     fun searchMovies(query: String) {

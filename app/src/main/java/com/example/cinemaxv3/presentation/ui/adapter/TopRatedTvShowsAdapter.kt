@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemTvShowsBinding
-import com.example.cinemaxv3.models.TopRatedMovies
-import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
+import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
+import com.example.framework.model.tvShowsResponse.TvShowsResults
 import javax.inject.Inject
 
 class TopRatedTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoader) :
@@ -18,13 +17,15 @@ class TopRatedTvShowsAdapter @Inject constructor(private val imageLoader: ImageL
         MovieModelComparator
     ) {
 
-    private var onMovieClickListener: ((TvShowsResults) -> Unit)? = null
+    private var onMovieClickListener: ((TvShowsResults) -> Unit)? =
+        null
 
     inner class TopRatedTvShowsViewHolder(val binding: ItemTvShowsBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     companion object {
-        private val MovieModelComparator = object : DiffUtil.ItemCallback<TvShowsResults>() {
+        private val MovieModelComparator = object :
+            DiffUtil.ItemCallback<TvShowsResults>() {
             override fun areItemsTheSame(
                 oldItem: TvShowsResults,
                 newItem: TvShowsResults
@@ -43,8 +44,9 @@ class TopRatedTvShowsAdapter @Inject constructor(private val imageLoader: ImageL
     }
 
     override fun onBindViewHolder(holder: TopRatedTvShowsViewHolder, position: Int) {
-        val topRatedTvShows: TvShowsResults? = getItem(position)
-        val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
+        val topRatedTvShows: TvShowsResults? =
+            getItem(position)
+        val IMAGE_BASE = IMAGE_BASE_URL
 
         with(holder) {
             with(topRatedTvShows) {
@@ -65,7 +67,7 @@ class TopRatedTvShowsAdapter @Inject constructor(private val imageLoader: ImageL
         }
     }
 
-    fun setOnClickListener(listener : (TvShowsResults) -> Unit){
+    fun setOnClickListener(listener: (TvShowsResults) -> Unit) {
         onMovieClickListener = listener
     }
 

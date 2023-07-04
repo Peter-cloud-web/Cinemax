@@ -7,23 +7,32 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemTvShowsBinding
-import com.example.cinemaxv3.domain.model.tvShowsResponse.TvShowsResults
+import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
+import com.example.framework.model.tvShowsResponse.TvShowsResults
 import javax.inject.Inject
 
-class LatestTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoader ): PagingDataAdapter<TvShowsResults, LatestTvShowsAdapter.LatestTvShowsViewHolder>(
-    MovieModelComparator) {
+class LatestTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoader) :
+    PagingDataAdapter<TvShowsResults, LatestTvShowsAdapter.LatestTvShowsViewHolder>(
+        MovieModelComparator
+    ) {
     inner class LatestTvShowsViewHolder(val binding: ItemTvShowsBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     companion object {
-        private val MovieModelComparator = object : DiffUtil.ItemCallback<TvShowsResults>() {
-            override fun areItemsTheSame(oldItem: TvShowsResults, newItem: TvShowsResults): Boolean {
+        private val MovieModelComparator = object :
+            DiffUtil.ItemCallback<TvShowsResults>() {
+            override fun areItemsTheSame(
+                oldItem: TvShowsResults,
+                newItem: TvShowsResults
+            ): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: TvShowsResults, newItem: TvShowsResults): Boolean {
+            override fun areContentsTheSame(
+                oldItem: TvShowsResults,
+                newItem: TvShowsResults
+            ): Boolean {
                 return oldItem == newItem
             }
         }
@@ -31,8 +40,9 @@ class LatestTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoa
     }
 
     override fun onBindViewHolder(holder: LatestTvShowsViewHolder, position: Int) {
-        val latestTvShows : TvShowsResults? = getItem(position)
-        val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
+        val latestTvShows: TvShowsResults? =
+            getItem(position)
+        val IMAGE_BASE = IMAGE_BASE_URL
 
         with(holder) {
             with(latestTvShows) {
@@ -48,6 +58,12 @@ class LatestTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoa
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LatestTvShowsViewHolder {
-        return LatestTvShowsViewHolder(ItemTvShowsBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return LatestTvShowsViewHolder(
+            ItemTvShowsBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 }

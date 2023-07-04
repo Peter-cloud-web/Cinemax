@@ -2,7 +2,7 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.movieTrailerViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.example.cinemaxv3.domain.use_cases.movietrailer_usecase.MovieTrailerUseCase
+import com.example.domain.use_cases.movietrailer_usecase.MovieTrailerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject

@@ -9,6 +9,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
 import com.example.cinemaxv3.models.UpComingMovies
+import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import javax.inject.Inject
 
 class UpComingMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
@@ -40,7 +41,7 @@ class UpComingMoviesAdapter @Inject constructor(private val imageLoader: ImageLo
 
     override fun onBindViewHolder(holder: UpComingMovieViewHolder, position: Int) {
         val movieModel: UpComingMovies? = getItem(position)
-        val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
+        val IMAGE_BASE = IMAGE_BASE_URL
 
         with(holder) {
             with(movieModel) {

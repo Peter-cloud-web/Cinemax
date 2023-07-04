@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemMoviesBinding
 import com.example.cinemaxv3.models.TopRatedMovies
+import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import javax.inject.Inject
 
 class TopRatedMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
@@ -41,7 +41,7 @@ class TopRatedMoviesAdapter @Inject constructor(private val imageLoader: ImageLo
 
     override fun onBindViewHolder(holder: TopRatedViewHolder, position: Int) {
         val movies: TopRatedMovies? = getItem(position)
-        val IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
+        val IMAGE_BASE = IMAGE_BASE_URL
 
         with(holder) {
             with(movies) {

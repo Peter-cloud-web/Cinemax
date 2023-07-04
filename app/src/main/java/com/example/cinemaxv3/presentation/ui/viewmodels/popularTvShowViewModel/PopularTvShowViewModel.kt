@@ -3,7 +3,7 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.popularTvShowViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.cinemaxv3.domain.use_cases.popular_TVshows_usecase.PopularTvShowsUseCase
+import com.example.domain.use_cases.popular_TVshows_usecase.PopularTvShowsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -23,9 +23,9 @@ import com.example.cinemaxv3.presentation.ui.adapter.UpComingMoviesAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.PopularMoviesViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.topRatedMovieViewModel.TopRatedMovieViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.upComingMoviesViewModel.UpComingMoviesViewModel
-import com.example.cinemaxv3.util.ConnectivityObserver
+import com.example.framework.receivers.ConnectivityObserver
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
-import com.example.cinemaxv3.util.NetworkConnectivityObserver
+import com.example.framework.receivers.NetworkConnectivityObserver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

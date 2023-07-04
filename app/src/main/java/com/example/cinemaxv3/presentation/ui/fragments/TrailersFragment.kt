@@ -2,7 +2,6 @@ package com.example.cinemaxv3.presentation.ui.fragments
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -14,20 +13,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.ImageLoader
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentTrailersBinding
-import com.example.cinemaxv3.domain.model.movieCasts.Cast
-import com.example.cinemaxv3.domain.model.similarMoviesResponse.SimilarMovies
 import com.example.cinemaxv3.presentation.ui.adapter.MovieCastsAdapter
 import com.example.cinemaxv3.presentation.ui.adapter.SimilarMoviesAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel.MovieCastsViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.movieTrailerViewModel.MovieTrailerViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.similarMoviesViewModel.SimilarMoviesViewModel
+import com.example.framework.model.movieCasts.Cast
+import com.example.framework.model.similarMoviesResponse.SimilarMovies
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class TrailersFragment : Fragment(R.layout.fragment_trailers) {
 
     private val movieTrailerViewModel: MovieTrailerViewModel by viewModels()
@@ -153,7 +154,8 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
     }
 
     fun loadSimilarMovies() {
-        val similarMoviesResults = mutableListOf<SimilarMovies>()
+        val similarMoviesResults =
+            mutableListOf<SimilarMovies>()
         lifecycleScope.launch {
             similarMoviesViewModel.similarMovies.collectLatest { uiState ->
                 when {

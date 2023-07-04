@@ -2,7 +2,7 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.similarMoviesViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cinemaxv3.domain.use_cases.similarmovies_usecase.SimilarMovieUseCase
+import com.example.domain.use_cases.similarmovies_usecase.SimilarMovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

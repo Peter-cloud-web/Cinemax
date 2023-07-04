@@ -2,22 +2,17 @@ package com.example.cinemaxv3.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.TypeConverters
 import coil.ImageLoader
-import coil.request.ImageRequest
-import com.example.cinemaxv3.data.repository.MovieRepositoryImpl
-import com.example.cinemaxv3.db.MovieDatabase
-import com.example.cinemaxv3.db.dao.movieDaos.MovieDao
-import com.example.cinemaxv3.db.dao.movieDaos.TopRatedMoviesDao
-import com.example.cinemaxv3.db.dao.movieDaos.UpComingMoviesDao
-import com.example.cinemaxv3.db.dao.remoteKeysDaos.RemoteKeysDao
-import com.example.cinemaxv3.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
-import com.example.cinemaxv3.db.dao.remoteKeysDaos.UpComingRemoteKeyDao
-import com.example.cinemaxv3.domain.repository.MovieRepository
-import com.example.cinemaxv3.service.MovieApi
-import com.example.cinemaxv3.util.Constants
-import com.example.cinemaxv3.util.Constants.BASE_URL
-import com.example.cinemaxv3.util.ListConverter
+import com.example.db.MovieDatabase
+import com.example.db.dao.movieDaos.MovieDao
+import com.example.db.dao.movieDaos.TopRatedMoviesDao
+import com.example.db.dao.movieDaos.UpComingMoviesDao
+import com.example.db.dao.remoteKeysDaos.RemoteKeysDao
+import com.example.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
+import com.example.db.dao.remoteKeysDaos.UpComingRemoteKeyDao
+import com.example.framework.repository.MovieRepository
+import com.example.service.MovieApi
+import com.example.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,14 +40,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCoilImageLoader(@ApplicationContext context: Context):ImageLoader{
+    fun provideCoilImageLoader(@ApplicationContext context: Context): ImageLoader {
         return ImageLoader.Builder(context)
             .build()
     }
 
     @Provides
     @Singleton
-    @TypeConverters(ListConverter::class)
     fun provideDatabase(@ApplicationContext context: Context) =
         Room.databaseBuilder(context, MovieDatabase::class.java, "movie_database")
             .fallbackToDestructiveMigration()
@@ -97,7 +91,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMovieRepository(api: MovieApi, db: MovieDatabase): MovieRepository {
-        return MovieRepositoryImpl(api, db)
+        return com.example.data.repository.MovieRepositoryImpl(api, db)
     }
 
 }

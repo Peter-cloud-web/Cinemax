@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.bumptech.glide.Glide
 import com.example.cinemaxv3.databinding.ItemReviewsBinding
+import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import com.example.cinemaxv3.util.DifferCallback
 import javax.inject.Inject
 
-class MovieReviewsAdapter @Inject constructor(private val imageLoader: ImageLoader) : RecyclerView.Adapter<MovieReviewsAdapter.ReviewsViewHolder>() {
+class MovieReviewsAdapter @Inject constructor(private val imageLoader: ImageLoader) :
+    RecyclerView.Adapter<MovieReviewsAdapter.ReviewsViewHolder>() {
     inner class ReviewsViewHolder(val binding: ItemReviewsBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -27,7 +28,7 @@ class MovieReviewsAdapter @Inject constructor(private val imageLoader: ImageLoad
     }
 
     override fun onBindViewHolder(holder: ReviewsViewHolder, position: Int) {
-        val AUTHOR_AVATAR = "https://image.tmdb.org/t/p/w500"
+        val AUTHOR_AVATAR = IMAGE_BASE_URL
         val review = comparator.currentList[position]
         with(holder) {
             with(review) {

@@ -2,9 +2,9 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewMode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cinemaxv3.domain.model.favourites.FavouriteMovies
-import com.example.cinemaxv3.domain.repository.MovieRepository
-import com.example.cinemaxv3.domain.use_cases.favouritemovies_usecase.GetFavouriteMovieUseCase
+import com.example.framework.repository.MovieRepository
+import com.example.framework.model.favourites.FavouriteMovies
+import com.example.domain.use_cases.favouritemovies_usecase.GetFavouriteMovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,7 +42,7 @@ class FavouriteMoviesViewModel @Inject constructor(
         }
     }
 
-    fun saveFavouriteMovies(favouriteMovies: FavouriteMovies) = viewModelScope.launch {
+    fun saveFavouriteMovies(favouriteMovies: com.example.framework.model.favourites.FavouriteMovies) = viewModelScope.launch {
         repository.insertFavouriteMovies(favouriteMovies)
     }
 

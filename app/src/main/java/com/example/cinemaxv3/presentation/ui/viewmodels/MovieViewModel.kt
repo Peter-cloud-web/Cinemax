@@ -1,11 +1,11 @@
 package com.example.cinemaxv3.presentation.ui.viewmodels
 
-import androidx.lifecycle.*
-import com.example.cinemaxv3.domain.model.favourites.FavouriteMovies
-import com.example.cinemaxv3.domain.repository.MovieRepository
-import com.example.cinemaxv3.service.MovieApi
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.framework.model.favourites.FavouriteMovies
+import com.example.framework.repository.MovieRepository
+import com.example.service.MovieApi
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class MovieViewModel @Inject constructor(
     val repository: MovieRepository,
 
 
-) : ViewModel() {
+    ) : ViewModel() {
 //
 //    @OptIn(ExperimentalPagingApi::class)
 //    fun getPopularMovies(): Flow<PagingData<Movie>> =
