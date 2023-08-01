@@ -30,12 +30,12 @@ The app is built on MVVM architecture
 __UI__
 
 - [Hilt](https://dagger.dev/hilt/) - Dependency Injection framework
-- [Glide](https://github.com/bumptech/glide) - Load images from network source.
+- [Coil](https://coil-kt.github.io/coil/) - Load images from network source.
 - [Jetpack Navigation](https://developer.android.com/guide/navigation) - Navigations from one fragment to another.
 
 __Data__
 
-- [Retrofit Client](https://square.github.io/retrofit/)
+- [KTOR Client](https://ktor.io/docs/create-client.html)
 - [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) - Serialization/Desirialization of JSON response from network.
 - [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - Paging data fetched from network source.
 
