@@ -2,6 +2,7 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewMode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.load.HttpException
 import com.example.framework.repository.MovieRepository
 import com.example.framework.model.favourites.FavouriteMovies
 import com.example.domain.use_cases.favouritemovies_usecase.GetFavouriteMovieUseCase
@@ -32,17 +33,19 @@ class FavouriteMoviesViewModel @Inject constructor(
             _favouriteMovies.value = FavouriteMoviesUiStates(favouriteMovies = data)
         } catch (e: Exception) {
             _favouriteMovies.value = FavouriteMoviesUiStates(
-                error = e.localizedMessage ?: "An unexpected error occurred"
-            )
-        } catch (e: IOException) {
-            _favouriteMovies.value = FavouriteMoviesUiStates(
-                error = e.localizedMessage
-                    ?: "An unexpected errror : Please check Network/Internet settings"
-            )
+                error = handleFavouriteMoviesErrors(e))
         }
     }
 
-    fun saveFavouriteMovies(favouriteMovies: com.example.framework.model.favourites.FavouriteMovies) = viewModelScope.launch {
+    private fun handleFavouriteMoviesErrors(e:Exception):String{
+        return  when (e) {
+            is IOException -> "An unexpected error occurred: Please check Network/Internet settings"
+            is HttpException -> "Unexpected network error occurred"
+            else -> "An unexpected error occurred"
+        }
+    }
+
+    fun saveFavouriteMovies(favouriteMovies: FavouriteMovies) = viewModelScope.launch {
         repository.insertFavouriteMovies(favouriteMovies)
     }
 

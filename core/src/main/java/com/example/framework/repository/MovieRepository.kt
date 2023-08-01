@@ -33,7 +33,7 @@ interface MovieRepository {
 
     suspend fun getMovieCasts(id: Int): Resource<MovieCastsResponse>
 
-    suspend fun getSimilarMovies(id: Int): Resource<SimilarMoviesResponse>
+    suspend fun getSimilarMovies(id: Int,page: Int): Resource<SimilarMoviesResponse>
 
     suspend fun getSearchedMovies(
         query: String,

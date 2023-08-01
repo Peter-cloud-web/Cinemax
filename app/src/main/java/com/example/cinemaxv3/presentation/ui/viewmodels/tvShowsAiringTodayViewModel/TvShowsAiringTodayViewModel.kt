@@ -3,7 +3,10 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.tvShowsAiringTodayViewM
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.bumptech.glide.load.HttpException
+import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates
 import com.example.domain.use_cases.TVshows_airingToday_usecase.TvShowsAringTodayUseCase
+import com.example.framework.model.tvShowsResponse.TvShowsResults
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +17,7 @@ import javax.inject.Inject
 class TvShowsAiringTodayViewModel @Inject constructor(private val tvShowsAiringTodayUseCase: TvShowsAringTodayUseCase) :
     ViewModel() {
 
-    private val _tvShowsAiringTodayUiState = MutableStateFlow(TvShowsAiringTodayUiState())
+    private val _tvShowsAiringTodayUiState = MutableStateFlow(UiStates<TvShowsResults>())
     val tvShowsAiringTodayUiState = _tvShowsAiringTodayUiState.asStateFlow()
 
     init {
@@ -23,18 +26,22 @@ class TvShowsAiringTodayViewModel @Inject constructor(private val tvShowsAiringT
 
     fun getTvShowsAiringToday() {
         try {
-            _tvShowsAiringTodayUiState.value = TvShowsAiringTodayUiState(isLoading = true)
+            _tvShowsAiringTodayUiState.value = UiStates(isLoading = true)
             val response = tvShowsAiringTodayUseCase().cachedIn(viewModelScope)
             _tvShowsAiringTodayUiState.value =
-                TvShowsAiringTodayUiState(tvShowsAiringToday = response)
+                UiStates(movies = response)
         } catch (e: Exception) {
-            _tvShowsAiringTodayUiState.value = TvShowsAiringTodayUiState(
-                error = e.localizedMessage ?: "An unexpected error occurred"
+            _tvShowsAiringTodayUiState.value = UiStates(
+                error = handleTvShowsAiringTodayErrors(e)
             )
-        } catch (e: IOException) {
-            _tvShowsAiringTodayUiState.value = TvShowsAiringTodayUiState(
-                error = e.localizedMessage ?: "Underlying Network/Internet server error occurred"
-            )
+        }
+    }
+
+    private fun handleTvShowsAiringTodayErrors(e: Exception): String {
+        return when (e) {
+            is IOException -> "An unexpected error occurred: Please check Network/Internet settings"
+            is HttpException -> "Unexpected network error occurred"
+            else -> "An unexpected error occurred"
         }
     }
 }

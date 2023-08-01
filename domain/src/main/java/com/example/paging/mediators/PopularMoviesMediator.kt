@@ -16,7 +16,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalPagingApi::class)
 class PopularMoviesMediator @Inject constructor(
     private val db: MovieDatabase,
-    private val repository: com.example.framework.repository.MovieRepository
+    private val repository: MovieRepository
 ) : RemoteMediator<Int, Movie>() {
 
     override suspend fun initialize(): InitializeAction {

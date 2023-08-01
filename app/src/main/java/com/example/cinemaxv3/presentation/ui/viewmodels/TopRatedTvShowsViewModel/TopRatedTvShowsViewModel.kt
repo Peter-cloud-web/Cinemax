@@ -3,7 +3,10 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.TopRatedTvShowsViewMode
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.bumptech.glide.load.HttpException
+import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates
 import com.example.domain.use_cases.toprated_TVshows_usecase.TopRatedTvShowsUseCase
+import com.example.framework.model.tvShowsResponse.TvShowsResults
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +18,7 @@ class TopRatedTvShowsViewModel @Inject constructor(
     private val getTopRatedTvShowsUseCase: TopRatedTvShowsUseCase
 ) : ViewModel() {
 
-    private val _topRatedTvShowsUiState = MutableStateFlow(TopRatedTvShowsUiState())
+    private val _topRatedTvShowsUiState = MutableStateFlow(UiStates<TvShowsResults>())
     val topRatedTvShowsUiState = _topRatedTvShowsUiState.asStateFlow()
 
 
@@ -25,18 +28,20 @@ class TopRatedTvShowsViewModel @Inject constructor(
 
     fun getTopRatedTvShows() {
         try {
-            _topRatedTvShowsUiState.value = TopRatedTvShowsUiState(isLoading = true)
+            _topRatedTvShowsUiState.value = UiStates(isLoading = true)
             val response = getTopRatedTvShowsUseCase().cachedIn(viewModelScope)
-            _topRatedTvShowsUiState.value = TopRatedTvShowsUiState(topRatedTvShowsFlow = response)
+            _topRatedTvShowsUiState.value = UiStates(movies = response)
         } catch (e: Exception) {
             _topRatedTvShowsUiState.value =
-                TopRatedTvShowsUiState(error = e.localizedMessage ?: "An unexpected error occurred")
-        } catch (e: IOException) {
-            _topRatedTvShowsUiState.value = TopRatedTvShowsUiState(
-                error = e.localizedMessage ?: "Underlying Network/Internet server error occurred"
-            )
+                UiStates(error = handleToRatedTvShowsErrors(e))
         }
     }
-
+    private fun handleToRatedTvShowsErrors(e:Exception):String{
+        return  when (e) {
+            is IOException -> "An unexpected error occurred: Please check Network/Internet settings"
+            is HttpException -> "Unexpected network error occurred"
+            else -> "An unexpected error occurred"
+        }
+    }
 
 }

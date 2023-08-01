@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class SimilarMovieUseCase @Inject constructor(private val repository: com.example.framework.repository.MovieRepository) {
 
-    suspend operator fun invoke(id: Int) = repository.getSimilarMovies(id = id)
+    suspend operator fun invoke(id: Int) = repository.getSimilarMovies(id = id,1)
 
 }

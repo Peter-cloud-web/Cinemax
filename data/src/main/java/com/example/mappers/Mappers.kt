@@ -16,7 +16,7 @@ object Mappers {
             title = title,
             vote_average = vote_average,
             vote_count = vote_count,
-            page = page
+            page = 1
         )
     }
 
@@ -30,7 +30,7 @@ object Mappers {
             title = title,
             vote_average = vote_average,
             vote_count = vote_count,
-            page = page
+            page = 1
         )
     }
 
@@ -44,7 +44,7 @@ object Mappers {
             title = title,
             vote_average = vote_average,
             vote_count = vote_count,
-            page = page
+            page = 1
         )
     }
 }

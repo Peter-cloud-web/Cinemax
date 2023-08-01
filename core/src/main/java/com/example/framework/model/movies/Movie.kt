@@ -6,6 +6,7 @@ import java.io.Serializable
 
 
 @Entity(tableName = "movies")
+@kotlinx.serialization.Serializable
 data class Movie(
     @SerializedName("backdrop_path") val backdrop_path: String?,
     @SerializedName(" original_title") val original_title: String?,
@@ -21,6 +22,7 @@ data class Movie(
 
 
 @Entity(tableName = "toprated_movies")
+@kotlinx.serialization.Serializable
 data class TopRatedMovies(
     @SerializedName("backdrop_path") val backdrop_path: String?,
     @SerializedName(" original_title") val original_title: String?,
@@ -35,6 +37,7 @@ data class TopRatedMovies(
 ) : Serializable
 
 @Entity(tableName = "upcoming_movies")
+@kotlinx.serialization.Serializable
 data class UpComingMovies(
     @SerializedName("backdrop_path") val backdrop_path: String?,
     @SerializedName(" original_title") val original_title: String?,

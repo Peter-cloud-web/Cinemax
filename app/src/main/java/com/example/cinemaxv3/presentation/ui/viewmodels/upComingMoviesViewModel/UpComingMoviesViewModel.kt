@@ -3,6 +3,9 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.upComingMoviesViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.bumptech.glide.load.HttpException
+import com.example.cinemaxv3.models.UpComingMovies
+import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates
 import com.example.domain.use_cases.upcomingMovies_usecase.UpComingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +19,7 @@ class UpComingMoviesViewModel @Inject constructor(
 
     ) : ViewModel() {
 
-    private val _upComingMoviesState = MutableStateFlow(UpComingMoviesUiState())
+    private val _upComingMoviesState = MutableStateFlow(UiStates<UpComingMovies>())
     val upComingMoviesState = _upComingMoviesState.asStateFlow()
 
     init {
@@ -25,15 +28,19 @@ class UpComingMoviesViewModel @Inject constructor(
 
     fun getUpComingMovies() {
         try {
-            _upComingMoviesState.value = UpComingMoviesUiState(isLoading = true)
+            _upComingMoviesState.value = UiStates(isLoading = true)
             val response = getUpComingMoviesUseCase().cachedIn(viewModelScope)
-            _upComingMoviesState.value = UpComingMoviesUiState(upComingMovies = response)
+            _upComingMoviesState.value = UiStates(movies = response)
         } catch (e: Exception) {
             _upComingMoviesState.value =
-                UpComingMoviesUiState(error = e.localizedMessage ?: "An unexpected error occurred")
-        } catch (e: IOException) {
-            _upComingMoviesState.value =
-                UpComingMoviesUiState(error = "Network error, check internet connection and try again")
+                UiStates(error = handleUpComingMoviesErrors(e))
+        }
+    }
+    private fun handleUpComingMoviesErrors(e:Exception):String{
+        return  when (e) {
+            is IOException -> "An unexpected error occurred: Please check Network/Internet settings"
+            is HttpException -> "Unexpected network error occurred"
+            else -> "An unexpected error occurred"
         }
     }
 }

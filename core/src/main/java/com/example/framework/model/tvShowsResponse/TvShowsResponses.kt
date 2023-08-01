@@ -1,10 +1,13 @@
 package com.example.framework.model.tvShowsResponse
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TvShowsResponses(
-    @SerializedName("page")val page: Int,
-    @SerializedName("results") val results: List<TvShowsResults>,
-    @SerializedName("total_pages")val total_pages: Int,
-    @SerializedName("total_results")val total_results: Int
+    @SerialName("page")val page: Int,
+    @SerialName("results") val results: List<TvShowsResults>,
+    @SerialName("total_pages")val total_pages: Int,
+    @SerialName("total_results")val total_results: Int
 )

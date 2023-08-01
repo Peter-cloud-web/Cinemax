@@ -2,73 +2,74 @@ package com.example.framework.movieDto
 
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import java.io.Serializable
 
 
+@kotlinx.serialization.Serializable
 data class MovieDto(
-    @SerializedName("adult") val adult: Boolean?,
-    @SerializedName("backdrop_path") val backdrop_path: String?,
-    @SerializedName("genre_ids") val genre_ids: List<Int>?,
-    @SerializedName("original_language") val original_language: String?,
-    @SerializedName(" original_title") val original_title: String?,
-    @SerializedName("overview") val overview: String?,
-    @SerializedName("popularity") val popularity: Double?,
-    @SerializedName("poster_path") val poster_path: String?,
-    @SerializedName("release_date") val release_date: String?,
+    @SerialName("adult") val adult: Boolean?,
+    @SerialName("backdrop_path") val backdrop_path: String?,
+    @SerialName("genre_ids") val genre_ids: List<Int>?,
+    @SerialName("original_language") val original_language: String?,
+    @SerialName("original_title") val original_title: String?,
+    @SerialName("overview") val overview: String?,
+    @SerialName("popularity") val popularity: Double?,
+    @SerialName("poster_path") val poster_path: String?,
+    @SerialName("release_date") val release_date: String?,
 
     @PrimaryKey(autoGenerate = true)
-    @SerializedName("id") val id: Int,
+    @SerialName("id") val id: Int,
 
 
-    @SerializedName("title") val title: String?,
-    @SerializedName("video") val video: Boolean?,
-    @SerializedName("vote_average") val vote_average: Double,
-    @SerializedName("vote_count") val vote_count: Int?,
-    @ColumnInfo(name = "page") var page: Int?
+    @SerialName("title") val title: String?,
+    @SerialName("video") val video: Boolean?,
+    @SerialName("vote_average") val vote_average: Double,
+    @SerialName("vote_count") val vote_count: Int?,
 ) : Serializable
 
 
+@kotlinx.serialization.Serializable
 data class TopRatedMoviesDto(
-    @SerializedName("adult") val adult: Boolean?,
-    @SerializedName("backdrop_path") val backdrop_path: String?,
-    @SerializedName("genre_ids") val genre_ids: List<Int>?,
-    @SerializedName("original_language") val original_language: String?,
-    @SerializedName(" original_title") val original_title: String?,
-    @SerializedName("overview") val overview: String?,
-    @SerializedName("popularity") val popularity: Double,
-    @SerializedName("poster_path") val poster_path: String?,
-    @SerializedName("release_date") val release_date: String?,
+    @SerialName("adult") val adult: Boolean?,
+    @SerialName("backdrop_path") val backdrop_path: String?,
+    @SerialName("genre_ids") val genre_ids: List<Int>?,
+    @SerialName("original_language") val original_language: String?,
+    @SerialName("original_title") val original_title: String?,
+    @SerialName("overview") val overview: String?,
+    @SerialName("popularity") val popularity: Double,
+    @SerialName("poster_path") val poster_path: String?,
+    @SerialName("release_date") val release_date: String?,
 
     @PrimaryKey(autoGenerate = true)
-    @SerializedName("id") val id: Int,
+    @SerialName("id") val id: Int,
 
-    @SerializedName("title") val title: String?,
-    @SerializedName("video") val video: Boolean?,
-    @SerializedName("vote_average") val vote_average: Double,
-    @SerializedName("vote_count") val vote_count: Int?,
-    @ColumnInfo(name = "page") var page: Int?
+    @SerialName("title") val title: String?,
+    @SerialName("video") val video: Boolean?,
+    @SerialName("vote_average") val vote_average: Double,
+    @SerialName("vote_count") val vote_count: Int?
 ) : Serializable
 
 
+@kotlinx.serialization.Serializable
 data class UpComingMoviesDto(
 
-    @SerializedName("adult") val adult: Boolean?,
-    @SerializedName("backdrop_path") val backdrop_path: String?,
-    @SerializedName("genre_ids") val genre_ids: List<Int>?,
-    @SerializedName("original_language") val original_language: String?,
-    @SerializedName(" original_title") val original_title: String?,
-    @SerializedName("overview") val overview: String?,
-    @SerializedName("popularity") val popularity: Double?,
-    @SerializedName("poster_path") val poster_path: String?,
-    @SerializedName("release_date") val release_date: String?,
+    @SerialName("adult") val adult: Boolean?,
+    @SerialName("backdrop_path") val backdrop_path: String?,
+    @SerialName("genre_ids") val genre_ids: List<Int>?,
+    @SerialName("original_language") val original_language: String?,
+    @SerialName("original_title") val original_title: String?,
+    @SerialName("overview") val overview: String?,
+    @SerialName("popularity") val popularity: Double?,
+    @SerialName("poster_path") val poster_path: String?,
+    @SerialName("release_date") val release_date: String?,
 
     @PrimaryKey(autoGenerate = true)
-    @SerializedName("id") val id: Int,
+    @SerialName("id") val id: Int,
 
-    @SerializedName("title") val title: String?,
-    @SerializedName("video") val video: Boolean?,
-    @SerializedName("vote_average") val vote_average: Double,
-    @SerializedName("vote_count") val vote_count: Int?,
-    @ColumnInfo(name = "page") var page: Int?
+    @SerialName("title") val title: String?,
+    @SerialName("video") val video: Boolean?,
+    @SerialName("vote_average") val vote_average: Double,
+    @SerialName("vote_count") val vote_count: Int?
 ) : Serializable
 

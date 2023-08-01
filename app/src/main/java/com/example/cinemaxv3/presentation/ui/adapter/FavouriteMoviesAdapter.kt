@@ -51,9 +51,9 @@ class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageL
                 binding.aboutMovie.text = this.overview.toString()
 
                 itemView.setOnClickListener {
-                    this?.let {
-                        onFavouriteMovieOnClickListener?.let { it1 ->
-                            it1(it)
+                    this?.let { favouriteMovies ->
+                        onFavouriteMovieOnClickListener?.let { it ->
+                            it(favouriteMovies)
                         }
                     }
                 }

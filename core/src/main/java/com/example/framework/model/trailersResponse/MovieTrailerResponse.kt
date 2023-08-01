@@ -1,8 +1,11 @@
 package com.example.framework.model.trailersResponse
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MovieTrailerResponse(
-    @SerializedName("id")val id: Int,
-    @SerializedName("results")  val results: List<TrailerResults>
+    @SerialName("id")val id: Int,
+    @SerialName("results")  val results: List<TrailerResults>
 )

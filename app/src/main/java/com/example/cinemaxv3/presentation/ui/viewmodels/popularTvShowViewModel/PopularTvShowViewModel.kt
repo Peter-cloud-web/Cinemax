@@ -3,7 +3,10 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.popularTvShowViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.bumptech.glide.load.HttpException
+import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates
 import com.example.domain.use_cases.popular_TVshows_usecase.PopularTvShowsUseCase
+import com.example.framework.model.tvShowsResponse.TvShowsResults
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +18,7 @@ class PopularTvShowViewModel @Inject constructor(
     private val getPopularTvShowsUseCase: PopularTvShowsUseCase,
 ) : ViewModel() {
 
-    private val _popularTvShowState = MutableStateFlow(PopularTvShowsUiStates()) //Mutable
+    private val _popularTvShowState = MutableStateFlow(UiStates<TvShowsResults>()) //Mutable
     val popularTvShowsUiStates = _popularTvShowState.asStateFlow() //immutable
 
     init {
@@ -24,16 +27,19 @@ class PopularTvShowViewModel @Inject constructor(
 
     fun getPopularTvShows() {
         try {
-            _popularTvShowState.value = PopularTvShowsUiStates(isLoading = true)
+            _popularTvShowState.value = UiStates(isLoading = true)
             val response = getPopularTvShowsUseCase().cachedIn(viewModelScope)
-            _popularTvShowState.value = PopularTvShowsUiStates(popularTvShows = response)
+            _popularTvShowState.value = UiStates(movies = response)
         } catch (e: Exception) {
             _popularTvShowState.value =
-                PopularTvShowsUiStates(error = e.localizedMessage ?: "An unexpected error occurred")
-        } catch (e: IOException) {
-            _popularTvShowState.value = PopularTvShowsUiStates(
-                error = e.localizedMessage ?: "Underlying Network/Internet server error occurred"
-            )
+                UiStates(error = handlePopularTvShowsErrors(e))
+        }
+    }
+    private fun handlePopularTvShowsErrors(e:Exception):String{
+        return  when (e) {
+            is IOException -> "An unexpected error occurred: Please check Network/Internet settings"
+            is HttpException -> "Unexpected network error occurred"
+            else -> "An unexpected error occurred"
         }
     }
 

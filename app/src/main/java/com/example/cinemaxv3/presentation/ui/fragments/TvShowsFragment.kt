@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentTvShowsBinding
-import com.example.cinemaxv3.presentation.ui.adapter.TopRatedTvShowsAdapter
+import com.example.cinemaxv3.presentation.ui.adapter.SharedTvShowsAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.TopRatedTvShowsViewModel.TopRatedTvShowsViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.popularTvShowViewModel.PopularTvShowViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.tvShowsAiringTodayViewModel.TvShowsAiringTodayViewModel
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
-    private lateinit var topRatedTvShowsAdapter: TopRatedTvShowsAdapter
+    private lateinit var sharedTvShowsAdapter: SharedTvShowsAdapter
     private lateinit var currentAdapter: RecyclerView.Adapter<*>
     private lateinit var recyclerView: RecyclerView
 
@@ -66,13 +65,13 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
 
 
     private fun initializations(imageLoader: ImageLoader) {
-        topRatedTvShowsAdapter = TopRatedTvShowsAdapter(imageLoader = imageLoader)
+        sharedTvShowsAdapter = SharedTvShowsAdapter(imageLoader = imageLoader)
     }
 
     private fun loadViewsToRecyclerviews(binding: FragmentTvShowsBinding) {
         binding.topRatedTvShowsMoviesRecyclerview.apply {
             layoutManager = GridLayoutManager(activity, 3)
-            adapter = topRatedTvShowsAdapter
+            adapter = sharedTvShowsAdapter
         }
     }
 
@@ -81,9 +80,9 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
             topRatedTvShowsViewModel.topRatedTvShowsUiState.collect { uiState ->
                 when {
                     uiState.isLoading -> {}
-                    uiState.topRatedTvShowsFlow != null -> {
-                        uiState.topRatedTvShowsFlow.collect {
-                            topRatedTvShowsAdapter.submitData(it)
+                    uiState.movies != null -> {
+                        uiState.movies.collect {
+                            sharedTvShowsAdapter.submitData(it)
                         }
                     }
 
@@ -95,14 +94,14 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                         ).show()
                     }
                 }
-                currentAdapter = topRatedTvShowsAdapter
+                currentAdapter = sharedTvShowsAdapter
                 recyclerView.adapter = currentAdapter
             }
         }
     }
 
     private fun tvShowsInDetail(){
-        topRatedTvShowsAdapter.setOnClickListener { tvShowResults ->
+        sharedTvShowsAdapter.setOnClickListener { tvShowResults ->
 
             tvShowResults.apply {
                 val movieId = id
@@ -145,9 +144,9 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                                 ).show()
                             }
 
-                            uiState.topRatedTvShowsFlow != null -> {
-                                uiState.topRatedTvShowsFlow.collect {
-                                    topRatedTvShowsAdapter.submitData(it)
+                            uiState.movies != null -> {
+                                uiState.movies.collect {
+                                    sharedTvShowsAdapter.submitData(it)
                                 }
                             }
 
@@ -159,7 +158,7 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                                 ).show()
                             }
                         }
-                        currentAdapter = topRatedTvShowsAdapter
+                        currentAdapter = sharedTvShowsAdapter
                         recyclerView.adapter = currentAdapter
                     }
                 }
@@ -171,9 +170,10 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                     popularTvShowViewModel.popularTvShowsUiStates.collect { uiState ->
                         when {
                             uiState.isLoading -> {}
-                            uiState.popularTvShows != null -> {
-                                uiState.popularTvShows.collect {
-                                    topRatedTvShowsAdapter.submitData(it)
+                            uiState.movies != null -> {
+                                uiState.movies
+                                    .collect {
+                                    sharedTvShowsAdapter.submitData(it)
                                 }
                             }
 
@@ -185,7 +185,7 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                                 ).show()
                             }
                         }
-                        currentAdapter = topRatedTvShowsAdapter
+                        currentAdapter = sharedTvShowsAdapter
                         recyclerView.adapter = currentAdapter
                     }
                 }
@@ -198,9 +198,9 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                     tvShowsOnTheAirViewModel.tvShowsOnTheAir.collect { uiState ->
                         when {
                             uiState.isLoading -> {}
-                            uiState.tvShowsOnTheAir != null -> {
-                                uiState.tvShowsOnTheAir.collect {
-                                    topRatedTvShowsAdapter.submitData(it)
+                            uiState.movies != null -> {
+                                uiState.movies.collect {
+                                    sharedTvShowsAdapter.submitData(it)
                                 }
                             }
 
@@ -212,7 +212,7 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                                 ).show()
                             }
                         }
-                        currentAdapter = topRatedTvShowsAdapter
+                        currentAdapter = sharedTvShowsAdapter
                         recyclerView.adapter = currentAdapter
                     }
                 }
@@ -224,9 +224,9 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                     tvShowsAiringTodayViewModel.tvShowsAiringTodayUiState.collect { uiState ->
                         when {
                             uiState.isLoading -> {}
-                            uiState.tvShowsAiringToday != null -> {
-                                uiState.tvShowsAiringToday.collect {
-                                    topRatedTvShowsAdapter.submitData(it)
+                            uiState.movies != null -> {
+                                uiState.movies.collect {
+                                    sharedTvShowsAdapter.submitData(it)
                                 }
                             }
 
@@ -238,7 +238,7 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
                                 ).show()
                             }
                         }
-                        currentAdapter = topRatedTvShowsAdapter
+                        currentAdapter = sharedTvShowsAdapter
                         recyclerView.adapter = currentAdapter
                     }
                 }

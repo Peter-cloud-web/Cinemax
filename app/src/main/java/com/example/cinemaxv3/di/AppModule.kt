@@ -3,6 +3,8 @@ package com.example.cinemaxv3.di
 import android.content.Context
 import androidx.room.Room
 import coil.ImageLoader
+import com.example.cinemaxv3.di.network.TmdbHttpClient
+import com.example.data.repository.MovieRepositoryImpl
 import com.example.db.MovieDatabase
 import com.example.db.dao.movieDaos.MovieDao
 import com.example.db.dao.movieDaos.TopRatedMoviesDao
@@ -18,6 +20,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -37,6 +40,29 @@ object AppModule {
             .baseUrl(BASE_URL)
             .build()
             .create(MovieApi::class.java)
+
+//    @Provides
+//    @Singleton
+//    fun provideHttpClient(): HttpClient =
+//        HttpClient{
+//            install(JsonFeature){
+//                serializer = KotlinxSerializer()
+//            }
+//            install(Logging){
+//                level = LogLevel.ALL
+//            }
+//            install(WebSockets)
+//
+//            defaultRequest {
+//                url.host = BASE_URL
+//            }
+//        }
+//        Retrofit.Builder()
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .baseUrl(BASE_URL)
+//            .build()
+//            .create(MovieApi::class.java)
+
 
     @Provides
     @Singleton
@@ -89,9 +115,18 @@ object AppModule {
     }
 
     @Provides
+    fun getHttpClient():HttpClient{
+        return TmdbHttpClient().getHttpClient()
+    }
+
+    @Provides
     @Singleton
-    fun provideMovieRepository(api: MovieApi, db: MovieDatabase): MovieRepository {
-        return com.example.data.repository.MovieRepositoryImpl(api, db)
+    fun provideMovieRepository(
+        httpClient: HttpClient,
+        api: MovieApi,
+        db: MovieDatabase
+    ): MovieRepository {
+        return MovieRepositoryImpl(httpClient, api, db)
     }
 
 }

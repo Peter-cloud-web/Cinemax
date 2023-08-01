@@ -1,5 +1,8 @@
 package com.example.framework.model.trailersResponse
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class TrailerResults(
     val id: String,
     val iso_3166_1: String,

@@ -125,7 +125,7 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
                 when {
                     uiState.isLoading -> {}
                     uiState.movieCasts != null -> {
-                        val casts = uiState.movieCasts.cast.asFlow()
+                        val casts = uiState.movieCasts
                         casts.collect {
                             castList.addAll(listOf(it))
                         }
@@ -161,8 +161,8 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
                 when {
                     uiState.isLoading -> {}
                     uiState.similarMovies != null -> {
-                        val similarMoviesResponse = uiState.similarMovies.results.asFlow()
-                        similarMoviesResponse.collect {
+                        val similarMoviesResponse = uiState.similarMovies
+                        similarMoviesResponse?.collect {
                             similarMoviesResults.addAll(listOf(it))
                         }
                         similarMoviesAdapter.similarMoviesDifferList.submitList(similarMoviesResults)

@@ -1,191 +1,150 @@
 package com.example.data.repository
 
 import com.example.cinemaxv3.models.responses.ReviewsResponse
+import com.example.data.BuildConfig
+import com.example.db.MovieDatabase
 import com.example.framework.common.Resource
 import com.example.framework.model.favourites.FavouriteMovies
 import com.example.framework.model.movieCasts.MovieCastsResponse
 import com.example.framework.model.similarMoviesResponse.SimilarMoviesResponse
 import com.example.framework.model.trailersResponse.MovieTrailerResponse
 import com.example.framework.model.tvShowsResponse.TvShowsResponses
-import com.example.db.MovieDatabase
+import com.example.framework.movieDto.MovieResponseDto
 import com.example.framework.movieDto.TopRatedMovieResponseDto
+import com.example.framework.movieDto.UpComingMovieResponseDto
 import com.example.framework.repository.MovieRepository
 import com.example.service.MovieApi
+import com.example.util.Constants.KTOR_BASE_URL
+import com.example.util.Constants.POPULAR_MOVIES
+import com.example.util.Constants.POPULAR_TV_SHOWS
+import com.example.util.Constants.SEARCH_MOVIES
+import com.example.util.Constants.TOPRATED_MOVIES
+import com.example.util.Constants.TOPRATED_TV_SHOWS
+import com.example.util.Constants.TV_SHOWS_AIRING_TODAY
+import com.example.util.Constants.TV_SHOWS_ON_THE_AIR
+import com.example.util.Constants.UPCOMING_MOVIES
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.http.URLProtocol
 import java.io.IOException
 import javax.inject.Inject
 
+
 class MovieRepositoryImpl @Inject constructor(
-    private val api: MovieApi, private val db: MovieDatabase
+    private val httpClient: HttpClient, private val api: MovieApi, private val db: MovieDatabase
 ) : MovieRepository {
 
+    private suspend inline fun <reified T> getApiRequest(urlPath: String, page: Int): Resource<T> {
+        return try {
+            Resource.Loading(null)
+            val response = httpClient.get<T> {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = KTOR_BASE_URL
+                    encodedPath = urlPath
+                    parameters.append("api_key", BuildConfig.MOVIE_API_KEY)
+                    parameters.append("page", page.toString())
+                }
+            }
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
+        } catch (e: IOException) {
+            Resource.Error("Network/Server error. Check internet connection")
+        }
+    }
+
     override suspend fun getTopRatedMovies(page: Int): Resource<TopRatedMovieResponseDto> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getTopRatedMovies(page = page)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (
-            e: IOException
-        ) {
+        return getApiRequest(TOPRATED_MOVIES, page)
+    }
 
-            com.example.framework.common.Resource.Error(
+    override suspend fun getPopularMovies(page: Int): Resource<MovieResponseDto> {
+        return getApiRequest(POPULAR_MOVIES, page)
+    }
+
+    override suspend fun getUpComingMovies(page: Int): Resource<UpComingMovieResponseDto> {
+        return getApiRequest(UPCOMING_MOVIES, page)
+    }
+
+    override suspend fun getMovieReviews(id: Int): Resource<ReviewsResponse> {
+        return getApiRequest("/3/movie/${id}/reviews", 1)
+    }
+
+    override suspend fun getTopRatedTvShows(page: Int): Resource<TvShowsResponses> {
+        return getApiRequest(TOPRATED_TV_SHOWS, page)
+    }
+
+    override suspend fun getPopularTvShows(page: Int): Resource<TvShowsResponses> {
+        return getApiRequest(POPULAR_TV_SHOWS, page)
+    }
+
+
+    override suspend fun getTvShowsAiringToday(page: Int): Resource<TvShowsResponses> {
+        return getApiRequest(TV_SHOWS_AIRING_TODAY, page)
+    }
+
+    override suspend fun getTvShowsOnTheAir(page: Int): Resource<TvShowsResponses> {
+        return getApiRequest(TV_SHOWS_ON_THE_AIR, page)
+    }
+
+    override suspend fun getMovieTrailers(id: Int): Resource<MovieTrailerResponse> {
+
+        return try {
+            Resource.Loading(null)
+            val response = httpClient.get<MovieTrailerResponse> {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = KTOR_BASE_URL
+                    encodedPath = "/3/movie/${id}/videos"
+                    parameters.append("api_key", BuildConfig.MOVIE_API_KEY)
+                    parameters.append("language", "en-US")
+                }
+            }
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Resource.Error(
+                e.localizedMessage ?: " An unexpected error. Try again later."
+            )
+        } catch (e: IOException) {
+            Resource.Error(
                 e.localizedMessage ?: "Network/Server error. Check internet connection"
             )
         }
     }
 
+    override suspend fun getMovieCasts(id: Int): Resource<MovieCastsResponse> {
+        return getApiRequest("/3/movie/${id}/credits", 1)
+    }
 
-    override suspend fun getPopularMovies(page: Int): com.example.framework.common.Resource<com.example.framework.movieDto.MovieResponseDto> {
+    override suspend fun getSimilarMovies(id: Int, page: Int): Resource<SimilarMoviesResponse> {
+        return getApiRequest("/3/movie/$id/similar", page)
+    }
+
+    override suspend fun getSearchedMovies(
+        query: String,
+        page: Int
+    ): Resource<MovieResponseDto> {
+//        return getApiRequest("/3/search/movie${query}", page)
         return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getPopularMovies(page = page)
-            com.example.framework.common.Resource.Success(response)
+            Resource.Loading(null)
+            val response = httpClient.get<MovieResponseDto> {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = KTOR_BASE_URL
+                    encodedPath = SEARCH_MOVIES
+                    parameters.append("api_key", BuildConfig.MOVIE_API_KEY)
+                    parameters.append("language", "en-US")
+                    parameters.append("query", query)
+                    parameters.append("page", page.toString())
+                }
+            }
+            Resource.Success(response)
         } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
-                e.localizedMessage ?: "Network/Server error. Check internet connection"
+            Resource.Error(
+                e.localizedMessage ?: " An unexpected error. Try again later."
             )
-        }
-    }
-
-    override suspend fun getUpComingMovies(page: Int): com.example.framework.common.Resource<com.example.framework.movieDto.UpComingMovieResponseDto> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.upComingMovies(page = page)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
         } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
-                e.localizedMessage ?: "Network/Server error. Check internet connection"
-            )
-        }
-
-    }
-
-    override suspend fun getMovieReviews(id: Int): com.example.framework.common.Resource<ReviewsResponse> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getMovieReviews(id)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
-                e.localizedMessage ?: "Network/Server error. Check internet connection"
-            )
-        }
-    }
-
-    override suspend fun getTopRatedTvShows(page: Int): com.example.framework.common.Resource<TvShowsResponses> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getTopRatedTvShows(page = page)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
-                e.localizedMessage ?: "Network/Server error. Check internet connection"
-            )
-        }
-
-    }
-
-    override suspend fun getPopularTvShows(page: Int): com.example.framework.common.Resource<TvShowsResponses> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getPopularTvShows(page = page)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: "Network/Server error. Check internet connection")
-        }
-    }
-
-
-    override suspend fun getTvShowsAiringToday(page: Int): com.example.framework.common.Resource<TvShowsResponses> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getTvShowsAiringToday(page = page)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
-                e.localizedMessage ?: "Network/Server error. Check internet connection"
-            )
-        }
-    }
-
-    override suspend fun getTvShowsOnTheAir(page: Int): com.example.framework.common.Resource<TvShowsResponses> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getTvShowsOnTheAir(page = page)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
-                e.localizedMessage ?: "Network/Server error. Check internet connection"
-            )
-        }
-    }
-
-    override suspend fun getMovieTrailers(id: Int): com.example.framework.common.Resource<MovieTrailerResponse> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getMovieTrailer(id)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
-                e.localizedMessage ?: "Network/Server error. Check internet connection"
-            )
-        }
-    }
-
-    override suspend fun getMovieCasts(id: Int): com.example.framework.common.Resource<MovieCastsResponse> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getMovieCasts(id)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
-                e.localizedMessage ?: "Network/Server error. Check internet connection"
-            )
-        }
-    }
-
-    override suspend fun getSimilarMovies(id: Int): com.example.framework.common.Resource<SimilarMoviesResponse> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.getSimilarMovies(id)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
-                e.localizedMessage ?: "Network/Server error. Check internet connection"
-            )
-        }
-    }
-
-    override suspend fun getSearchedMovies(query: String, page: Int): com.example.framework.common.Resource<com.example.framework.movieDto.MovieResponseDto> {
-        return try {
-            com.example.framework.common.Resource.Loading(null)
-            val response = api.searchMovies(query = query, page = 1)
-            com.example.framework.common.Resource.Success(response)
-        } catch (e: Exception) {
-            com.example.framework.common.Resource.Error(e.localizedMessage ?: " An unexpected error. Try again later.")
-        } catch (e: IOException) {
-            com.example.framework.common.Resource.Error(
+            Resource.Error(
                 e.localizedMessage ?: "Network/Server error. Check internet connection"
             )
         }

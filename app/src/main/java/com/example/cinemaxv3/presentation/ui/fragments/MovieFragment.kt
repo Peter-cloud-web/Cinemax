@@ -102,8 +102,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
             topRatedMovieViewModel.topRatedMovieUiState.collect { uiState ->
                 when {
                     uiState.isLoading -> {}
-                    uiState.topRatedMovies != null -> {
-                        uiState.topRatedMovies.collect {
+                    uiState.movies != null -> {
+                        uiState.movies.collect {
                             topRatedMoviesAdapter.submitData(it)
                         }
                     }
@@ -123,8 +123,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
             popularMoviesViewModel.popularMoviesUiState.collect { uiState ->
                 when {
                     uiState.isLoading -> {}
-                    uiState.popularMovies != null -> {
-                        uiState.popularMovies.collect {
+                    uiState.movies != null -> {
+                        uiState.movies.collect {
                             popularMovieAdapter.submitData(it)
                         }
                     }
@@ -144,8 +144,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
             upComingMoviesViewModel.upComingMoviesState.collect { uiState ->
                 when {
                     uiState.isLoading -> {}
-                    uiState.upComingMovies != null -> {
-                        uiState.upComingMovies.collect {
+                    uiState.movies != null -> {
+                        uiState.movies.collect {
                             upComingMoviesAdapter.submitData(it)
                         }
                     }

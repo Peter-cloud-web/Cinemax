@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.ImageLoader
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentReviewsBinding
+import com.example.cinemaxv3.models.responses.Review
 import com.example.cinemaxv3.presentation.ui.adapter.MovieReviewsAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.MovieViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel.MovieReviewsViewModel
@@ -46,22 +47,43 @@ class ReviewsFragment : Fragment(R.layout.fragment_reviews) {
         }
 
         reviewAdapter = MovieReviewsAdapter(imageLoader)
-
-        try {
-            if (id != null) {
-                lifecycleScope.launch {
-                    movieReviewsViewModel.getReviews(id).collectLatest {
-                        reviewAdapter.comparator.submitList(it?.results)
-                    }
-                }
-            }
-        } catch (e: HttpException) {
-            Log.e("Cinemax App", "API call failed with error code ${e.code()}")
-        } catch (e: IOException) {
-            Log.e("Cinemax App", "API call failed with error code " + e)
+        if (id != null) {
+            movieReviewsViewModel.getReviews(id)
         }
+        loadMovieReviews()
+
+//        try {
+//            if (id != null) {
+//                lifecycleScope.launch {
+//                    movieReviewsViewModel.getReviews(id).collectLatest {
+//                        reviewAdapter.comparator.submitList(it?.results)
+//                    }
+//                }
+//            }
+//        } catch (e: HttpException) {
+//            Log.e("Cinemax App", "API call failed with error code ${e.code()}")
+//        } catch (e: IOException) {
+//            Log.e("Cinemax App", "API call failed with error code " + e)
+//        }
 
         showMovies(binding)
+    }
+
+    private fun loadMovieReviews(){
+        val reviewsList = mutableListOf<Review>()
+        lifecycleScope.launch {
+            val uiState = movieReviewsViewModel.movieReviews.value
+            when{
+                uiState.isLoading -> {}
+                uiState.reviews != null ->{
+                    val reviewFlow = uiState.reviews
+                    reviewFlow.collect{
+                        reviewsList.addAll(listOf(it))
+                    }
+                    reviewAdapter.comparator.submitList(reviewsList)
+                }
+            }
+        }
     }
 
     private fun showMovies(binding: FragmentReviewsBinding) {

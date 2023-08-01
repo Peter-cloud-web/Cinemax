@@ -27,12 +27,12 @@ class MovieCastsAdapter @Inject constructor(private val imageLoader: ImageLoader
     }
 
     override fun onBindViewHolder(holder: MovieCastsViewHolder, position: Int) {
-        val CastAvatar = IMAGE_BASE_URL
+        val castAvatar = IMAGE_BASE_URL
         val casts = comparator.currentList[position]
         with(holder) {
             with(casts) {
                 val request = ImageRequest.Builder(holder.itemView.context)
-                    .data(CastAvatar + (this?.profile_path ?: null))
+                    .data(castAvatar + (this?.profile_path ?: null))
                     .target(binding.profileImage)
                     .build()
                 imageLoader.enqueue(request)

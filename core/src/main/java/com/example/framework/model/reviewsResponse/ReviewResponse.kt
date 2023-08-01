@@ -1,40 +1,43 @@
 package com.example.cinemaxv3.models.responses
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ReviewsResponse(
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("page")
+    @SerialName("page")
     val page: Int,
-    @SerializedName("results")
-    val results: List<Review>,
-    @SerializedName("total_pages")
+    @SerialName("results")
+    val review: List<Review>,
+    @SerialName("total_pages")
     val totalPages: Int,
-    @SerializedName("total_results")
+    @SerialName("total_results")
     val totalResults: Int
 )
-
+@Serializable
 data class Review(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("author_details")
+    @SerialName("author_details")
     val authorDetails: AuthorDetails,
-    @SerializedName("content")
+    @SerialName("content")
     val content: String,
-    @SerializedName("created_at")
+    @SerialName("created_at")
     val createdOn: String,
-    @SerializedName("url")
+    @SerialName("url")
     val url: String
 )
-
+@Serializable
 data class AuthorDetails(
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("username")
+    @SerialName("username")
     val userName: String,
-    @SerializedName("avatar_path")
+    @SerialName("avatar_path")
     val avatarPath: String?,
-    @SerializedName("rating")
-    val rating: Int?,
+    @SerialName("rating")
+    val rating: Double?,
 )

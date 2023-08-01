@@ -12,11 +12,15 @@ import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import com.example.framework.model.tvShowsResponse.TvShowsResults
 import javax.inject.Inject
 
-class PopularTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoader) :
-    PagingDataAdapter<TvShowsResults, PopularTvShowsAdapter.PopularTvShowsViewHolder>(
+class SharedTvShowsAdapter<T:Any> @Inject constructor(private val imageLoader: ImageLoader) :
+    PagingDataAdapter<TvShowsResults, SharedTvShowsAdapter<T>.TopRatedTvShowsViewHolder>(
         MovieModelComparator
     ) {
-    inner class PopularTvShowsViewHolder(val binding: ItemTvShowsBinding) :
+
+    private var onMovieClickListener: ((TvShowsResults) -> Unit)? =
+        null
+
+    inner class TopRatedTvShowsViewHolder(val binding: ItemTvShowsBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     companion object {
@@ -39,8 +43,36 @@ class PopularTvShowsAdapter @Inject constructor(private val imageLoader: ImageLo
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularTvShowsViewHolder {
-        return PopularTvShowsViewHolder(
+    override fun onBindViewHolder(holder: TopRatedTvShowsViewHolder, position: Int) {
+        val topRatedTvShows: TvShowsResults? =
+            getItem(position)
+        val IMAGE_BASE = IMAGE_BASE_URL
+
+        with(holder) {
+            with(topRatedTvShows) {
+                val request = ImageRequest.Builder(holder.itemView.context)
+                    .data(IMAGE_BASE + (this?.poster_path ?: null))
+                    .target(binding.imageTvShows)
+                    .build()
+                imageLoader.enqueue(request)
+
+                itemView.setOnClickListener {
+                    this?.let {
+                        onMovieClickListener?.let { it1 ->
+                            it1(it)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun setOnClickListener(listener: (TvShowsResults) -> Unit) {
+        onMovieClickListener = listener
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopRatedTvShowsViewHolder {
+        return TopRatedTvShowsViewHolder(
             ItemTvShowsBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -49,19 +81,5 @@ class PopularTvShowsAdapter @Inject constructor(private val imageLoader: ImageLo
         )
     }
 
-    override fun onBindViewHolder(holder: PopularTvShowsViewHolder, position: Int) {
-        val IMAGE_BASE = IMAGE_BASE_URL
-        val popularTvShows: TvShowsResults? =
-            getItem(position)
 
-        with(holder) {
-            with(popularTvShows) {
-                val request = ImageRequest.Builder(holder.itemView.context)
-                    .data(IMAGE_BASE + (this?.poster_path ?: null))
-                    .target(binding.imageTvShows)
-                    .build()
-                imageLoader.enqueue(request)
-            }
-        }
-    }
 }
