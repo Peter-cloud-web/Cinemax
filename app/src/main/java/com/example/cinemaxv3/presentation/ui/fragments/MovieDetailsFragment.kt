@@ -161,7 +161,7 @@ class MovieDetailsFragment : Fragment(R.layout.fragment_movie_details) {
                 val shareMessage = "Have you checked out : " +
                         "${title}?\n" +
                         "Watch it all here:\n" +
-                        "https://www.themoviedb.org/movie/ " + "${id}"
+                        "https://www.themoviedb.org/movie/${id}"
                 putExtra(Intent.EXTRA_TEXT, shareMessage)
             }
             startActivity(Intent.createChooser(shareIntent, "Select app to share with"))

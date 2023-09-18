@@ -3,13 +3,13 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.topRatedMovieViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.bumptech.glide.load.HttpException
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates
 import com.example.domain.use_cases.top_rated_movies_usecase.TopRatedMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 

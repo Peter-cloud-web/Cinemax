@@ -12,8 +12,8 @@ import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import com.example.framework.model.tvShowsResponse.TvShowsResults
 import javax.inject.Inject
 
-class SharedTvShowsAdapter<T:Any> @Inject constructor(private val imageLoader: ImageLoader) :
-    PagingDataAdapter<TvShowsResults, SharedTvShowsAdapter<T>.TopRatedTvShowsViewHolder>(
+class SharedTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoader) :
+    PagingDataAdapter<TvShowsResults, SharedTvShowsAdapter.TopRatedTvShowsViewHolder>(
         MovieModelComparator
     ) {
 

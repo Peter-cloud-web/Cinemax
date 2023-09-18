@@ -24,9 +24,10 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class TrailersFragment : Fragment(R.layout.fragment_trailers) {
@@ -120,27 +121,35 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
 
     fun loadMovieCasts() {
         val castList = mutableListOf<Cast>()
-        lifecycleScope.launch {
-            movieCastsViewModel.movieCastResponse.collectLatest { uiState ->
-                when {
-                    uiState.isLoading -> {}
-                    uiState.movieCasts != null -> {
-                        val casts = uiState.movieCasts
-                        casts.collect {
-                            castList.addAll(listOf(it))
-                        }
-                        castsAdapter.comparator.submitList(castList)
-                    }
+        lifecycleScope.launch(Dispatchers.IO) {
 
-                    uiState.error != null -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "An unexpected error occurred, When loading casts",
-                            Toast.LENGTH_SHORT
-                        ).show()
+            movieCastsViewModel.movieCastResponse.collectLatest { uiState ->
+
+                with(uiState) {
+
+                    withContext(Dispatchers.Main) {
+
+                        when {
+                            isLoading -> {}
+
+                            movieCasts != null -> {
+                                val casts = uiState.movieCasts
+                                casts.collect {
+                                    castList.addAll(listOf(it))
+                                }
+                                castsAdapter.comparator.submitList(castList)
+                            }
+
+                            error != null -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "An unexpected error occurred, When loading casts",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                     }
                 }
-
             }
         }
     }
@@ -158,22 +167,29 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
             mutableListOf<SimilarMovies>()
         lifecycleScope.launch {
             similarMoviesViewModel.similarMovies.collectLatest { uiState ->
-                when {
-                    uiState.isLoading -> {}
-                    uiState.similarMovies != null -> {
-                        val similarMoviesResponse = uiState.similarMovies
-                        similarMoviesResponse?.collect {
-                            similarMoviesResults.addAll(listOf(it))
-                        }
-                        similarMoviesAdapter.similarMoviesDifferList.submitList(similarMoviesResults)
-                    }
 
-                    uiState.error != null -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "An unexpected error occurred, When loading similar movies",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                with(uiState) {
+
+                    when {
+                        isLoading -> {}
+
+                        similarMovies != null -> {
+                            val similarMoviesResponse = uiState.similarMovies
+                            similarMoviesResponse?.collect {
+                                similarMoviesResults.addAll(listOf(it))
+                            }
+                            similarMoviesAdapter.similarMoviesDifferList.submitList(
+                                similarMoviesResults
+                            )
+                        }
+
+                        error != null -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "An unexpected error occurred, When loading similar movies",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }

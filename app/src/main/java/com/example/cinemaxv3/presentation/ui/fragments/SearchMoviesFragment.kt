@@ -18,6 +18,7 @@ import com.example.cinemaxv3.databinding.FragmentSearchMoviesBinding
 import com.example.cinemaxv3.presentation.ui.adapter.SearchMoviesAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.searchedMoviesViewModel.SearchedMoviesViewModel
 import com.example.cinemaxv3.util.Constants
+import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -72,24 +73,22 @@ class SearchMoviesFragment : Fragment(R.layout.fragment_search_movies) {
             layoutManager = LinearLayoutManager(activity)
             adapter = searchMoviesAdapter
         }
-        searchMoviesAdapter.setOnItemClickListener {
-            val id = it.id
-            val image = Constants.IMAGE_BASE_URL + it.poster_path
-            val backdrop = Constants.IMAGE_BASE_URL + it.backdrop_path
-            val title = it.title.toString()
-            val description = it.overview.toString()
-            val rating = it.vote_average.toFloat()
+        searchMoviesAdapter.setOnItemClickListener { movie ->
 
-            val action =
-                SearchMoviesFragmentDirections.actionSearchMoviesFragmentToMovieDetailsFragment(
-                    image,
-                    backdrop,
-                    title,
-                    description,
-                    rating,
-                    id
-                )
-            findNavController().navigate(action)
+            with(movie) {
+
+                val action =
+                    SearchMoviesFragmentDirections.actionSearchMoviesFragmentToMovieDetailsFragment(
+                        IMAGE_BASE_URL + poster_path,
+                        IMAGE_BASE_URL + backdrop_path,
+                        title.toString(),
+                        overview.toString(),
+                        vote_average.toFloat(),
+                        id
+                    )
+                findNavController().navigate(action)
+
+            }
         }
     }
 }

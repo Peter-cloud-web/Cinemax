@@ -41,29 +41,6 @@ object AppModule {
             .build()
             .create(MovieApi::class.java)
 
-//    @Provides
-//    @Singleton
-//    fun provideHttpClient(): HttpClient =
-//        HttpClient{
-//            install(JsonFeature){
-//                serializer = KotlinxSerializer()
-//            }
-//            install(Logging){
-//                level = LogLevel.ALL
-//            }
-//            install(WebSockets)
-//
-//            defaultRequest {
-//                url.host = BASE_URL
-//            }
-//        }
-//        Retrofit.Builder()
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .baseUrl(BASE_URL)
-//            .build()
-//            .create(MovieApi::class.java)
-
-
     @Provides
     @Singleton
     fun provideCoilImageLoader(@ApplicationContext context: Context): ImageLoader {

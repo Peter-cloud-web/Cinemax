@@ -12,12 +12,9 @@ import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import com.example.framework.model.favourites.FavouriteMovies
 import javax.inject.Inject
 
-class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
-    RecyclerView.Adapter<FavouriteMoviesAdapter.FavouriteMoviesViewHolder>() {
+class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) : RecyclerView.Adapter<FavouriteMoviesAdapter.FavouriteMoviesViewHolder>() {
 
-
-    private var onFavouriteMovieOnClickListener: ((FavouriteMovies) -> Unit)? =
-        null
+    private var onFavouriteMovieOnClickListener: ((FavouriteMovies) -> Unit)? = null
 
     inner class FavouriteMoviesViewHolder(val binding: ItemSearchBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -60,7 +57,6 @@ class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageL
 
             }
         }
-
     }
 
     fun setOnItemClickListener(listener: (FavouriteMovies) -> Unit) {

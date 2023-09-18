@@ -100,41 +100,51 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     private fun fetchMovies(binding: FragmentMovieBinding) {
         lifecycleScope.launch {
             topRatedMovieViewModel.topRatedMovieUiState.collect { uiState ->
-                when {
-                    uiState.isLoading -> {}
-                    uiState.movies != null -> {
-                        uiState.movies.collect {
-                            topRatedMoviesAdapter.submitData(it)
+
+                with(uiState){
+
+                    when {
+                        isLoading -> {}
+
+                        movies != null -> {
+                            movies.collect {
+                                topRatedMoviesAdapter.submitData(it)
+                            }
+                        }
+
+                        error != null -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "An unexpected error occurred",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
-
-                    uiState.error != null -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "An unexpected error occurred",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
                 }
+
             }
         }
 
         lifecycleScope.launch {
             popularMoviesViewModel.popularMoviesUiState.collect { uiState ->
-                when {
-                    uiState.isLoading -> {}
-                    uiState.movies != null -> {
-                        uiState.movies.collect {
-                            popularMovieAdapter.submitData(it)
-                        }
-                    }
 
-                    uiState.error != null -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "An unexpected error occurred",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                with(uiState){
+                    when {
+                        isLoading -> {}
+
+                        movies != null -> {
+                            uiState.movies.collect {
+                                popularMovieAdapter.submitData(it)
+                            }
+                        }
+
+                        error != null -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "An unexpected error occurred",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }
@@ -142,20 +152,24 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
         lifecycleScope.launch {
             upComingMoviesViewModel.upComingMoviesState.collect { uiState ->
-                when {
-                    uiState.isLoading -> {}
-                    uiState.movies != null -> {
-                        uiState.movies.collect {
-                            upComingMoviesAdapter.submitData(it)
-                        }
-                    }
 
-                    uiState.error != null -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "An unexpected error occurred",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                with(uiState){
+                    when {
+                        isLoading -> {}
+
+                        movies != null -> {
+                            uiState.movies.collect {
+                                upComingMoviesAdapter.submitData(it)
+                            }
+                        }
+
+                        error != null -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "An unexpected error occurred",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }
@@ -184,20 +198,13 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
         popularMovieAdapter.setOnItemClickListener { movie ->
 
-            movie.apply {
-                val id = id
-                val image = IMAGE_BASE_URL + poster_path
-                val backdrop = IMAGE_BASE_URL + backdrop_path
-                val title = title.toString()
-                val description = overview.toString()
-                val rating = vote_average.toFloat()
-
+            with(movie) {
                 val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(
-                    image,
-                    backdrop,
-                    title,
-                    description,
-                    rating,
+                    IMAGE_BASE_URL + poster_path,
+                    IMAGE_BASE_URL + backdrop_path,
+                    title.toString(),
+                    overview.toString(),
+                    vote_average.toFloat(),
                     id
                 )
                 findNavController().navigate(action)
@@ -207,20 +214,14 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
         topRatedMoviesAdapter.setOnItemClickListener { topRatedMovies ->
 
-            topRatedMovies.apply {
-                val id = id
-                val image = IMAGE_BASE_URL + poster_path
-                val backdrop = IMAGE_BASE_URL + backdrop_path
-                val title = title.toString()
-                val description = overview.toString()
-                val rating = vote_average.toFloat()
+            with(topRatedMovies){
 
                 val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(
-                    image,
-                    backdrop,
-                    title,
-                    description,
-                    rating,
+                    IMAGE_BASE_URL + poster_path,
+                    IMAGE_BASE_URL + backdrop_path,
+                    title.toString(),
+                    overview.toString(),
+                    vote_average.toFloat(),
                     id
                 )
                 findNavController().navigate(action)
@@ -230,21 +231,14 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
         upComingMoviesAdapter.setOnItemClickListener { upComingMovies ->
 
-            upComingMovies.apply {
-
-                val id = id
-                val image = IMAGE_BASE_URL + poster_path
-                val backdrop = IMAGE_BASE_URL + backdrop_path
-                val title = title.toString()
-                val description = overview.toString()
-                val rating = vote_average.toFloat()
+            with(upComingMovies) {
 
                 val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(
-                    image,
-                    backdrop,
-                    title,
-                    description,
-                    rating,
+                    IMAGE_BASE_URL + poster_path,
+                    IMAGE_BASE_URL + backdrop_path,
+                    title.toString(),
+                    overview.toString(),
+                    vote_average.toFloat(),
                     id
                 )
                 findNavController().navigate(action)

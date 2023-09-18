@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +13,7 @@ import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentFavouriteMovieBinding
 import com.example.cinemaxv3.presentation.ui.adapter.FavouriteMoviesAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesViewModel
+import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,27 +33,20 @@ class FavouriteMovieFragment : Fragment(R.layout.fragment_favourite_movie) {
         populateRecyclerView(binding)
         handleClickListener()
     }
+
     private fun handleClickListener() {
 
         favouriteMoviesAdapter.setOnItemClickListener { favouriteMovies ->
 
-            favouriteMovies.apply {
-
-                val movieId = id
-                val backdrop = backdrop_path
-                val description = overview
-                val title = title
-                val image = poster_path
-                val rating = vote_average
-
+            with(favouriteMovies) {
                 val action =
                     FavouriteMovieFragmentDirections.actionFavouriteMovieFragmentToMovieDetailsFragment(
-                        image!!,
-                        backdrop!!,
-                        title!!,
-                        description!!,
-                        rating!!,
-                        movieId!!
+                        IMAGE_BASE_URL + poster_path!!,
+                        IMAGE_BASE_URL + backdrop_path!!,
+                        title!!.toString(),
+                        overview!!.toString(),
+                        vote_average!!.toFloat(),
+                        id!!
                     )
                 findNavController().navigate(action)
             }
@@ -64,24 +57,29 @@ class FavouriteMovieFragment : Fragment(R.layout.fragment_favourite_movie) {
     private fun populateRecyclerView(binding: FragmentFavouriteMovieBinding) {
         viewLifecycleOwner.lifecycleScope.launch {
             favouriteMoviesViewModel.favouriteMovies.collectLatest { uiStates ->
-                when {
-                    uiStates.isLoading -> {}
-                    uiStates.favouriteMovies != null -> {
-                        uiStates.favouriteMovies.collect {
-                            favouriteMoviesAdapter.favouriteMovies.submitList(it)
+
+                with(uiStates) {
+
+                    when {
+                        isLoading -> {}
+
+                        favouriteMovies != null -> {
+                            uiStates.favouriteMovies.collect { favouriteMoviesList ->
+                                favouriteMoviesAdapter.favouriteMovies.submitList(
+                                    favouriteMoviesList
+                                )
+                            }
+                        }
+
+                        error != null -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "An unexpected error occurred",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
-
-                    uiStates.error != null -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "An unexpected error occurred",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
                 }
-
             }
         }
 
