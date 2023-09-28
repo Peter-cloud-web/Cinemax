@@ -14,6 +14,7 @@ import com.example.cinemaxv3.databinding.FragmentFavouriteMovieBinding
 import com.example.cinemaxv3.presentation.ui.adapter.FavouriteMoviesAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesViewModel
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
+import com.example.framework.model.favourites.FavouriteMovies
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,27 +32,35 @@ class FavouriteMovieFragment : Fragment(R.layout.fragment_favourite_movie) {
         favouriteMoviesAdapter = FavouriteMoviesAdapter(imageLoader)
 
         populateRecyclerView(binding)
-        handleClickListener()
+        handleItemOnClick()
+        deleteFavouriteMovie()
     }
 
-    private fun handleClickListener() {
-
+    private fun handleItemOnClick() {
         favouriteMoviesAdapter.setOnItemClickListener { favouriteMovies ->
-
-            with(favouriteMovies) {
-                val action =
-                    FavouriteMovieFragmentDirections.actionFavouriteMovieFragmentToMovieDetailsFragment(
-                        IMAGE_BASE_URL + poster_path!!,
-                        IMAGE_BASE_URL + backdrop_path!!,
-                        title!!.toString(),
-                        overview!!.toString(),
-                        vote_average!!.toFloat(),
-                        id!!
-                    )
-                findNavController().navigate(action)
-            }
+            navigateToDetailsScreen(favouriteMovies)
         }
+    }
 
+    private fun navigateToDetailsScreen(favouriteMovies: FavouriteMovies) {
+        with(favouriteMovies) {
+            val action =
+                FavouriteMovieFragmentDirections.actionFavouriteMovieFragmentToMovieDetailsFragment(
+                    IMAGE_BASE_URL + poster_path!!,
+                    IMAGE_BASE_URL + backdrop_path!!,
+                    title!!.toString(),
+                    overview!!.toString(),
+                    vote_average!!.toFloat(),
+                    id!!
+                )
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun deleteFavouriteMovie() {
+        favouriteMoviesAdapter.setOnDeleteMovieClickListener { id ->
+            favouriteMoviesViewModel.deleteFavouriteMovie(id)
+        }
     }
 
     private fun populateRecyclerView(binding: FragmentFavouriteMovieBinding) {

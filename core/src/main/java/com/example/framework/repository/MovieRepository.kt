@@ -44,4 +44,6 @@ interface MovieRepository {
 
     suspend fun insertFavouriteMovies(favouriteMovies: FavouriteMovies)
 
+    suspend fun deleteFavouriteMovie(id:Int)
+
 }

@@ -48,5 +48,11 @@ class FavouriteMoviesViewModel @Inject constructor(
     fun saveFavouriteMovies(favouriteMovies: FavouriteMovies) = viewModelScope.launch {
         repository.insertFavouriteMovies(favouriteMovies)
     }
+    
+    fun deleteFavouriteMovie(id:Int){
+        viewModelScope.launch { 
+            repository.deleteFavouriteMovie(id)
+        }
+    }
 
 }

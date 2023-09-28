@@ -152,7 +152,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     override fun getFavouriteMovies() = db.getFavouriteMoviesDao().getAllFavouriteMovies()
 
-    override suspend fun insertFavouriteMovies(favouriteMovies: FavouriteMovies) {
-        db.getFavouriteMoviesDao().insertFavouriteMovies(favouriteMovies)
-    }
+    override suspend fun insertFavouriteMovies(favouriteMovies: FavouriteMovies) = db.getFavouriteMoviesDao().insertFavouriteMovies(favouriteMovies)
+
+    override suspend fun deleteFavouriteMovie(id: Int) = db.getFavouriteMoviesDao().deleteFavouriteMovie(id)
 }

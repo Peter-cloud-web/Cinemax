@@ -90,8 +90,8 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
     }
 
     private fun playTrailers(id: Int) {
-        movieTrailerViewModel.getMovieTrailer(id)
-            .observe(viewLifecycleOwner, { movieTrailerResponse ->
+
+        movieTrailerViewModel.getMovieTrailer(id).observe(viewLifecycleOwner, { movieTrailerResponse ->
 
                 videoView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
 

@@ -1,6 +1,7 @@
 package com.example.db.dao.movieDaos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -19,5 +20,8 @@ interface FavouriteMoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavouriteMovies(movie: FavouriteMovies)
+
+    @Query("DELETE FROM favourite_movies WHERE  id = :id")
+    suspend fun deleteFavouriteMovie(id:Int)
 
 }
