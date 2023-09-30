@@ -2,6 +2,7 @@ package com.example.cinemaxv3.presentation.ui.activity
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -37,9 +38,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
-        internetPopup = InternetConnectionDialogBinding.inflate(layoutInflater)
-
         setContentView(mainBinding.root)
+
+        internetPopup = InternetConnectionDialogBinding.inflate(layoutInflater)
 
         connectivityDialog = Dialog(this)
         connectivityDialog.setContentView(R.layout.internet_connection_dialog)
@@ -48,26 +49,18 @@ class MainActivity : AppCompatActivity() {
         observeConnectivityChanges()
         setUpNavigation()
 
+        internetPopup.buttonRetry.setOnClickListener {
+            hideDialog()
+            Log.d("MAIN ACTIVITY","Retry button clicked")
+        }
+
     }
 
     private fun observeConnectivityChanges() {
         lifecycleScope.launch {
             networkConnectivityObserver.observer().collect { status ->
                 when (status) {
-                    ConnectivityObserver.Status.UnAvailable -> {
-                        showDialog()
-                        internetPopup.buttonRetry.setOnClickListener {
-                            hideDialog()
-                            launch { delay(6000) }
-                            when (status) {
-                                ConnectivityObserver.Status.UnAvailable -> showDialog()
-                                else -> {
-                                    hideDialog()
-                                }
-                            }
-                        }
-                    }
-
+                    ConnectivityObserver.Status.UnAvailable -> showDialog()
                     ConnectivityObserver.Status.Available -> hideDialog()
                 }
             }
