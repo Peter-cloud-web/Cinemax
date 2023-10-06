@@ -3,9 +3,11 @@ package com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewMode
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.load.HttpException
+import com.example.domain.use_cases.favouritemovies_usecase.DeleteMovieUseCase
 import com.example.framework.repository.MovieRepository
 import com.example.framework.model.favourites.FavouriteMovies
 import com.example.domain.use_cases.favouritemovies_usecase.GetFavouriteMovieUseCase
+import com.example.domain.use_cases.favouritemovies_usecase.InsertFavouriteMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FavouriteMoviesViewModel @Inject constructor(
     private val favouriteMovieUseCase: GetFavouriteMovieUseCase,
-    private val repository: MovieRepository
+    private val insertFavouriteMoviesUseCase: InsertFavouriteMoviesUseCase,
+    private val deleteMovieUseCase: DeleteMovieUseCase,
 ) : ViewModel() {
 
     private val _favouriteMovies = MutableStateFlow(FavouriteMoviesUiStates())
@@ -46,12 +49,12 @@ class FavouriteMoviesViewModel @Inject constructor(
     }
 
     fun saveFavouriteMovies(favouriteMovies: FavouriteMovies) = viewModelScope.launch {
-        repository.insertFavouriteMovies(favouriteMovies)
+        insertFavouriteMoviesUseCase.invoke(favouriteMovies)
     }
     
     fun deleteFavouriteMovie(id:Int){
         viewModelScope.launch { 
-            repository.deleteFavouriteMovie(id)
+            deleteMovieUseCase.invoke(id)
         }
     }
 

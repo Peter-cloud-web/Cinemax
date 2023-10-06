@@ -154,7 +154,7 @@ dependencies {
 
 
     //Ktor dependencies
-    def ktor_version = '1.6.4'
+    def ktor_version = '2.3.3'
     implementation "io.ktor:ktor-client-core:$ktor_version"
 
 // HTTP engine: The HTTP client used to perform network requests.

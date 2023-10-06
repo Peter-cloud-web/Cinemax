@@ -3,24 +3,23 @@ package com.example.cinemaxv3.di.network
 import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
-import io.ktor.client.features.DefaultRequest
-import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.Logger
-import io.ktor.client.features.logging.Logging
-import io.ktor.client.features.observer.ResponseObserver
+import io.ktor.client.plugins.kotlinx.serializer.KotlinxSerializer
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.observer.ResponseObserver
+
 import io.ktor.client.request.header
 import io.ktor.client.request.host
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class TmdbHttpClient @Inject constructor() {
 
     fun getHttpClient() = HttpClient(Android) {
         install(JsonFeature) {
-            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+            serializer = KotlinxSerializer(Json {
                 prettyPrint = true
                 isLenient = true
                 ignoreUnknownKeys = true
