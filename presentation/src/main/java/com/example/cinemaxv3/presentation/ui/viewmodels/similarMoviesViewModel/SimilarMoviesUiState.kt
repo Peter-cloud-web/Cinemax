@@ -1,7 +1,6 @@
 package com.example.cinemaxv3.presentation.ui.viewmodels.similarMoviesViewModel
 
 import com.example.framework.model.similarMoviesResponse.SimilarMovies
-import com.example.framework.model.similarMoviesResponse.SimilarMoviesResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

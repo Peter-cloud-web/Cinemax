@@ -2,11 +2,12 @@ package com.example.cinemaxv3.models
 
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
 @Entity(tableName = "movies")
-@kotlinx.serialization.Serializable
+@Serializable
 data class Movie(
     @SerializedName("backdrop_path") val backdrop_path: String?,
     @SerializedName(" original_title") val original_title: String?,
@@ -18,11 +19,11 @@ data class Movie(
     @SerializedName("vote_average") val vote_average: Double,
     @SerializedName("vote_count") val vote_count: Int?,
     @ColumnInfo(name = "page") var page: Int?
-) : Serializable
+)
 
 
 @Entity(tableName = "toprated_movies")
-@kotlinx.serialization.Serializable
+@Serializable
 data class TopRatedMovies(
     @SerializedName("backdrop_path") val backdrop_path: String?,
     @SerializedName(" original_title") val original_title: String?,
@@ -34,10 +35,10 @@ data class TopRatedMovies(
     @SerializedName("vote_average") val vote_average: Double,
     @SerializedName("vote_count") val vote_count: Int?,
     @ColumnInfo(name = "page") var page: Int?
-) : Serializable
+)
 
 @Entity(tableName = "upcoming_movies")
-@kotlinx.serialization.Serializable
+@Serializable
 data class UpComingMovies(
     @SerializedName("backdrop_path") val backdrop_path: String?,
     @SerializedName(" original_title") val original_title: String?,
@@ -49,4 +50,27 @@ data class UpComingMovies(
     @SerializedName("vote_average") val vote_average: Double,
     @SerializedName("vote_count") val vote_count: Int?,
     @ColumnInfo(name = "page") var page: Int?
-) : Serializable
+)
+
+
+data class MovieResponse(
+    @SerialName("page") val page: Int,
+    @SerialName("results") val results: List<Movie>,
+    @SerialName("total_pages") val pages: Int,
+    @SerialName("total_results") val totalResults: Int
+)
+
+
+data class UpcomingMovieResponse(
+    @SerialName("page") val page: Int,
+    @SerialName("results") val results: List<TopRatedMovies>,
+    @SerialName("total_pages") val pages: Int,
+    @SerialName("total_results") val totalResults: Int
+)
+
+data class TopratedMovieResponse(
+    @SerialName("page") val page: Int,
+    @SerialName("results") val results: List<UpComingMovies>,
+    @SerialName("total_pages") val pages: Int,
+    @SerialName("total_results") val totalResults: Int
+)

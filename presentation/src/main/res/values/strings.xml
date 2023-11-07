@@ -14,4 +14,8 @@
     <string name="FavouriteMovies">favourite_movies</string>
     <string name="SearchMovies">search_movies</string>
     <string name="watch_trailer">Watch Trailer</string>
+    <string name="slow_or_no_internet_connection">Slow or no internet connection</string>
+    <string name="please_check_your_internet_settings">Please check your internet settings</string>
+    <string name="try_again">Try Again</string>
+    <string name="whoooops">Whoooops!</string>
 </resources>

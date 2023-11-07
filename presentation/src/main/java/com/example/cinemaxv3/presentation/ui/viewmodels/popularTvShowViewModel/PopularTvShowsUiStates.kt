@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.emptyFlow
 
 data class PopularTvShowsUiStates(
     val isLoading: Boolean = false,
-    val popularTvShows: Flow<PagingData<com.example.framework.model.tvShowsResponse.TvShowsResults>> = emptyFlow(),
+    val popularTvShows: Flow<PagingData<TvShowsResults>> = emptyFlow(),
     val error: String = ""
 )

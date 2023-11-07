@@ -125,8 +125,7 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.popup_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.tvshows_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

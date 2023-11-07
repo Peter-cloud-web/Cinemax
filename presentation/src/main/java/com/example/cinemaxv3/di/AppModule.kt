@@ -12,7 +12,7 @@ import com.example.db.dao.movieDaos.UpComingMoviesDao
 import com.example.db.dao.remoteKeysDaos.RemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.UpComingRemoteKeyDao
-import com.example.framework.repository.MovieRepository
+import com.example.domain.MovieRepository
 import com.example.service.MovieApi
 import com.example.util.Constants.BASE_URL
 import dagger.Module
@@ -103,7 +103,7 @@ object AppModule {
         api: MovieApi,
         db: MovieDatabase
     ): MovieRepository {
-        return MovieRepositoryImpl(httpClient, api, db)
+        return MovieRepositoryImpl(httpClient,db)
     }
 
 }

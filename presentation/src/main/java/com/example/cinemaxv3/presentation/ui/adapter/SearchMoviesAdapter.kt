@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.example.cinemaxv3.databinding.ItemSearchBinding
+import com.example.cinemaxv3.databinding.ItemSearchMoviesBinding
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SearchMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :
     RecyclerView.Adapter<SearchMoviesAdapter.SearchMoviesViewHolder>() {
 
-    inner class SearchMoviesViewHolder(val binding: ItemSearchBinding) :
+    inner class SearchMoviesViewHolder(val binding: ItemSearchMoviesBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     val searchMovies = AsyncListDiffer(this, SearchMoviesComparator)
@@ -23,7 +23,8 @@ class SearchMoviesAdapter @Inject constructor(private val imageLoader: ImageLoad
     private var onMovieClickListener: ((Movie) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMoviesViewHolder {
-        val binding = ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemSearchMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchMoviesViewHolder(binding)
     }
 

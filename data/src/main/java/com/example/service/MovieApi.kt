@@ -1,17 +1,6 @@
 package com.example.service
 
-import com.example.cinemaxv3.models.responses.*
 import com.example.data.BuildConfig
-import com.example.framework.model.movieCasts.MovieCastsResponse
-import com.example.framework.model.similarMoviesResponse.SimilarMoviesResponse
-import com.example.framework.model.trailersResponse.MovieTrailerResponse
-import com.example.framework.model.tvShowsResponse.TvShowsResponses
-import com.example.framework.movieDto.MovieResponseDto
-import com.example.framework.movieDto.TopRatedMovieResponseDto
-import com.example.framework.movieDto.UpComingMovieResponseDto
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 
 interface MovieApi {

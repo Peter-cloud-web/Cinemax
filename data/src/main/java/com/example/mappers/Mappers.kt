@@ -1,9 +1,9 @@
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.models.UpComingMovies
-import com.example.framework.movieDto.MovieDto
-import com.example.framework.movieDto.TopRatedMoviesDto
-import com.example.framework.movieDto.UpComingMoviesDto
+import com.example.movieDto.MovieDto
+import com.example.movieDto.TopRatedMoviesDto
+import com.example.movieDto.UpComingMoviesDto
 
 object Mappers {
     fun MovieDto.toMovie(): Movie {

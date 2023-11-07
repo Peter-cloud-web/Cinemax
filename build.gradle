@@ -7,17 +7,22 @@ buildscript {
     }
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.0.1'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20'
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.7.5"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.47'
         classpath "org.jetbrains.kotlin:kotlin-serialization:1.8.20"
+        classpath "io.ktor:ktor-client-json-jvm:2.3.3"
+
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+
+
+    task clean(type: Delete) {
+        delete rootProject.buildDir
+    }
+
 
 ext {
     // Sdk and tools

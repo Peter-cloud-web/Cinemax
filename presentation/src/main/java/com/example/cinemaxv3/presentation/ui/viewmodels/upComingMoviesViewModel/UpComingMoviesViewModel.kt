@@ -6,7 +6,7 @@ import androidx.paging.cachedIn
 import com.bumptech.glide.load.HttpException
 import com.example.cinemaxv3.models.UpComingMovies
 import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates
-import com.example.domain.use_cases.upcomingMovies_usecase.UpComingMoviesUseCase
+import com.example.data.paging.pagingSource.UpComingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.bumptech.glide.load.HttpException
 import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates
-import com.example.domain.use_cases.popular_TVshows_usecase.PopularTvShowsUseCase
+import com.example.data.paging.pagingSource.popular_TVshows_usecase.PopularTvShowsUseCase
 import com.example.framework.model.tvShowsResponse.TvShowsResults
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

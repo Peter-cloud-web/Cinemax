@@ -9,11 +9,10 @@ import com.example.framework.model.movieCasts.MovieCastsResponse
 import com.example.framework.model.similarMoviesResponse.SimilarMoviesResponse
 import com.example.framework.model.trailersResponse.MovieTrailerResponse
 import com.example.framework.model.tvShowsResponse.TvShowsResponses
-import com.example.framework.movieDto.MovieResponseDto
-import com.example.framework.movieDto.TopRatedMovieResponseDto
-import com.example.framework.movieDto.UpComingMovieResponseDto
-import com.example.framework.repository.MovieRepository
-import com.example.service.MovieApi
+import com.example.movieDto.MovieResponseDto
+import com.example.movieDto.TopRatedMovieResponseDto
+import com.example.domain.entities.UpComingMovieResponseDto
+import com.example.domain.MovieRepository
 import com.example.util.Constants.KTOR_BASE_URL
 import com.example.util.Constants.POPULAR_MOVIES
 import com.example.util.Constants.POPULAR_TV_SHOWS
@@ -31,7 +30,7 @@ import javax.inject.Inject
 
 
 class MovieRepositoryImpl @Inject constructor(
-    private val httpClient: HttpClient, private val api: MovieApi, private val db: MovieDatabase
+    private val httpClient: HttpClient, private val db: MovieDatabase
 ) : MovieRepository {
 
     private suspend inline fun <reified T> getApiRequest(urlPath: String, page: Int): Resource<T> {

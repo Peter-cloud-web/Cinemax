@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.example.cinemaxv3.databinding.ItemSearchBinding
+import com.example.cinemaxv3.databinding.ItemFavouriteMoviesBinding
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
 import com.example.framework.model.favourites.FavouriteMovies
 import javax.inject.Inject
@@ -16,13 +16,13 @@ class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageL
     RecyclerView.Adapter<FavouriteMoviesAdapter.FavouriteMoviesViewHolder>() {
 
     private var onFavouriteMovieOnClickListener: ((FavouriteMovies) -> Unit)? = null
-     private var onDeleteMovieClickListener: ((id:Int) -> Unit)? = null
+    private var onDeleteMovieClickListener: ((id: Int) -> Unit)? = null
 
-    fun setOnDeleteMovieClickListener(listener:(id:Int) -> Unit){
+    fun setOnDeleteMovieClickListener(listener: (id: Int) -> Unit) {
         onDeleteMovieClickListener = listener
     }
 
-    inner class FavouriteMoviesViewHolder(val binding: ItemSearchBinding) :
+    inner class FavouriteMoviesViewHolder(val binding: ItemFavouriteMoviesBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     val favouriteMovies = AsyncListDiffer(this, FavouriteMoviesComparator)
@@ -31,7 +31,8 @@ class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageL
         parent: ViewGroup,
         viewType: Int
     ): FavouriteMoviesViewHolder {
-        val binding = ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemFavouriteMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavouriteMoviesViewHolder(binding)
     }
 

@@ -55,8 +55,9 @@ class SharedTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoa
                     .target(binding.imageTvShows)
                     .build()
                 imageLoader.enqueue(request)
+                binding.tvShowsRating.text = this?.vote_average.toString()
 
-                itemView.setOnClickListener {
+                    itemView.setOnClickListener {
                     this?.let {
                         onMovieClickListener?.let { it1 ->
                             it1(it)

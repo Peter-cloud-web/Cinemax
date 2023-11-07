@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.load.HttpException
 import com.example.domain.use_cases.favouritemovies_usecase.DeleteMovieUseCase
-import com.example.framework.repository.MovieRepository
 import com.example.framework.model.favourites.FavouriteMovies
 import com.example.domain.use_cases.favouritemovies_usecase.GetFavouriteMovieUseCase
 import com.example.domain.use_cases.favouritemovies_usecase.InsertFavouriteMoviesUseCase

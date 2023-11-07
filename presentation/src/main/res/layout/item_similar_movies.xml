@@ -41,7 +41,7 @@
             android:drawableEnd="@drawable/ic_baseline_star_rate_24"
             android:drawablePadding="-30dp"
             android:fontFamily="@font/allerta"
-            android:text="TextViews"
+            android:text="8.0"
             android:textColor="@color/white"
             android:textSize="11sp"
             android:textStyle="bold"

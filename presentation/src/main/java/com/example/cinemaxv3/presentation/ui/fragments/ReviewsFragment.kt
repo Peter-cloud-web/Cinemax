@@ -2,12 +2,15 @@ package com.example.cinemaxv3.presentation.ui.fragments
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.ImageLoader
 import com.example.cinemaxv3.R
@@ -52,25 +55,32 @@ class ReviewsFragment : Fragment(R.layout.fragment_reviews) {
 
     private fun loadMovieReviews() {
         val reviewsList = mutableListOf<Review>()
-        lifecycleScope.launch {
-            val uiState = movieReviewsViewModel.movieReviews.value
 
-            with(uiState) {
+        viewLifecycleOwner.lifecycleScope.launch {
 
-                when {
-                    isLoading -> {}
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                    reviews != null -> {
-                        val reviewFlow = uiState.reviews
-                        reviewFlow.collect { reviews ->
+                movieReviewsViewModel.movieReviews.observe(viewLifecycleOwner) { uiState ->
 
-                            reviewsList.addAll(listOf(reviews))
+                    when {
+                        uiState.isLoading -> {}
+
+                        uiState.isSuccess != null -> {
+                            val review = uiState.isSuccess.value
+                            Log.d("MOVIE REVIEW","$review")
+                            if (review != null) {
+                                Log.d("MOVIE REVIEW","${review}")
+                                reviewsList.addAll(review)
+                                reviewAdapter.comparator.submitList(reviewsList)
+                            }
                         }
-                        reviewAdapter.comparator.submitList(reviewsList)
+
                     }
+
                 }
 
             }
+
         }
     }
 

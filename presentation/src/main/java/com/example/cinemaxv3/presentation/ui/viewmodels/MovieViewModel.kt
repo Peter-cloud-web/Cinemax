@@ -3,7 +3,7 @@ package com.example.cinemaxv3.presentation.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.framework.model.favourites.FavouriteMovies
-import com.example.framework.repository.MovieRepository
+import com.example.domain.MovieRepository
 import com.example.service.MovieApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

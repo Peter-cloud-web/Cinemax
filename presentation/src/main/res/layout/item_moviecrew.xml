@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="120dp">
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="76dp"
         android:layout_height="76dp"
         android:layout_margin="5dp"
-        android:src="@drawable/avangers"
+        android:src="@drawable/profile"
         app:civ_border_color="#2FFF00"
         app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +28,7 @@
         android:layout_marginEnd="23dp"
         android:fontFamily="@font/allerta"
         android:text="Crew Name"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.916"
@@ -43,8 +43,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="23dp"
         android:fontFamily="@font/allerta"
-        android:text="Crew Name"
-        android:textColor="@color/green"
+        android:text="Role Name"
+        android:textColor="@color/black"
         android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
