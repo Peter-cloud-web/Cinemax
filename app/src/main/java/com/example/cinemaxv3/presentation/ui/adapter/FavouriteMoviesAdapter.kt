@@ -9,7 +9,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import com.example.cinemaxv3.databinding.ItemSearchBinding
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
-import com.example.framework.model.favourites.FavouriteMovies
+import com.example.entities.model.favourites.FavouriteMovies
 import javax.inject.Inject
 
 class FavouriteMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :

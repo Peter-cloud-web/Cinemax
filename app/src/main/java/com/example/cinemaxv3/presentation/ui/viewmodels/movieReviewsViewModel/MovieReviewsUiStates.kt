@@ -1,7 +1,7 @@
 package com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel
 
 import com.example.cinemaxv3.models.responses.Review
-import com.example.framework.model.similarMoviesResponse.SimilarMovies
+import com.example.entities.model.similarMoviesResponse.SimilarMovies
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

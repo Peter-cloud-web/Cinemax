@@ -12,7 +12,15 @@ import com.example.db.dao.movieDaos.UpComingMoviesDao
 import com.example.db.dao.remoteKeysDaos.RemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.UpComingRemoteKeyDao
-import com.example.framework.repository.MovieRepository
+import com.example.domain.repository.MovieRepository
+import com.example.domain.pager.PopularMoviesPager
+import com.example.domain.pager.ToPRatedTvShowsPager
+import com.example.domain.pager.TopRatedMoviesPager
+import com.example.domain.pager.UpComingPagingMovies
+import com.example.paging.pager.PopularPagedMovies
+import com.example.paging.pager.TopRatedPagedMovies
+import com.example.paging.pager.TopRatedPagedTvShows
+import com.example.paging.pager.UpComingPagedMovies
 import com.example.service.MovieApi
 import com.example.util.Constants.BASE_URL
 import dagger.Module
@@ -104,6 +112,29 @@ object AppModule {
         db: MovieDatabase
     ): MovieRepository {
         return MovieRepositoryImpl(httpClient, api, db)
+    }
+
+    @Provides
+    @Singleton
+    fun providePopularMoviesPager(repository: MovieRepository,db: MovieDatabase): PopularMoviesPager {
+        return PopularPagedMovies(db,repository)
+    }
+    @Provides
+    @Singleton
+    fun provideTopRatedMoviesPager(repository: MovieRepository,db: MovieDatabase): TopRatedMoviesPager {
+        return TopRatedPagedMovies(db,repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTvShowsPager(repository: MovieRepository,db: MovieDatabase): ToPRatedTvShowsPager {
+        return TopRatedPagedTvShows(db,repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpComingMoviesPager(repository: MovieRepository,db: MovieDatabase): UpComingPagingMovies {
+        return UpComingPagedMovies(db,repository)
     }
 
 }

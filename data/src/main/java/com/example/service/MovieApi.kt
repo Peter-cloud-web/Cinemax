@@ -2,10 +2,10 @@ package com.example.service
 
 import com.example.cinemaxv3.models.responses.*
 import com.example.data.BuildConfig
-import com.example.framework.model.movieCasts.MovieCastsResponse
-import com.example.framework.model.similarMoviesResponse.SimilarMoviesResponse
-import com.example.framework.model.trailersResponse.MovieTrailerResponse
-import com.example.framework.model.tvShowsResponse.TvShowsResponses
+import com.example.entities.model.movieCasts.MovieCastsResponse
+import com.example.entities.model.similarMoviesResponse.SimilarMoviesResponse
+import com.example.entities.model.trailersResponse.MovieTrailerResponse
+import com.example.entities.model.tvShowsResponse.TvShowsResponses
 import com.example.framework.movieDto.MovieResponseDto
 import com.example.framework.movieDto.TopRatedMovieResponseDto
 import com.example.framework.movieDto.UpComingMovieResponseDto

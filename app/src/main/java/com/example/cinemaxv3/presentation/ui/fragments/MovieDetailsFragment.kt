@@ -16,7 +16,7 @@ import coil.load
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.FragmentMovieDetailsBinding
 import com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesViewModel
-import com.example.framework.model.favourites.FavouriteMovies
+import com.example.entities.model.favourites.FavouriteMovies
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 

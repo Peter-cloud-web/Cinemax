@@ -1,0 +1,74 @@
+[
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/internet_connection_dialog.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/internet_connection_dialog.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/fragment_reviews.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/fragment_reviews.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/activity_main.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/item_search_movies.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/item_search_movies.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/activity_splash_screen.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/activity_splash_screen.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/banner_images.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/banner_images.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/fragment_search_movies.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/fragment_search_movies.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/fragment_trailers.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/fragment_trailers.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/item_movies.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/item_movies.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/fragment_favourite_movie.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/fragment_favourite_movie.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/fragment_movie.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/fragment_movie.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/fragment_tv_shows.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/fragment_tv_shows.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/item_favourite_movies.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/item_favourite_movies.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/item_tv_shows.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/item_tv_shows.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/fragment_movie_details.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/fragment_movie_details.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/item_reviews.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/item_reviews.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/item_moviecrew.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/item_moviecrew.xml"
+    },
+    {
+        "merged": "com.example.cinemaxv3.presentation-mergeDebugResources-68:/layout/item_similar_movies.xml",
+        "source": "com.example.cinemaxv3.presentation-main-71:/layout/item_similar_movies.xml"
+    }
+]

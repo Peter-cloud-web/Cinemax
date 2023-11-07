@@ -4,15 +4,15 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.framework.model.tvShowsResponse.TvShowsResults
-import com.example.framework.repository.MovieRepository
 import com.example.paging.pagingSource.TvShowsAiringTodayPagingSource
+import com.example.domain.repository.MovieRepository
+import com.example.entities.model.tvShowsResponse.TvShowsResults
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class TvShowsAringTodayUseCase @Inject constructor(private val repository: com.example.framework.repository.MovieRepository) {
+class TvShowsAringTodayUseCase @Inject constructor(private val repository: MovieRepository) {
 
-    operator fun invoke(): Flow<PagingData<com.example.framework.model.tvShowsResponse.TvShowsResults>> {
+    operator fun invoke(): Flow<PagingData<TvShowsResults>> {
         @OptIn(ExperimentalPagingApi::class)
         val pager = Pager(
             config = PagingConfig(
@@ -22,7 +22,7 @@ class TvShowsAringTodayUseCase @Inject constructor(private val repository: com.e
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                TvShowsAiringTodayPagingSource(repository = repository)
+                com.example.paging.pagingSource.TvShowsAiringTodayPagingSource(repository = repository)
             },
         ).flow
         return pager

@@ -1,7 +1,5 @@
 package com.example.framework.movieDto
 
-import com.example.cinemaxv3.models.UpComingMovies
-import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

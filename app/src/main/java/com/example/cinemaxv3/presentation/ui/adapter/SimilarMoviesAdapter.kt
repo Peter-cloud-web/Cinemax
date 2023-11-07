@@ -9,7 +9,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import com.example.cinemaxv3.databinding.ItemSimilarMoviesBinding
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
-import com.example.framework.model.similarMoviesResponse.SimilarMovies
+import com.example.entities.model.similarMoviesResponse.SimilarMovies
 import javax.inject.Inject
 
 class SimilarMoviesAdapter @Inject constructor(private val imageLoader: ImageLoader) :

@@ -14,7 +14,7 @@ import com.example.cinemaxv3.databinding.FragmentFavouriteMovieBinding
 import com.example.cinemaxv3.presentation.ui.adapter.FavouriteMoviesAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesViewModel
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
-import com.example.framework.model.favourites.FavouriteMovies
+import com.example.entities.model.favourites.FavouriteMovies
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

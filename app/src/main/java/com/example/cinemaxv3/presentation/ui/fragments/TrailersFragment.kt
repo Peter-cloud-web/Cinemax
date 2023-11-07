@@ -18,8 +18,8 @@ import com.example.cinemaxv3.presentation.ui.adapter.SimilarMoviesAdapter
 import com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel.MovieCastsViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.movieTrailerViewModel.MovieTrailerViewModel
 import com.example.cinemaxv3.presentation.ui.viewmodels.similarMoviesViewModel.SimilarMoviesViewModel
-import com.example.framework.model.movieCasts.Cast
-import com.example.framework.model.similarMoviesResponse.SimilarMovies
+import com.example.entities.model.movieCasts.Cast
+import com.example.entities.model.similarMoviesResponse.SimilarMovies
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView

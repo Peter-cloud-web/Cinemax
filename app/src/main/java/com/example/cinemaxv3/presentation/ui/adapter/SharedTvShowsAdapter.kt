@@ -9,7 +9,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import com.example.cinemaxv3.databinding.ItemTvShowsBinding
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
-import com.example.framework.model.tvShowsResponse.TvShowsResults
+import com.example.entities.model.tvShowsResponse.TvShowsResults
 import javax.inject.Inject
 
 class SharedTvShowsAdapter @Inject constructor(private val imageLoader: ImageLoader) :

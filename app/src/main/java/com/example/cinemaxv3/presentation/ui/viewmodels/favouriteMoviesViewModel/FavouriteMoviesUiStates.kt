@@ -1,6 +1,6 @@
 package com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel
 
-import com.example.framework.model.favourites.FavouriteMovies
+import com.example.entities.model.favourites.FavouriteMovies
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

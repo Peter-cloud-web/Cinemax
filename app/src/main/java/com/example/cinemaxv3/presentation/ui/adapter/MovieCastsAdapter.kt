@@ -9,7 +9,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import com.example.cinemaxv3.databinding.ItemMoviecrewBinding
 import com.example.cinemaxv3.util.Constants.IMAGE_BASE_URL
-import com.example.framework.model.movieCasts.Cast
+import com.example.entities.model.movieCasts.Cast
 import javax.inject.Inject
 
 class MovieCastsAdapter @Inject constructor(private val imageLoader: ImageLoader) :

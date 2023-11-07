@@ -18,8 +18,8 @@ import com.example.db.dao.remoteKeysDaos.RemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.TopRatedTvShowsRemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.UpComingRemoteKeyDao
-import com.example.framework.model.favourites.FavouriteMovies
-import com.example.framework.model.tvShowsResponse.TvShowsResults
+import com.example.entities.model.favourites.FavouriteMovies
+import com.example.entities.model.tvShowsResponse.TvShowsResults
 
 
 @Database(
@@ -29,7 +29,6 @@ import com.example.framework.model.tvShowsResponse.TvShowsResults
         UpComingMovies::class,
         TvShowsResults::class,
         FavouriteMovies::class,
-
         MovieRemoteKeys::class,
         TopRatedRemoteKeys::class,
         UpComingRemoteKeys::class,
