@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.favouriteMoviesViewModel;
 
 import com.example.framework.model.favourites.FavouriteMovies;
 import kotlinx.coroutines.flow.Flow;
@@ -50,7 +50,7 @@ public final class FavouriteMoviesUiStates {
     }
     
     @org.jetbrains.annotations.NotNull
-    public final com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesUiStates copy(boolean isLoading, @org.jetbrains.annotations.NotNull
+    public final com.example.cinemaxv3.view.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesUiStates copy(boolean isLoading, @org.jetbrains.annotations.NotNull
     kotlinx.coroutines.flow.Flow<? extends java.util.List<com.example.framework.model.favourites.FavouriteMovies>> favouriteMovies, @org.jetbrains.annotations.NotNull
     java.lang.String error) {
         return null;

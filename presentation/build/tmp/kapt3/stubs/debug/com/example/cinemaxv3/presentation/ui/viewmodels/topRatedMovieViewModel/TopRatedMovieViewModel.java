@@ -1,8 +1,8 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.topRatedMovieViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.topRatedMovieViewModel;
 
 import androidx.lifecycle.ViewModel;
 import com.example.cinemaxv3.models.TopRatedMovies;
-import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates;
+import com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates;
 import com.example.data.paging.pagingSource.top_rated_movies_usecase.TopRatedMoviesUseCase;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import retrofit2.HttpException;
@@ -15,9 +15,9 @@ public final class TopRatedMovieViewModel extends androidx.lifecycle.ViewModel {
     @org.jetbrains.annotations.NotNull
     private final com.example.data.paging.pagingSource.top_rated_movies_usecase.TopRatedMoviesUseCase getTopRatedMoviesUseCase = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.TopRatedMovies>> _topRatedMovieStates = null;
+    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.TopRatedMovies>> _topRatedMovieStates = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.TopRatedMovies>> topRatedMovieUiState = null;
+    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.TopRatedMovies>> topRatedMovieUiState = null;
     
     @javax.inject.Inject
     public TopRatedMovieViewModel(@org.jetbrains.annotations.NotNull
@@ -26,7 +26,7 @@ public final class TopRatedMovieViewModel extends androidx.lifecycle.ViewModel {
     }
     
     @org.jetbrains.annotations.NotNull
-    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.TopRatedMovies>> getTopRatedMovieUiState() {
+    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.TopRatedMovies>> getTopRatedMovieUiState() {
         return null;
     }
     

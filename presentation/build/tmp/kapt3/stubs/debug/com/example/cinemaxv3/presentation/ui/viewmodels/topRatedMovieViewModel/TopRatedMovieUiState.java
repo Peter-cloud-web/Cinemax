@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.topRatedMovieViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.topRatedMovieViewModel;
 
 import androidx.paging.PagingData;
 import com.example.cinemaxv3.models.TopRatedMovies;
@@ -51,7 +51,7 @@ public final class TopRatedMovieUiState {
     }
     
     @org.jetbrains.annotations.NotNull
-    public final com.example.cinemaxv3.presentation.ui.viewmodels.topRatedMovieViewModel.TopRatedMovieUiState copy(boolean isLoading, @org.jetbrains.annotations.NotNull
+    public final com.example.cinemaxv3.view.ui.viewmodels.topRatedMovieViewModel.TopRatedMovieUiState copy(boolean isLoading, @org.jetbrains.annotations.NotNull
     kotlinx.coroutines.flow.Flow<androidx.paging.PagingData<com.example.cinemaxv3.models.TopRatedMovies>> topRatedMovies, @org.jetbrains.annotations.NotNull
     java.lang.String error) {
         return null;

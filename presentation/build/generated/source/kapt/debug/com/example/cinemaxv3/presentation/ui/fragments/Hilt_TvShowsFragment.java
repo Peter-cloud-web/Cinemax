@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.fragments;
+package com.example.cinemaxv3.view.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;

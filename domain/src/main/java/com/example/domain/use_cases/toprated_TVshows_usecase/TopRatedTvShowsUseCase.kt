@@ -2,7 +2,7 @@ package com.example.domain.use_cases.toprated_TVshows_usecase
 
 import androidx.paging.PagingData
 import com.example.domain.pager.ToPRatedTvShowsPager
-import com.example.entities.model.tvShowsResponse.TvShowsResults
+import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -2,11 +2,11 @@ package com.example.domain.repository
 
 
 import com.example.cinemaxv3.models.responses.ReviewsResponse
-import com.example.entities.model.favourites.FavouriteMovies
-import com.example.entities.model.movieCasts.MovieCastsResponse
-import com.example.entities.model.similarMoviesResponse.SimilarMoviesResponse
-import com.example.entities.model.trailersResponse.MovieTrailerResponse
-import com.example.entities.model.tvShowsResponse.TvShowsResponses
+import com.example.domain.entities.model.favourites.FavouriteMovies
+import com.example.domain.entities.model.movieCasts.MovieCastsResponse
+import com.example.domain.entities.model.similarMoviesResponse.SimilarMoviesResponse
+import com.example.domain.entities.model.trailersResponse.MovieTrailerResponse
+import com.example.domain.entities.model.tvShowsResponse.TvShowsResponses
 import com.example.framework.common.Resource
 import com.example.framework.movieDto.MovieResponseDto
 import com.example.framework.movieDto.TopRatedMovieResponseDto

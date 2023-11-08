@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.favouriteMoviesViewModel;
 
 import androidx.lifecycle.ViewModel;
 import com.bumptech.glide.load.HttpException;
@@ -21,9 +21,9 @@ public final class FavouriteMoviesViewModel extends androidx.lifecycle.ViewModel
     @org.jetbrains.annotations.NotNull
     private final com.example.domain.use_cases.favouritemovies_usecase.DeleteMovieUseCase deleteMovieUseCase = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesUiStates> _favouriteMovies = null;
+    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.view.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesUiStates> _favouriteMovies = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesUiStates> favouriteMovies = null;
+    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesUiStates> favouriteMovies = null;
     
     @javax.inject.Inject
     public FavouriteMoviesViewModel(@org.jetbrains.annotations.NotNull
@@ -34,7 +34,7 @@ public final class FavouriteMoviesViewModel extends androidx.lifecycle.ViewModel
     }
     
     @org.jetbrains.annotations.NotNull
-    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesUiStates> getFavouriteMovies() {
+    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesUiStates> getFavouriteMovies() {
         return null;
     }
     

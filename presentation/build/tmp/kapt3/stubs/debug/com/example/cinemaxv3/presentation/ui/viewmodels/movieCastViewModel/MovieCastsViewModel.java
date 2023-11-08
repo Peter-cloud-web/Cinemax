@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.movieCastViewModel;
 
 import androidx.lifecycle.ViewModel;
 import com.bumptech.glide.load.HttpException;
@@ -13,9 +13,9 @@ public final class MovieCastsViewModel extends androidx.lifecycle.ViewModel {
     @org.jetbrains.annotations.NotNull
     private final com.example.domain.use_cases.moviecasts_usecase.MovieCastsUseCase getMovieCastsUseCase = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel.MovieCastsUiStates> _movieCastsResponse = null;
+    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.view.ui.viewmodels.movieCastViewModel.MovieCastsUiStates> _movieCastsResponse = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel.MovieCastsUiStates> movieCastResponse = null;
+    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.movieCastViewModel.MovieCastsUiStates> movieCastResponse = null;
     
     @javax.inject.Inject
     public MovieCastsViewModel(@org.jetbrains.annotations.NotNull
@@ -24,7 +24,7 @@ public final class MovieCastsViewModel extends androidx.lifecycle.ViewModel {
     }
     
     @org.jetbrains.annotations.NotNull
-    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel.MovieCastsUiStates> getMovieCastResponse() {
+    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.movieCastViewModel.MovieCastsUiStates> getMovieCastResponse() {
         return null;
     }
     

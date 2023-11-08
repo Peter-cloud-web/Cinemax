@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.movieReviewsViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,7 +15,7 @@ public final class MovieReviewsViewModel extends androidx.lifecycle.ViewModel {
     @org.jetbrains.annotations.NotNull
     private final com.example.domain.use_cases.movieReviews_usecase.MovieReviewUseCase movieReviewUseCase = null;
     @org.jetbrains.annotations.NotNull
-    private final androidx.lifecycle.MutableLiveData<com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel.MovieReviewsUiStates> _movieReviews = null;
+    private final androidx.lifecycle.MutableLiveData<com.example.cinemaxv3.view.ui.viewmodels.movieReviewsViewModel.MovieReviewsUiStates> _movieReviews = null;
     
     @javax.inject.Inject
     public MovieReviewsViewModel(@org.jetbrains.annotations.NotNull
@@ -24,7 +24,7 @@ public final class MovieReviewsViewModel extends androidx.lifecycle.ViewModel {
     }
     
     @org.jetbrains.annotations.NotNull
-    public final androidx.lifecycle.LiveData<com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel.MovieReviewsUiStates> getMovieReviews() {
+    public final androidx.lifecycle.LiveData<com.example.cinemaxv3.view.ui.viewmodels.movieReviewsViewModel.MovieReviewsUiStates> getMovieReviews() {
         return null;
     }
     

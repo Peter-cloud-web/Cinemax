@@ -18,8 +18,8 @@ import com.example.db.dao.remoteKeysDaos.RemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.TopRatedTvShowsRemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.UpComingRemoteKeyDao
-import com.example.entities.model.favourites.FavouriteMovies
-import com.example.entities.model.tvShowsResponse.TvShowsResults
+import com.example.domain.entities.model.favourites.FavouriteMovies
+import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
 
 
 @Database(

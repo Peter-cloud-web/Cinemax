@@ -2,7 +2,7 @@ package com.example.paging.pagingSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.entities.model.tvShowsResponse.TvShowsResults
+import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
 import com.example.domain.repository.MovieRepository
 import retrofit2.HttpException
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.movieCastViewModel;
 
 import androidx.lifecycle.ViewModel;
 import dagger.Binds;

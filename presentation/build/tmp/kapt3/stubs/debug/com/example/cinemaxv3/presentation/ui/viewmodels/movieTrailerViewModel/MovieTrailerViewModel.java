@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.movieTrailerViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.movieTrailerViewModel;
 
 import androidx.lifecycle.ViewModel;
 import com.example.domain.use_cases.movietrailer_usecase.MovieTrailerUseCase;

@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.movieReviewsViewModel;
 
 import androidx.lifecycle.MutableLiveData;
 import com.example.cinemaxv3.models.responses.Review;
@@ -50,7 +50,7 @@ public final class MovieReviewsUiStates {
     }
     
     @org.jetbrains.annotations.NotNull
-    public final com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel.MovieReviewsUiStates copy(boolean isLoading, @org.jetbrains.annotations.Nullable
+    public final com.example.cinemaxv3.view.ui.viewmodels.movieReviewsViewModel.MovieReviewsUiStates copy(boolean isLoading, @org.jetbrains.annotations.Nullable
     androidx.lifecycle.MutableLiveData<java.util.List<com.example.cinemaxv3.models.responses.Review>> isSuccess, @org.jetbrains.annotations.NotNull
     java.lang.String isError) {
         return null;

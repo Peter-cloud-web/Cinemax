@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.fragments;
+package com.example.cinemaxv3.view.ui.fragments;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.cinemaxv3.R;
 import com.example.cinemaxv3.databinding.FragmentMovieDetailsBinding;
-import com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesViewModel;
+import com.example.cinemaxv3.view.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesViewModel;
 import com.example.framework.model.favourites.FavouriteMovies;
 import com.google.android.material.snackbar.Snackbar;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -28,11 +28,11 @@ public final class MovieDetailsFragment extends androidx.fragment.app.Fragment {
         super();
     }
     
-    private final com.example.cinemaxv3.presentation.ui.fragments.MovieDetailsFragmentArgs getArgs() {
+    private final com.example.cinemaxv3.view.ui.fragments.MovieDetailsFragmentArgs getArgs() {
         return null;
     }
     
-    private final com.example.cinemaxv3.presentation.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesViewModel getFavouriteMoviesViewModel() {
+    private final com.example.cinemaxv3.view.ui.viewmodels.favouriteMoviesViewModel.FavouriteMoviesViewModel getFavouriteMoviesViewModel() {
         return null;
     }
     

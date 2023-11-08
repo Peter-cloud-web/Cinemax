@@ -1,9 +1,9 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.upComingMoviesViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.upComingMoviesViewModel;
 
 import androidx.lifecycle.ViewModel;
 import com.bumptech.glide.load.HttpException;
 import com.example.cinemaxv3.models.UpComingMovies;
-import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates;
+import com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates;
 import com.example.data.paging.pagingSource.UpComingMoviesUseCase;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import java.io.IOException;
@@ -15,9 +15,9 @@ public final class UpComingMoviesViewModel extends androidx.lifecycle.ViewModel 
     @org.jetbrains.annotations.NotNull
     private final com.example.data.paging.pagingSource.UpComingMoviesUseCase getUpComingMoviesUseCase = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.UpComingMovies>> _upComingMoviesState = null;
+    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.UpComingMovies>> _upComingMoviesState = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.UpComingMovies>> upComingMoviesState = null;
+    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.UpComingMovies>> upComingMoviesState = null;
     
     @javax.inject.Inject
     public UpComingMoviesViewModel(@org.jetbrains.annotations.NotNull
@@ -26,7 +26,7 @@ public final class UpComingMoviesViewModel extends androidx.lifecycle.ViewModel 
     }
     
     @org.jetbrains.annotations.NotNull
-    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.UpComingMovies>> getUpComingMoviesState() {
+    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.cinemaxv3.models.UpComingMovies>> getUpComingMoviesState() {
         return null;
     }
     

@@ -1,7 +1,7 @@
 package com.example.domain.use_cases.favouritemovies_usecase
 
 import com.example.domain.repository.MovieRepository
-import com.example.entities.model.favourites.FavouriteMovies
+import com.example.domain.entities.model.favourites.FavouriteMovies
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

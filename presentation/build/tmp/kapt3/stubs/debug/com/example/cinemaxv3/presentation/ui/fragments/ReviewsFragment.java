@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.fragments;
+package com.example.cinemaxv3.view.ui.fragments;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.cinemaxv3.R;
 import com.example.cinemaxv3.databinding.FragmentReviewsBinding;
 import com.example.cinemaxv3.models.responses.Review;
-import com.example.cinemaxv3.presentation.ui.adapter.MovieReviewsAdapter;
-import com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel.MovieReviewsViewModel;
+import com.example.cinemaxv3.view.ui.adapter.MovieReviewsAdapter;
+import com.example.cinemaxv3.view.ui.viewmodels.movieReviewsViewModel.MovieReviewsViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @dagger.hilt.android.AndroidEntryPoint
@@ -21,13 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint;
 public final class ReviewsFragment extends androidx.fragment.app.Fragment {
     @org.jetbrains.annotations.NotNull
     private final kotlin.Lazy movieReviewsViewModel$delegate = null;
-    private com.example.cinemaxv3.presentation.ui.adapter.MovieReviewsAdapter reviewAdapter;
+    private com.example.cinemaxv3.view.ui.adapter.MovieReviewsAdapter reviewAdapter;
     
     public ReviewsFragment() {
         super();
     }
     
-    private final com.example.cinemaxv3.presentation.ui.viewmodels.movieReviewsViewModel.MovieReviewsViewModel getMovieReviewsViewModel() {
+    private final com.example.cinemaxv3.view.ui.viewmodels.movieReviewsViewModel.MovieReviewsViewModel getMovieReviewsViewModel() {
         return null;
     }
     

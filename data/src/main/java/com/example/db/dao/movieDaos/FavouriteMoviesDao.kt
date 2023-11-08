@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.TypeConverters
 import com.example.db.dao.movieDaos.converters.ListConverter
-import com.example.entities.model.favourites.FavouriteMovies
+import com.example.domain.entities.model.favourites.FavouriteMovies
 import kotlinx.coroutines.flow.Flow
 
 
@@ -16,10 +16,10 @@ import kotlinx.coroutines.flow.Flow
 interface FavouriteMoviesDao {
 
     @Query("SELECT * FROM favourite_movies")
-    fun getAllFavouriteMovies(): Flow<List<com.example.entities.model.favourites.FavouriteMovies>>
+    fun getAllFavouriteMovies(): Flow<List<FavouriteMovies>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavouriteMovies(movie: com.example.entities.model.favourites.FavouriteMovies)
+    suspend fun insertFavouriteMovies(movie: FavouriteMovies)
 
     @Query("DELETE FROM favourite_movies WHERE  id = :id")
     suspend fun deleteFavouriteMovie(id:Int)

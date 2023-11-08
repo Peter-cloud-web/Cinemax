@@ -1,8 +1,8 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.tvShowsOnTheAirViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.tvShowsOnTheAirViewModel;
 
 import androidx.lifecycle.ViewModel;
 import com.bumptech.glide.load.HttpException;
-import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates;
+import com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates;
 import com.example.data.paging.pagingSource.TvShowsOnTheAirUseCase;
 import com.example.framework.model.tvShowsResponse.TvShowsResults;
 import dagger.hilt.android.lifecycle.HiltViewModel;
@@ -15,9 +15,9 @@ public final class TvShowsOnTheAirViewModel extends androidx.lifecycle.ViewModel
     @org.jetbrains.annotations.NotNull
     private final com.example.data.paging.pagingSource.TvShowsOnTheAirUseCase tvShowsOnTheAirUseCase = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> _tvShowsOnTheAir = null;
+    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> _tvShowsOnTheAir = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> tvShowsOnTheAir = null;
+    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> tvShowsOnTheAir = null;
     
     @javax.inject.Inject
     public TvShowsOnTheAirViewModel(@org.jetbrains.annotations.NotNull
@@ -26,7 +26,7 @@ public final class TvShowsOnTheAirViewModel extends androidx.lifecycle.ViewModel
     }
     
     @org.jetbrains.annotations.NotNull
-    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> getTvShowsOnTheAir() {
+    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> getTvShowsOnTheAir() {
         return null;
     }
     

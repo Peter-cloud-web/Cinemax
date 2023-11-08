@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.upComingMoviesViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.upComingMoviesViewModel;
 
 import androidx.lifecycle.ViewModel;
 import dagger.Binds;

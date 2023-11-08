@@ -8,7 +8,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.db.MovieDatabase
 import com.example.cinemaxv3.models.TopRatedTvShowsRemoteKeys
-import com.example.entities.model.tvShowsResponse.TvShowsResults
+import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
 import com.example.domain.repository.MovieRepository
 import retrofit2.HttpException
 import java.io.IOException

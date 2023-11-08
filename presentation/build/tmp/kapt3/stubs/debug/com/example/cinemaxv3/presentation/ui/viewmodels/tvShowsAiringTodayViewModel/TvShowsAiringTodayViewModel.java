@@ -1,8 +1,8 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.tvShowsAiringTodayViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.tvShowsAiringTodayViewModel;
 
 import androidx.lifecycle.ViewModel;
 import com.bumptech.glide.load.HttpException;
-import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates;
+import com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates;
 import com.example.data.paging.pagingSource.TVshows_airingToday_usecase.TvShowsAringTodayUseCase;
 import com.example.framework.model.tvShowsResponse.TvShowsResults;
 import dagger.hilt.android.lifecycle.HiltViewModel;
@@ -15,9 +15,9 @@ public final class TvShowsAiringTodayViewModel extends androidx.lifecycle.ViewMo
     @org.jetbrains.annotations.NotNull
     private final com.example.data.paging.pagingSource.TVshows_airingToday_usecase.TvShowsAringTodayUseCase tvShowsAiringTodayUseCase = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> _tvShowsAiringTodayUiState = null;
+    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> _tvShowsAiringTodayUiState = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> tvShowsAiringTodayUiState = null;
+    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> tvShowsAiringTodayUiState = null;
     
     @javax.inject.Inject
     public TvShowsAiringTodayViewModel(@org.jetbrains.annotations.NotNull
@@ -26,7 +26,7 @@ public final class TvShowsAiringTodayViewModel extends androidx.lifecycle.ViewMo
     }
     
     @org.jetbrains.annotations.NotNull
-    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> getTvShowsAiringTodayUiState() {
+    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> getTvShowsAiringTodayUiState() {
         return null;
     }
     

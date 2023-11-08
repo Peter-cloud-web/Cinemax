@@ -1,7 +1,6 @@
 package com.example.cinemaxv3.util
 
-import com.example.cinemaxv3.models.Movie
-import com.example.cinemaxv3.presentation.ui.fragments.MovieFragmentDirections
+import com.example.cinemaxv3.view.ui.fragments.MovieFragmentDirections
 
 sealed class MovieItem {
     abstract val poster_path: String

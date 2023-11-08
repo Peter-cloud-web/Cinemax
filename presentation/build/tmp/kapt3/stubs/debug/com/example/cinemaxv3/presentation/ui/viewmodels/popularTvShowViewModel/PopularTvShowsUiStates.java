@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.popularTvShowViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.popularTvShowViewModel;
 
 import androidx.paging.PagingData;
 import com.example.framework.model.tvShowsResponse.TvShowsResults;
@@ -51,7 +51,7 @@ public final class PopularTvShowsUiStates {
     }
     
     @org.jetbrains.annotations.NotNull
-    public final com.example.cinemaxv3.presentation.ui.viewmodels.popularTvShowViewModel.PopularTvShowsUiStates copy(boolean isLoading, @org.jetbrains.annotations.NotNull
+    public final com.example.cinemaxv3.view.ui.viewmodels.popularTvShowViewModel.PopularTvShowsUiStates copy(boolean isLoading, @org.jetbrains.annotations.NotNull
     kotlinx.coroutines.flow.Flow<androidx.paging.PagingData<com.example.framework.model.tvShowsResponse.TvShowsResults>> popularTvShows, @org.jetbrains.annotations.NotNull
     java.lang.String error) {
         return null;

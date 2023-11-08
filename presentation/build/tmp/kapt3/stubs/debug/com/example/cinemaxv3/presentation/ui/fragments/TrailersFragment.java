@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.fragments;
+package com.example.cinemaxv3.view.ui.fragments;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.cinemaxv3.R;
 import com.example.cinemaxv3.databinding.FragmentTrailersBinding;
-import com.example.cinemaxv3.presentation.ui.adapter.MovieCastsAdapter;
-import com.example.cinemaxv3.presentation.ui.adapter.SimilarMoviesAdapter;
-import com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel.MovieCastsViewModel;
-import com.example.cinemaxv3.presentation.ui.viewmodels.movieTrailerViewModel.MovieTrailerViewModel;
-import com.example.cinemaxv3.presentation.ui.viewmodels.similarMoviesViewModel.SimilarMoviesViewModel;
+import com.example.cinemaxv3.view.ui.adapter.MovieCastsAdapter;
+import com.example.cinemaxv3.view.ui.adapter.SimilarMoviesAdapter;
+import com.example.cinemaxv3.view.ui.viewmodels.movieCastViewModel.MovieCastsViewModel;
+import com.example.cinemaxv3.view.ui.viewmodels.movieTrailerViewModel.MovieTrailerViewModel;
+import com.example.cinemaxv3.view.ui.viewmodels.similarMoviesViewModel.SimilarMoviesViewModel;
 import com.example.framework.model.movieCasts.Cast;
 import com.example.framework.model.similarMoviesResponse.SimilarMovies;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
@@ -32,8 +32,8 @@ public final class TrailersFragment extends androidx.fragment.app.Fragment {
     @org.jetbrains.annotations.NotNull
     private final kotlin.Lazy similarMoviesViewModel$delegate = null;
     private com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView videoView;
-    private com.example.cinemaxv3.presentation.ui.adapter.MovieCastsAdapter castsAdapter;
-    private com.example.cinemaxv3.presentation.ui.adapter.SimilarMoviesAdapter similarMoviesAdapter;
+    private com.example.cinemaxv3.view.ui.adapter.MovieCastsAdapter castsAdapter;
+    private com.example.cinemaxv3.view.ui.adapter.SimilarMoviesAdapter similarMoviesAdapter;
     @org.jetbrains.annotations.NotNull
     private final androidx.navigation.NavArgsLazy args$delegate = null;
     
@@ -41,19 +41,19 @@ public final class TrailersFragment extends androidx.fragment.app.Fragment {
         super();
     }
     
-    private final com.example.cinemaxv3.presentation.ui.viewmodels.movieTrailerViewModel.MovieTrailerViewModel getMovieTrailerViewModel() {
+    private final com.example.cinemaxv3.view.ui.viewmodels.movieTrailerViewModel.MovieTrailerViewModel getMovieTrailerViewModel() {
         return null;
     }
     
-    private final com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel.MovieCastsViewModel getMovieCastsViewModel() {
+    private final com.example.cinemaxv3.view.ui.viewmodels.movieCastViewModel.MovieCastsViewModel getMovieCastsViewModel() {
         return null;
     }
     
-    private final com.example.cinemaxv3.presentation.ui.viewmodels.similarMoviesViewModel.SimilarMoviesViewModel getSimilarMoviesViewModel() {
+    private final com.example.cinemaxv3.view.ui.viewmodels.similarMoviesViewModel.SimilarMoviesViewModel getSimilarMoviesViewModel() {
         return null;
     }
     
-    private final com.example.cinemaxv3.presentation.ui.fragments.TrailersFragmentArgs getArgs() {
+    private final com.example.cinemaxv3.view.ui.fragments.TrailersFragmentArgs getArgs() {
         return null;
     }
     

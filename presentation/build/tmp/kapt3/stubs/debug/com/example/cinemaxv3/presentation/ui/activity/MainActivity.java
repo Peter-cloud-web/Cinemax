@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.activity;
+package com.example.cinemaxv3.view.ui.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;

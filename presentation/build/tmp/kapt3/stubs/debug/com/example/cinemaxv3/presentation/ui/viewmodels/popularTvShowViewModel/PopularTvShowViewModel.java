@@ -1,8 +1,8 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.popularTvShowViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.popularTvShowViewModel;
 
 import androidx.lifecycle.ViewModel;
 import com.bumptech.glide.load.HttpException;
-import com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates;
+import com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates;
 import com.example.data.paging.pagingSource.popular_TVshows_usecase.PopularTvShowsUseCase;
 import com.example.framework.model.tvShowsResponse.TvShowsResults;
 import dagger.hilt.android.lifecycle.HiltViewModel;
@@ -15,9 +15,9 @@ public final class PopularTvShowViewModel extends androidx.lifecycle.ViewModel {
     @org.jetbrains.annotations.NotNull
     private final com.example.data.paging.pagingSource.popular_TVshows_usecase.PopularTvShowsUseCase getPopularTvShowsUseCase = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> _popularTvShowState = null;
+    private final kotlinx.coroutines.flow.MutableStateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> _popularTvShowState = null;
     @org.jetbrains.annotations.NotNull
-    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> popularTvShowsUiStates = null;
+    private final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> popularTvShowsUiStates = null;
     
     @javax.inject.Inject
     public PopularTvShowViewModel(@org.jetbrains.annotations.NotNull
@@ -26,7 +26,7 @@ public final class PopularTvShowViewModel extends androidx.lifecycle.ViewModel {
     }
     
     @org.jetbrains.annotations.NotNull
-    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.presentation.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> getPopularTvShowsUiStates() {
+    public final kotlinx.coroutines.flow.StateFlow<com.example.cinemaxv3.view.ui.viewmodels.popularMoviesViewModel.UiStates<com.example.framework.model.tvShowsResponse.TvShowsResults>> getPopularTvShowsUiStates() {
         return null;
     }
     

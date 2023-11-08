@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels;
+package com.example.cinemaxv3.view.ui.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 import com.example.framework.model.favourites.FavouriteMovies;

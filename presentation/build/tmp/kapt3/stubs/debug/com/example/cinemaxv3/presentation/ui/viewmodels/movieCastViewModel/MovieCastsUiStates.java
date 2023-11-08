@@ -1,4 +1,4 @@
-package com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel;
+package com.example.cinemaxv3.view.ui.viewmodels.movieCastViewModel;
 
 import com.example.framework.model.movieCasts.Cast;
 import com.example.framework.model.movieCasts.MovieCastsResponse;
@@ -51,7 +51,7 @@ public final class MovieCastsUiStates {
     }
     
     @org.jetbrains.annotations.NotNull
-    public final com.example.cinemaxv3.presentation.ui.viewmodels.movieCastViewModel.MovieCastsUiStates copy(boolean isLoading, @org.jetbrains.annotations.NotNull
+    public final com.example.cinemaxv3.view.ui.viewmodels.movieCastViewModel.MovieCastsUiStates copy(boolean isLoading, @org.jetbrains.annotations.NotNull
     kotlinx.coroutines.flow.Flow<com.example.framework.model.movieCasts.Cast> movieCasts, @org.jetbrains.annotations.NotNull
     java.lang.String error) {
         return null;

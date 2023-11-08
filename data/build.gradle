@@ -55,7 +55,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //dagger-hilt
-    implementation "com.google.dagger:hilt-android:2.44"
+    implementation "com.google.dagger:hilt-android:2.47"
+    kapt "com.google.dagger:hilt-android-compiler:2.47"
 
     implementation("androidx.room:room-runtime:2.5.2")
     annotationProcessor("androidx.room:room-compiler:2.5.2")
@@ -104,5 +105,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version"
 
 
+}
+
+kapt{
+    correctErrorTypes = true
+    'io.coil-kt:coil-compiler:1.4.0'
 }
 
