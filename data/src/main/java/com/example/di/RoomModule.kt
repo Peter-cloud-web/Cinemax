@@ -21,8 +21,8 @@ import javax.inject.Singleton
 object RoomModule {
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, MovieDatabase::class.java, "movie_database")
+    fun provideDatabase(@ApplicationContext androidContext: Context) =
+        Room.databaseBuilder(androidContext, MovieDatabase::class.java, "movie_database")
             .fallbackToDestructiveMigration()
             .build()
 

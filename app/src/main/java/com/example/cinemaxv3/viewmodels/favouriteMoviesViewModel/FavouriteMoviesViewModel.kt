@@ -3,8 +3,9 @@ package com.example.cinemaxv3.viewmodels.favouriteMoviesViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.load.HttpException
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import com.example.domain.entities.model.favourites.FavouriteMovies
+import com.example.domain.repository.CachedMoviesRepository
 import com.example.domain.use_cases.favouritemovies_usecase.GetFavouriteMovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FavouriteMoviesViewModel @Inject constructor(
     private val favouriteMovieUseCase: GetFavouriteMovieUseCase,
-    private val repository: MovieRepository
+    private val repository: CachedMoviesRepository
 ) : ViewModel() {
 
     private val _favouriteMovies = MutableStateFlow(FavouriteMoviesUiStates())
@@ -30,7 +31,7 @@ class FavouriteMoviesViewModel @Inject constructor(
         try {
             _favouriteMovies.value = FavouriteMoviesUiStates(isLoading = true)
             val data = favouriteMovieUseCase()
-            _favouriteMovies.value = FavouriteMoviesUiStates(favouriteMovies = data)
+            _favouriteMovies.value = data?.let { FavouriteMoviesUiStates(favouriteMovies = it) }!!
         } catch (e: Exception) {
             _favouriteMovies.value = FavouriteMoviesUiStates(
                 error = handleFavouriteMoviesErrors(e))

@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import com.bumptech.glide.load.HttpException
 import com.example.cinemaxv3.models.Movie
 import com.example.domain.use_cases.popularMovies_usecase.PopularMoviesUseCase
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PopularMoviesViewModel @Inject constructor(
     private val getPopularMoviesUseCase: PopularMoviesUseCase,
-    private val repository: MovieRepository
+    private val repository: RemoteMoviesRepository
 ) : ViewModel() {
 
     private val _popularMovieStates = MutableStateFlow(UiStates<Movie>())

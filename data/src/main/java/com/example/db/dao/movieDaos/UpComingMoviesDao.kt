@@ -7,7 +7,6 @@ import com.example.db.dao.movieDaos.converters.ListConverter
 
 
 @Dao
-@TypeConverters(ListConverter::class)
 interface UpComingMoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUpComingMovies(upComingMovies: List<UpComingMovies>)

@@ -9,14 +9,14 @@ import androidx.room.withTransaction
 import com.example.db.MovieDatabase
 import com.example.cinemaxv3.models.TopRatedTvShowsRemoteKeys
 import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class TopRatedTvShowsMediator(
-    private val repository: MovieRepository,
+    private val repository: RemoteMoviesRepository,
     private val db: MovieDatabase
 ) :
     RemoteMediator<Int, TvShowsResults>() {

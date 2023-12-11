@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.movieDto.MovieResponseDto
 import com.example.domain.use_cases.searchedMovies_usecase.SearchMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,8 +15,8 @@ class SearchedMoviesViewModel @Inject constructor(
     private val searchMoviesUseCase: SearchMoviesUseCase,
 ) : ViewModel() {
 
-    private val _searchMoviesResponse = MutableLiveData<com.example.framework.movieDto.MovieResponseDto?>()
-    val SearchResponse: LiveData<com.example.framework.movieDto.MovieResponseDto?> = _searchMoviesResponse
+    private val _searchMoviesResponse = MutableLiveData<MovieResponseDto?>()
+    val SearchResponse: LiveData<MovieResponseDto?> = _searchMoviesResponse
 
     fun searchMovies(query: String) {
         viewModelScope.launch {

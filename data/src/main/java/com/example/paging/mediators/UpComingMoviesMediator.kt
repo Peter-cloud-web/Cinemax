@@ -10,7 +10,7 @@ import androidx.room.withTransaction
 import com.example.cinemaxv3.models.UpComingMovies
 import com.example.cinemaxv3.models.UpComingRemoteKeys
 import com.example.db.MovieDatabase
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalPagingApi::class)
 class UpComingMoviesMediator @Inject constructor(
     private val db: MovieDatabase,
-    private val repository: MovieRepository
+    private val repository: RemoteMoviesRepository
 ) : RemoteMediator<Int, UpComingMovies>() {
     override suspend fun initialize(): InitializeAction {
         val cachedTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)

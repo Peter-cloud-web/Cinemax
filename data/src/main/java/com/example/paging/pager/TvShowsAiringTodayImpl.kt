@@ -4,13 +4,13 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.domain.pager.TvShowsAiringTodayPager
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
 import com.example.paging.pagingSource.TvShowsAiringTodayPagingSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class TvShowsAiringTodayImpl @Inject constructor(private val repository: MovieRepository):TvShowsAiringTodayPager {
+class TvShowsAiringTodayImpl @Inject constructor(private val repository: RemoteMoviesRepository):TvShowsAiringTodayPager {
     override fun getTvSowsAiringToday(): Flow<PagingData<TvShowsResults>> {
         val pager = Pager(
             config = PagingConfig(

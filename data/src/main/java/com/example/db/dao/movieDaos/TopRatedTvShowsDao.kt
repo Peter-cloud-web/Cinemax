@@ -12,7 +12,6 @@ import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
 
 
 @Dao
-@TypeConverters(ListConverter::class)
 interface TopRatedTvShowsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertsTopRatedTvShows(topRatedTvShows: List<TvShowsResults>)

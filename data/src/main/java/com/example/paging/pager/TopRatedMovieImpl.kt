@@ -7,14 +7,14 @@ import androidx.paging.PagingData
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.db.MovieDatabase
 import com.example.domain.pager.TopRatedMoviesPager
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import com.example.paging.mediators.TopRatedMoviesMediator
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class TopRatedMovieImpl @Inject constructor(
     private val movieDatabase: MovieDatabase,
-    private val repository: MovieRepository
+    private val repository: RemoteMoviesRepository
 ) :
     TopRatedMoviesPager {
     override fun getTopRatedMovies(): Flow<PagingData<TopRatedMovies>> {

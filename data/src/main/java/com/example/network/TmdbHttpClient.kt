@@ -16,8 +16,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import javax.inject.Inject
 
-class TmdbHttpClient @Inject constructor() {
-
+class TmdbHttpClient {
     fun getHttpClient() = HttpClient(Android) {
         install(JsonFeature) {
             serializer = KotlinxSerializer(kotlinx.serialization.json.Json {

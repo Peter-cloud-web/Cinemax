@@ -7,14 +7,14 @@ import androidx.paging.PagingData
 import com.example.db.MovieDatabase
 import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
 import com.example.domain.pager.ToPRatedTvShowsPager
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import com.example.paging.mediators.TopRatedTvShowsMediator
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class TopRatedTvShowsImpl @Inject constructor(
     private val movieDatabase: MovieDatabase,
-    private val repository: MovieRepository
+    private val repository: RemoteMoviesRepository
 ) : ToPRatedTvShowsPager {
     override fun getTopRatedTvShows(): Flow<PagingData<TvShowsResults>> {
         @OptIn(ExperimentalPagingApi::class) val pager = Pager(

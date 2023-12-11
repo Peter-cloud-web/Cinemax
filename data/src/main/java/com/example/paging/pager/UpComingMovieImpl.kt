@@ -7,14 +7,14 @@ import androidx.paging.PagingData
 import com.example.cinemaxv3.models.UpComingMovies
 import com.example.db.MovieDatabase
 import com.example.domain.pager.UpComingPagingMovies
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import com.example.paging.mediators.UpComingMoviesMediator
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UpComingMovieImpl @Inject constructor(
     private val movieDatabase: MovieDatabase,
-    private val repository: MovieRepository
+    private val repository: RemoteMoviesRepository
 ) :
     UpComingPagingMovies {
     override fun getUpComingMovies(): Flow<PagingData<UpComingMovies>> {

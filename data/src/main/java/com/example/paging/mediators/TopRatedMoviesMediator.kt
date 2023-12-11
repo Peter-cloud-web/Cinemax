@@ -10,7 +10,7 @@ import androidx.room.withTransaction
 import com.example.cinemaxv3.models.TopRatedMovies
 import com.example.cinemaxv3.models.TopRatedRemoteKeys
 import com.example.db.MovieDatabase
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 @OptIn(ExperimentalPagingApi::class)
 class TopRatedMoviesMediator(
     private val db: MovieDatabase,
-    private val repository: MovieRepository
+    private val repository: RemoteMoviesRepository
 ) : RemoteMediator<Int, TopRatedMovies>() {
 
     override suspend fun initialize(): InitializeAction {

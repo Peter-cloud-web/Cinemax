@@ -12,8 +12,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.ActivityMainBinding
 import com.example.cinemaxv3.databinding.InternetConnectionDialogBinding
-import com.example.framework.receivers.ConnectivityObserver
-import com.example.framework.receivers.NetworkConnectivityObserver
+import com.example.cinemaxv3.receivers.ConnectivityObserver
+import com.example.cinemaxv3.receivers.ConnectivityObserverImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var connectivityObserver: ConnectivityObserver
     private lateinit var connectivityDialog: Dialog
 
-    private val networkConnectivityObserver: NetworkConnectivityObserver by lazy {
-        NetworkConnectivityObserver(this)
+    private val networkConnectivityObserver: ConnectivityObserverImpl by lazy {
+        ConnectivityObserverImpl(this)
     }
 
     private var isDialogShown = false

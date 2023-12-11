@@ -24,8 +24,8 @@ import com.example.cinemaxv3.view.ui.adapter.UpComingMoviesAdapter
 import com.example.cinemaxv3.viewmodels.popularMoviesViewModel.PopularMoviesViewModel
 import com.example.cinemaxv3.viewmodels.topRatedMovieViewModel.TopRatedMovieViewModel
 import com.example.cinemaxv3.viewmodels.upComingMoviesViewModel.UpComingMoviesViewModel
-import com.example.framework.receivers.ConnectivityObserver
-import com.example.framework.receivers.NetworkConnectivityObserver
+import com.example.cinemaxv3.receivers.ConnectivityObserver
+import com.example.cinemaxv3.receivers.ConnectivityObserverImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,8 +37,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     private val args: MovieDetailsFragmentArgs by navArgs()
     private lateinit var upComingMoviesAdapter: UpComingMoviesAdapter
 
-    private val networkConnectivityObserver: NetworkConnectivityObserver by lazy {
-        NetworkConnectivityObserver(requireContext())
+    private val networkConnectivityObserver: ConnectivityObserverImpl by lazy {
+        ConnectivityObserverImpl(requireContext())
     }
 
     private val topRatedMovieViewModel: TopRatedMovieViewModel by viewModels()

@@ -3,12 +3,12 @@ package com.example.paging.pagingSource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.cinemaxv3.models.UpComingMovies
-import com.example.domain.repository.MovieRepository
+import com.example.domain.repository.RemoteMoviesRepository
 import retrofit2.HttpException
 import javax.inject.Inject
 
 class UpComingMoviesPagingSource @Inject constructor(
-    private val repository: MovieRepository
+    private val repository: RemoteMoviesRepository
 ) : PagingSource<Int, UpComingMovies>() {
     override fun getRefreshKey(state: PagingState<Int, UpComingMovies>): Int? {
         return 1

@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.example.framework.converter.ListConverter
+import com.example.domain.converter.ListConverter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

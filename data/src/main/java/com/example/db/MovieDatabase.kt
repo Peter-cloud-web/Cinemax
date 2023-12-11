@@ -2,6 +2,7 @@ package com.example.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.cinemaxv3.models.Movie
 import com.example.cinemaxv3.models.MovieRemoteKeys
 import com.example.cinemaxv3.models.TopRatedMovies
@@ -14,6 +15,7 @@ import com.example.db.dao.movieDaos.MovieDao
 import com.example.db.dao.movieDaos.TopRatedMoviesDao
 import com.example.db.dao.movieDaos.TopRatedTvShowsDao
 import com.example.db.dao.movieDaos.UpComingMoviesDao
+import com.example.db.dao.movieDaos.converters.ListConverter
 import com.example.db.dao.remoteKeysDaos.RemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.TopRatedRemoteKeysDao
 import com.example.db.dao.remoteKeysDaos.TopRatedTvShowsRemoteKeysDao
@@ -33,8 +35,9 @@ import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
         TopRatedRemoteKeys::class,
         UpComingRemoteKeys::class,
         TopRatedTvShowsRemoteKeys::class],
-    version = 16, exportSchema = false
+    version = 17, exportSchema = false
 )
+@TypeConverters(ListConverter::class)
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun getMovieDao(): MovieDao

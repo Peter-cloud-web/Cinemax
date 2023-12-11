@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 
 
 @Dao
-@TypeConverters(ListConverter::class)
 interface FavouriteMoviesDao {
 
     @Query("SELECT * FROM favourite_movies")

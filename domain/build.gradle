@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace 'com.example.domain'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
 //        applicationId "com.example.domain"
@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation implementation(project(':core',))
+
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
@@ -44,6 +44,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation("net.javacrumbs.json-unit:json-unit-kotlin:2.22.0")
 
     //dagger-hilt
     implementation "com.google.dagger:hilt-android:2.47"
@@ -69,6 +70,9 @@ dependencies {
 
     // optional - RxJava2 support for Room
     implementation("androidx.room:room-rxjava2:2.5.1")
+
+    //    Leak canary
+    implementation "com.squareup.leakcanary:leakcanary-android:2.12"
 
     // optional - RxJava3 support for Room
     implementation("androidx.room:room-rxjava3:2.5.1")
