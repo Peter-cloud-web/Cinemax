@@ -10,6 +10,8 @@ import com.example.domain.movieDto.MovieResponseDto
 import com.example.domain.movieDto.TopRatedMovieResponseDto
 import com.example.domain.movieDto.UpComingMovieResponseDto
 import com.example.util.Constants
+import com.example.util.Constants.KTOR_BASE_URL
+import com.example.util.Constants.SEARCH_MOVIES
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.http.URLProtocol
@@ -23,7 +25,7 @@ class MovieApi @Inject constructor(private val httpClient: HttpClient) {
             val response = httpClient.get<T> {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = Constants.KTOR_BASE_URL
+                    host = KTOR_BASE_URL
                     encodedPath = urlPath
                     parameters.append("api_key", BuildConfig.MOVIE_API_KEY)
                     parameters.append("page", page.toString())
@@ -41,7 +43,7 @@ class MovieApi @Inject constructor(private val httpClient: HttpClient) {
         return getApiRequest(Constants.TOPRATED_MOVIES, page)
     }
 
-     suspend fun getPopularMovies(page: Int): Resource<MovieResponseDto> {
+    suspend fun getPopularMovies(page: Int): Resource<MovieResponseDto> {
         return getApiRequest(Constants.POPULAR_MOVIES, page)
     }
 
@@ -77,7 +79,7 @@ class MovieApi @Inject constructor(private val httpClient: HttpClient) {
             val response = httpClient.get<MovieTrailerResponse> {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = Constants.KTOR_BASE_URL
+                    host = KTOR_BASE_URL
                     encodedPath = "/3/movie/${id}/videos"
                     parameters.append("api_key", BuildConfig.MOVIE_API_KEY)
                     parameters.append("language", "en-US")
@@ -112,8 +114,8 @@ class MovieApi @Inject constructor(private val httpClient: HttpClient) {
             val response = httpClient.get<MovieResponseDto> {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = Constants.KTOR_BASE_URL
-                    encodedPath = Constants.SEARCH_MOVIES
+                    host = KTOR_BASE_URL
+                    encodedPath = SEARCH_MOVIES
                     parameters.append("api_key", BuildConfig.MOVIE_API_KEY)
                     parameters.append("language", "en-US")
                     parameters.append("query", query)

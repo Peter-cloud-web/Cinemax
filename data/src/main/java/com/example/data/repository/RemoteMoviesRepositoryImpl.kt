@@ -2,7 +2,6 @@ package com.example.data.repository
 
 import com.example.cinemaxv3.models.responses.ReviewsResponse
 import com.example.data.MovieApi
-import com.example.db.MovieDatabase
 import com.example.domain.common.Resource
 import com.example.domain.entities.model.movieCasts.MovieCastsResponse
 import com.example.domain.entities.model.similarMoviesResponse.SimilarMoviesResponse
