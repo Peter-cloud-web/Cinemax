@@ -1,0 +1,26 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    xmlns:tools="http://schemas.android.com/tools"
+4    package="com.example.data" >
+5
+6    <uses-sdk android:minSdkVersion="24" />
+6-->/home/sean/StudioProjects/Cinemax/data/src/main/AndroidManifest.xml
+7
+8    <application
+8-->/home/sean/StudioProjects/Cinemax/data/src/main/AndroidManifest.xml:5:5-12:40
+9        android:allowBackup="true"
+9-->/home/sean/StudioProjects/Cinemax/data/src/main/AndroidManifest.xml:6:9-35
+10        android:icon="@mipmap/ic_launcher"
+10-->/home/sean/StudioProjects/Cinemax/data/src/main/AndroidManifest.xml:7:9-43
+11        android:label="@string/app_name"
+11-->/home/sean/StudioProjects/Cinemax/data/src/main/AndroidManifest.xml:8:9-41
+12        android:roundIcon="@mipmap/ic_launcher_round"
+12-->/home/sean/StudioProjects/Cinemax/data/src/main/AndroidManifest.xml:9:9-54
+13        android:supportsRtl="true"
+13-->/home/sean/StudioProjects/Cinemax/data/src/main/AndroidManifest.xml:10:9-35
+14        android:theme="@style/Theme.CinemaxV3"
+14-->/home/sean/StudioProjects/Cinemax/data/src/main/AndroidManifest.xml:11:9-47
+15        tools:replace="android:theme" />
+15-->/home/sean/StudioProjects/Cinemax/data/src/main/AndroidManifest.xml:12:9-38
+16
+17</manifest>
