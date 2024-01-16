@@ -46,7 +46,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="14dp"
-                android:text="Top Rated"
+                android:text="Top Ratedfddrd"
                 android:background="@color/red"
                 android:fontFamily="@font/allerta"
                 android:padding="10dp"
