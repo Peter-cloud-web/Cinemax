@@ -39,7 +39,6 @@ import com.example.domain.entities.model.tvShowsResponse.TvShowsResults
 )
 @TypeConverters(ListConverter::class)
 abstract class MovieDatabase : RoomDatabase() {
-
     abstract fun getMovieDao(): MovieDao
     abstract fun getRemoteKeysDao(): RemoteKeysDao
     abstract fun getUpComingMoviesDao(): UpComingMoviesDao

@@ -11,7 +11,7 @@ localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
     namespace 'com.example.data'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         buildConfigField "String", "MOVIE_API_KEY", localProperties['movie_access_key']
@@ -20,7 +20,7 @@ android {
     defaultConfig {
 //        applicationId "com.example.data"
         minSdk 24
-        targetSdk 34
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -41,6 +41,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+        ]
     }
 }
 

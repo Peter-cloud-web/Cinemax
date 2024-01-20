@@ -1,5 +1,6 @@
 package com.example.data
 
+import com.example.data.repository.RemoteMoviesRepositoryImpl
 import com.example.domain.common.Resource
 import com.google.common.io.Resources
 import io.ktor.client.HttpClient
@@ -45,13 +46,10 @@ class TopRatedMovieTest {
             }
         }
 
-        val httpClient = HttpClient()
-
-        // Create the repository with the mock web server URL
-        repository = com.example.data.repository.RemoteMoviesRepositoryImpl(
-            httpClient = httpClient,
-            db = null
-        )
+//        val httpClient = MovieApi
+//
+//        // Create the repository with the mock web server URL
+//        repository = RemoteMoviesRepositoryImpl()
     }
 
     @After
