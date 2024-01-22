@@ -6,16 +6,25 @@ import android.util.Log
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.example.cinemaxv3.R
 import com.example.cinemaxv3.databinding.ActivityMainBinding
 import com.example.cinemaxv3.databinding.InternetConnectionDialogBinding
 import com.example.cinemaxv3.receivers.ConnectivityObserver
 import com.example.cinemaxv3.receivers.ConnectivityObserverImpl
+import com.example.worker.MoviesSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -50,7 +59,41 @@ class MainActivity : AppCompatActivity() {
 
         internetPopup.buttonRetry.setOnClickListener {
             hideDialog()
-            Log.d("MAIN ACTIVITY","Retry button clicked")
+            Log.d("MAIN ACTIVITY", "Retry button clicked")
+
+            val constraints = androidx.work.Constraints.Builder()
+                .setRequiresCharging(false)
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+
+            val periodicWorkRequest:WorkRequest = PeriodicWorkRequestBuilder<MoviesSyncWorker>(
+                repeatInterval = 1, // Repeat every 1 day
+                repeatIntervalTimeUnit = TimeUnit.DAYS
+            )
+                .setConstraints(constraints)
+                .build()
+
+            WorkManager.getInstance(this).enqueue(
+                periodicWorkRequest
+            )
+            WorkManager.getInstance(this).getWorkInfoByIdLiveData(periodicWorkRequest.id)
+                .observe(this,
+                    Observer { workInfo ->
+                        if (workInfo.state == WorkInfo.State.RUNNING) {
+                            println("running")
+                            Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Running")
+                        } else if (workInfo.state == WorkInfo.State.FAILED) {
+                            println("failed")
+                            Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Failed")
+                        } else if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                            println("succeed")
+                            Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Succeed")
+                        } else if (workInfo.state == WorkInfo.State.ENQUEUED) {
+                            println("Enqueud")
+                            Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Enqued")
+                        }
+
+                    })
         }
 
     }

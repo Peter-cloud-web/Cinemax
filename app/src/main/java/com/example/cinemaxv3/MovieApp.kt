@@ -13,9 +13,8 @@ import java.util.concurrent.TimeUnit
 class MovieApp() : Application() {
     override fun onCreate() {
         super.onCreate()
-
-        // Schedule periodic work in the Application class
         val constraints = androidx.work.Constraints.Builder()
+            .setRequiresCharging(false)
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
