@@ -65,7 +65,7 @@ class UpComingMoviesMediator @Inject constructor(
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     db.getUpComingRemoteKeysDao().clearUpComingRemoteKeys()
-                    db.getUpComingMoviesDao().getUpComingMovies()
+                    db.getUpComingMoviesDao().clearAllUpComingMovies()
                 }
                 val prevKey = if (page > 1) page - 1 else null
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -78,10 +78,10 @@ class UpComingMoviesMediator @Inject constructor(
                     )
                 }
 
-                if (remoteKeys != null) {
+                remoteKeys?.let { remoteKeys ->
                     db.getUpComingRemoteKeysDao().insertAllUpComingKeys(remoteKeys)
                 }
-                if (upComingMovies != null) {
+                upComingMovies?.let { upComingMovies ->
                     db.getUpComingMoviesDao()
                         .insertUpComingMovies(upComingMovies.onEachIndexed { _, upComingMovies ->
                             upComingMovies.page = page

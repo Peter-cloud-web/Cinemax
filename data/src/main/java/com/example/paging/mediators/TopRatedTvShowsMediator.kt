@@ -67,7 +67,7 @@ class TopRatedTvShowsMediator(
                     db.getTopRatedTvShowsRemoteKeysDao().clearTopRatedTvShowsRemoteKeys()
                 }
                 val prevKey = if (page > 1) page - 1 else null
-                val nextKey = if (endOfPaginationReached == null) null else page + 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
                 val remoteKeys = topRatedTvShows?.map { tvShows ->
                     TopRatedTvShowsRemoteKeys(
                         movieID = tvShows.id,
