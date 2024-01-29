@@ -11,7 +11,7 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPopularMovies(movie: List<Movie>)
 
-    @Query("SELECT * FROM movies Order By page")
+    @Query("SELECT DISTINCT * FROM movies Order By page")
     fun getPopularMovies(): PagingSource<Int, Movie>
 
     @Query("Delete From movies")

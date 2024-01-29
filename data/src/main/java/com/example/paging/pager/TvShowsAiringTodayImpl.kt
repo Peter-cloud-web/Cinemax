@@ -16,7 +16,7 @@ class TvShowsAiringTodayImpl @Inject constructor(private val repository: RemoteM
             config = PagingConfig(
                 pageSize = 20,
                 prefetchDistance = 10,
-                initialLoadSize = 20,
+                initialLoadSize = 60,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
