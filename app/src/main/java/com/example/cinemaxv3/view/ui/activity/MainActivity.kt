@@ -4,12 +4,14 @@ import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
@@ -22,6 +24,7 @@ import com.example.cinemaxv3.databinding.InternetConnectionDialogBinding
 import com.example.cinemaxv3.receivers.ConnectivityObserver
 import com.example.cinemaxv3.receivers.ConnectivityObserverImpl
 import com.example.worker.MoviesSyncWorker
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
@@ -54,48 +57,63 @@ class MainActivity : AppCompatActivity() {
         connectivityDialog.setContentView(R.layout.internet_connection_dialog)
         connectivityDialog.window?.setGravity(Gravity.CENTER)
 
-        observeConnectivityChanges()
-        setUpNavigation()
-
         internetPopup.buttonRetry.setOnClickListener {
             hideDialog()
             Log.d("MAIN ACTIVITY", "Retry button clicked")
 
-            val constraints = androidx.work.Constraints.Builder()
-                .setRequiresCharging(false)
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build()
-
-            val periodicWorkRequest:WorkRequest = PeriodicWorkRequestBuilder<MoviesSyncWorker>(
-                repeatInterval = 1, // Repeat every 1 day
-                repeatIntervalTimeUnit = TimeUnit.DAYS
-            )
-                .setConstraints(constraints)
-                .build()
-
-            WorkManager.getInstance(this).enqueue(
-                periodicWorkRequest
-            )
-            WorkManager.getInstance(this).getWorkInfoByIdLiveData(periodicWorkRequest.id)
-                .observe(this,
-                    Observer { workInfo ->
-                        if (workInfo.state == WorkInfo.State.RUNNING) {
-                            println("running")
-                            Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Running")
-                        } else if (workInfo.state == WorkInfo.State.FAILED) {
-                            println("failed")
-                            Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Failed")
-                        } else if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                            println("succeed")
-                            Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Succeed")
-                        } else if (workInfo.state == WorkInfo.State.ENQUEUED) {
-                            println("Enqueud")
-                            Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Enqued")
-                        }
-
-                    })
         }
 
+        observeConnectivityChanges()
+        setUpNavigation()
+        startBackgroundWork()
+    }
+
+    private fun startBackgroundWork(){
+        val constraints = androidx.work.Constraints.Builder()
+            .setRequiresCharging(false)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val periodicWorkRequest:WorkRequest = PeriodicWorkRequestBuilder<MoviesSyncWorker>(
+            repeatInterval = 1, // Repeat every 1 day
+            repeatIntervalTimeUnit = TimeUnit.DAYS
+        )
+            .setConstraints(constraints)
+            .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 5, TimeUnit.SECONDS)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(
+            periodicWorkRequest
+        )
+        WorkManager.getInstance(this).getWorkInfoByIdLiveData(periodicWorkRequest.id)
+            .observe(this,
+                Observer { workInfo ->
+                    if (workInfo.state == WorkInfo.State.RUNNING) {
+                        println("running")
+                        Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Running")
+                    } else if (workInfo.state == WorkInfo.State.FAILED) {
+                        println("failed")
+                        Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Failed")
+                    } else if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                        println("succeed")
+                        Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Succeed")
+                    } else if (workInfo.state == WorkInfo.State.ENQUEUED) {
+                        println("Enqueud")
+                        Log.i("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Enqued")
+                    }
+
+                })
+
+        WorkManager.getInstance(this).getWorkInfoByIdLiveData(periodicWorkRequest.id)
+            .observe(this, Observer { workInfo ->
+                if (workInfo != null && workInfo.state == WorkInfo.State.SUCCEEDED) {
+                    val toast = Toast.makeText(this, "Tsk completed", Toast.LENGTH_SHORT) // in Activity
+                    toast.show()
+                    Log.d("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Task successful")
+                }else{
+                    Log.d("MAIN ACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITYACTIVITY", "Task failed")
+                }
+            })
     }
 
     private fun observeConnectivityChanges() {

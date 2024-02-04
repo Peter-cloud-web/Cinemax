@@ -27,7 +27,9 @@ import com.example.cinemaxv3.viewmodels.upComingMoviesViewModel.UpComingMoviesVi
 import com.example.cinemaxv3.receivers.ConnectivityObserver
 import com.example.cinemaxv3.receivers.ConnectivityObserverImpl
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class MovieFragment : Fragment(R.layout.fragment_movie) {
@@ -99,30 +101,33 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
     private fun fetchMovies(binding: FragmentMovieBinding) {
         lifecycleScope.launch {
-            topRatedMovieViewModel.topRatedMovieUiState.collect { uiState ->
+            withContext(Dispatchers.IO){
+                topRatedMovieViewModel.topRatedMovieUiState.collect { uiState ->
 
-                with(uiState) {
+                    with(uiState) {
 
-                    when {
-                        isLoading -> {}
+                        when {
+                            isLoading -> {}
 
-                        movies != null -> {
-                            movies.collect {
-                                topRatedMoviesAdapter.submitData(it)
+                            movies != null -> {
+                                movies.collect {
+                                    topRatedMoviesAdapter.submitData(it)
+                                }
+                            }
+
+                            error != null -> {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "An unexpected error occurred",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
-
-                        error != null -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "An unexpected error occurred",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
                     }
-                }
 
+                }
             }
+
         }
 
         lifecycleScope.launch {

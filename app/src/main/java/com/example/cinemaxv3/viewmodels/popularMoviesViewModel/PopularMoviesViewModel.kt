@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.bumptech.glide.load.HttpException
 import com.example.cinemaxv3.models.Movie
-import com.example.domain.use_cases.popularMovies_usecase.PopularMoviesUseCase
 import com.example.domain.repository.RemoteMoviesRepository
+import com.example.domain.use_cases.popularMovies_usecase.PopularMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,8 +43,9 @@ class PopularMoviesViewModel @Inject constructor(
         }
 
     }
-    private fun handlePopularMoviesErrors(e:Exception):String{
-        return  when (e) {
+
+    private fun handlePopularMoviesErrors(e: Exception): String {
+        return when (e) {
             is IOException -> "An unexpected error occurred: Please check Network/Internet settings"
             is HttpException -> "Unexpected network error occurred"
             else -> "An unexpected error occurred"

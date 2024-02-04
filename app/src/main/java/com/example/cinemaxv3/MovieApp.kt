@@ -1,34 +1,14 @@
 package com.example.cinemaxv3
 
 import android.app.Application
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import com.example.worker.MoviesSyncWorker
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
-import java.util.concurrent.TimeUnit
 
 @HiltAndroidApp
-class MovieApp() : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        val constraints = androidx.work.Constraints.Builder()
-            .setRequiresCharging(false)
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+class MovieApp() : Application(), Configuration.Provider {
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder().build()
 
-        val periodicWorkRequest = PeriodicWorkRequestBuilder<MoviesSyncWorker>(
-            repeatInterval = 1, // Repeat every 1 day
-            repeatIntervalTimeUnit = TimeUnit.SECONDS
-        )
-            .setConstraints(constraints)
-            .build()
-
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "MoviesSyncWork",
-            ExistingPeriodicWorkPolicy.KEEP,
-            periodicWorkRequest
-        )
-    }
 }
+
+
