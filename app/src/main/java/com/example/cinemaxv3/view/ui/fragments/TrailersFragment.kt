@@ -1,5 +1,6 @@
 package com.example.cinemaxv3.view.ui.fragments
 
+import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
@@ -20,6 +21,8 @@ import com.example.cinemaxv3.viewmodels.movieTrailerViewModel.MovieTrailerViewMo
 import com.example.cinemaxv3.viewmodels.similarMoviesViewModel.SimilarMoviesViewModel
 import com.example.domain.entities.model.movieCasts.Cast
 import com.example.domain.entities.model.similarMoviesResponse.SimilarMovies
+import com.google.android.material.snackbar.Snackbar
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -91,33 +94,55 @@ class TrailersFragment : Fragment(R.layout.fragment_trailers) {
 
     private fun playTrailers(id: Int) {
 
-        movieTrailerViewModel.getMovieTrailer(id)
-            .observe(viewLifecycleOwner, { movieTrailerResponse ->
+        lifecycleScope.launch(Dispatchers.Main) {
 
-                videoView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            movieTrailerViewModel.getMovieTrailer(id).observe(viewLifecycleOwner, { movieTrailerResponse ->
 
-                    override fun onReady(youTubePlayer: YouTubePlayer) {
+                    videoView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
 
-                        super.onReady(youTubePlayer)
+                        var resultKey:String = ""
 
-                        movieTrailerResponse.data?.apply {
+                        override fun onReady(youTubePlayer: YouTubePlayer) {
 
-                            for (i in 0..results.size - 1) {
+                            super.onReady(youTubePlayer)
 
-                                if (results[i].name == "Trailer") {
+                            movieTrailerResponse.data?.apply {
 
-                                    youTubePlayer.loadVideo(videoId = results[i].key.toString(), 0f)
+                                for (i in 0..results.size - 1) {
 
-                                } else if (results[i].name == "Behind the Scenes") {
+                                    if (results[i].name == "Trailer") {
 
+                                        resultKey = results[i].key.toString()
+
+                                        youTubePlayer.loadVideo(
+                                            videoId = results[i].key.toString(),
+                                            0f
+                                        )
+
+                                    } else if (results[i].name == "Behind the Scenes") {
+
+                                        youTubePlayer.loadVideo(
+                                            videoId = results[i].key.toString(),
+                                            0f
+                                        )
+                                    }
                                     youTubePlayer.loadVideo(videoId = results[i].key.toString(), 0f)
                                 }
-                                youTubePlayer.loadVideo(videoId = results[i].key.toString(), 0f)
                             }
                         }
-                    }
+                        override fun onError(
+                            youTubePlayer: YouTubePlayer,
+                            error: PlayerConstants.PlayerError
+                        ) {
+                            super.onError(youTubePlayer, error)
+                            val toast = Toast.makeText(activity?.applicationContext,"Error occured:${error.name.toString()}",Toast.LENGTH_SHORT)
+                            toast.show()
+//                            youTubePlayer.cueVideo(resultKey.toString(),0f)
+
+                        }
+                    })
                 })
-            })
+        }
     }
 
     fun loadMovieCasts() {

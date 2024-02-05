@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieTrailerViewModel @Inject constructor(private val trailerUseCase: MovieTrailerUseCase) : ViewModel(){
-    fun getMovieTrailer(id: Int) = liveData(Dispatchers.IO) {
+    suspend fun getMovieTrailer(id: Int) = liveData(Dispatchers.IO) {
         val url = trailerUseCase(id = id)
         emit(url)
     }

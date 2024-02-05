@@ -27,7 +27,9 @@ import com.example.cinemaxv3.viewmodels.upComingMoviesViewModel.UpComingMoviesVi
 import com.example.cinemaxv3.receivers.ConnectivityObserver
 import com.example.cinemaxv3.receivers.ConnectivityObserverImpl
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -100,33 +102,36 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     }
 
     private fun fetchMovies(binding: FragmentMovieBinding) {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO){
+
+        lifecycleScope.launch(Dispatchers.IO) {
+
                 topRatedMovieViewModel.topRatedMovieUiState.collect { uiState ->
 
-                    with(uiState) {
+                    withContext(Dispatchers.Main) {
 
-                        when {
-                            isLoading -> {}
+                        with(uiState) {
 
-                            movies != null -> {
-                                movies.collect {
-                                    topRatedMoviesAdapter.submitData(it)
+                            when {
+                                isLoading -> {}
+
+                                movies != null -> {
+                                    movies.collect {
+                                        topRatedMoviesAdapter.submitData(it)
+                                    }
                                 }
-                            }
 
-                            error != null -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "An unexpected error occurred",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                error != null -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "An unexpected error occurred",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
                     }
 
                 }
-            }
 
         }
 
