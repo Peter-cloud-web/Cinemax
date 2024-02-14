@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +27,9 @@ import com.example.cinemaxv3.viewmodels.popularTvShowViewModel.PopularTvShowView
 import com.example.cinemaxv3.viewmodels.tvShowsAiringTodayViewModel.TvShowsAiringTodayViewModel
 import com.example.cinemaxv3.viewmodels.tvShowsOnTheAirViewModel.TvShowsOnTheAirViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
@@ -60,6 +64,7 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
         loadViewsToRecyclerviews(binding)
         loadDefaultTvShowsBeforeOptions()
         tvShowsInDetail()
+        setupMenu()
 
     }
 
@@ -76,24 +81,32 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
     }
 
     private fun loadDefaultTvShowsBeforeOptions() {
-        viewLifecycleOwner.lifecycleScope.launch {
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO)
+        {
             topRatedTvShowsViewModel.topRatedTvShowsUiState.collect { uiState ->
-                when {
-                    uiState.isLoading -> {}
-                    uiState.movies != null -> {
-                        uiState.movies.collect {
-                            sharedTvShowsAdapter.submitData(it)
+
+                withContext(Dispatchers.Main){
+
+                    when {
+                        uiState.isLoading -> {}
+                        uiState.movies != null -> {
+                            uiState.movies.collect {
+                                sharedTvShowsAdapter.submitData(it)
+                            }
+                        }
+
+                        uiState.error != null -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "An unexpected error occurred",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
-                    uiState.error != null -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "An unexpected error occurred",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
                 }
+
                 currentAdapter = sharedTvShowsAdapter
                 recyclerView.adapter = currentAdapter
             }
@@ -124,137 +137,139 @@ class TvShowsFragment : Fragment(R.layout.fragment_tv_shows) {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.popup_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-
-            R.id.topRatedTvShows -> {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    topRatedTvShowsViewModel.topRatedTvShowsUiState.collect { uiState ->
-                        when {
-                            uiState.isLoading -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "We are loading..",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            uiState.movies != null -> {
-                                uiState.movies.collect {
-                                    sharedTvShowsAdapter.submitData(it)
-                                }
-                            }
-
-                            uiState.error != null -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "An unexpected error occurred",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                        currentAdapter = sharedTvShowsAdapter
-                        recyclerView.adapter = currentAdapter
-                    }
-                }
-                return true
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.popup_menu, menu)
             }
 
-            R.id.popularTvShows -> {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    popularTvShowViewModel.popularTvShowsUiStates.collect { uiState ->
-                        when {
-                            uiState.isLoading -> {}
-                            uiState.movies != null -> {
-                                uiState.movies
-                                    .collect {
-                                        sharedTvShowsAdapter.submitData(it)
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+
+                    R.id.topRatedTvShows -> {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            topRatedTvShowsViewModel.topRatedTvShowsUiState.collect { uiState ->
+                                when {
+                                    uiState.isLoading -> {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "We are loading..",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
-                            }
 
-                            uiState.error != null -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "An unexpected error occurred",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                        currentAdapter = sharedTvShowsAdapter
-                        recyclerView.adapter = currentAdapter
-                    }
-                }
-                return true
+                                    uiState.movies != null -> {
+                                        uiState.movies.collect {
+                                            sharedTvShowsAdapter.submitData(it)
+                                        }
+                                    }
 
-            }
-
-            R.id.tvShowsOnTheAir -> {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    tvShowsOnTheAirViewModel.tvShowsOnTheAir.collect { uiState ->
-                        when {
-                            uiState.isLoading -> {}
-                            uiState.movies != null -> {
-                                uiState.movies.collect {
-                                    sharedTvShowsAdapter.submitData(it)
+                                    uiState.error != null -> {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "An unexpected error occurred",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
-                            }
-
-                            uiState.error != null -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "An unexpected error occurred",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                currentAdapter = sharedTvShowsAdapter
+                                recyclerView.adapter = currentAdapter
                             }
                         }
-                        currentAdapter = sharedTvShowsAdapter
-                        recyclerView.adapter = currentAdapter
+                        return true
                     }
-                }
-                return true
-            }
 
-            R.id.tvShowsAiringToday -> {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    tvShowsAiringTodayViewModel.tvShowsAiringTodayUiState.collect { uiState ->
-                        when {
-                            uiState.isLoading -> {}
-                            uiState.movies != null -> {
-                                uiState.movies.collect {
-                                    sharedTvShowsAdapter.submitData(it)
+                    R.id.popularTvShows -> {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            popularTvShowViewModel.popularTvShowsUiStates.collect { uiState ->
+                                when {
+                                    uiState.isLoading -> {}
+                                    uiState.movies != null -> {
+                                        uiState.movies
+                                            .collect {
+                                                sharedTvShowsAdapter.submitData(it)
+                                            }
+                                    }
+
+                                    uiState.error != null -> {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "An unexpected error occurred",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
-                            }
-
-                            uiState.error != null -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "An unexpected error occurred",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                currentAdapter = sharedTvShowsAdapter
+                                recyclerView.adapter = currentAdapter
                             }
                         }
-                        currentAdapter = sharedTvShowsAdapter
-                        recyclerView.adapter = currentAdapter
+                        return true
+
                     }
+
+                    R.id.tvShowsOnTheAir -> {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            tvShowsOnTheAirViewModel.tvShowsOnTheAir.collect { uiState ->
+                                when {
+                                    uiState.isLoading -> {}
+                                    uiState.movies != null -> {
+                                        uiState.movies.collect {
+                                            sharedTvShowsAdapter.submitData(it)
+                                        }
+                                    }
+
+                                    uiState.error != null -> {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "An unexpected error occurred",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                                currentAdapter = sharedTvShowsAdapter
+                                recyclerView.adapter = currentAdapter
+                            }
+                        }
+                        return true
+                    }
+
+                    R.id.tvShowsAiringToday -> {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            tvShowsAiringTodayViewModel.tvShowsAiringTodayUiState.collect { uiState ->
+                                when {
+                                    uiState.isLoading -> {}
+                                    uiState.movies != null -> {
+                                        uiState.movies.collect {
+                                            sharedTvShowsAdapter.submitData(it)
+                                        }
+                                    }
+
+                                    uiState.error != null -> {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "An unexpected error occurred",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                                currentAdapter = sharedTvShowsAdapter
+                                recyclerView.adapter = currentAdapter
+                            }
+                        }
+                        return true
+                    }
+
+                    android.R.id.home -> {
+                        // Handle up button click
+                        requireActivity().onBackPressed()
+
+                    }
+
                 }
                 return true
             }
 
-            android.R.id.home -> {
-                // Handle up button click
-                requireActivity().onBackPressed()
-
-            }
-
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
-
+        })
     }
 }
 
