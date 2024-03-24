@@ -21,7 +21,7 @@ The API key can be generated from this [link](https://www.themoviedb.org/setting
 
 ## Architecture
 
-The app is built on MVVM architecture
+The app is built on MVVM architecture in [this](https://github.com/Peter-cloud-web/Cinemax) branch and Multimodule Clean Architecture in [this](https://github.com/Peter-cloud-web/Cinemax/tree/clean_architectured) branch.
 
 ## Tech Stack
 
@@ -39,15 +39,15 @@ __Data__
 - [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) - Serialization/Desirialization of JSON response from network.
 - [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - Paging data fetched from network source.
 
+
+__System design__
+- [Broadcast Receiver](https://developer.android.com/reference/android/content/BroadcastReceiver) - handle network state changes and monitor network connectivity regardless of which component is currently active or in the foreground.
+- [WorkManager](https://developer.android.com/reference/androidx/work/WorkManager) - Perform periodinc synchronization between local data and remote data
+- [Room](https://developer.android.com/training/data-storage/room) - Cache data locally for offline capabilities
+
+
+
 ## Screenshots
-
-<img src="" width="250"> <img src="screenshots/img2.jpg" width="250"> <img src="screenshots/img3.jpg" width="250">
-<img src="screenshots/img4.jpg" width="250"> <img src="screenshots/img5.jpg" width="250"> <img src="screenshots/img6.jpg" width="250">
-<img src="screenshots/img7.jpg" width="250"> <img src="screenshots/img8.jpg" width="250"> <img src="screenshots/img9.jpg" width="250">
-<img src="screenshots/img10.jpg" width="250"> <img src="screenshots/img11.jpg" width="250"> <img src="screenshots/img12.jpg" width="250">
-<img src="screenshots/img13.jpg" width="250"> <img src="screenshots/img14.jpg" width="250"> 
-
-
 <img src="https://github.com/Peter-cloud-web/Cinemax/assets/57822783/55ad524a-43f4-49b3-a7e9-e6bb35ea113e" width = "250px"> <img src="https://github.com/Peter-cloud-web/Cinemax/assets/57822783/19f8c99a-f1fd-4440-89c0-db0cc05a9582" width = "250px"><img src="https://github.com/Peter-cloud-web/Cinemax/assets/57822783/45c3afff-1cee-42ad-ac44-5c8caee2a552"  width = "250px">
     <!-- Image 3 -->
     <img src="https://github.com/Peter-cloud-web/Cinemax/assets/57822783/5ec90bb3-9c35-416e-bafd-9c9d6e032a85"  width = "250px"><img src="https://github.com/Peter-cloud-web/Cinemax/assets/57822783/ff72d8f8-8c20-4a14-9fa6-d850f212f6a5"  width = "250px"><img src="https://github.com/Peter-cloud-web/Cinemax/assets/57822783/540931a0-a0f1-42dd-aab3-02e2c0f4f40b"  width = "250px">
